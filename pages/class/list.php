@@ -72,7 +72,10 @@ _select(
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="changebody">
-
+                    <select class="select2" name="state">
+                        <option value="AL">Alabama</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Хаах</button>
@@ -114,9 +117,16 @@ _select(
         </div>
     </div>
 </div>
+<?php
+require ROOT . "/pages/footer.php"; ?>
 <script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+
     function setTeacher(id) {
         console.log(id);
+        /*
         $.ajax({
             url: "ajax",
             type: "POST",
@@ -133,10 +143,9 @@ _select(
                 $("#changebody").html(data);
             },
             async: true
-        });
+        });*/
     }
 </script>
 <?php
-require ROOT . "/pages/footer.php";
 require ROOT . "/pages/end.php";
 ?>
