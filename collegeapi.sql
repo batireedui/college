@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 05, 2023 at 08:27 AM
--- Server version: 5.7.31
--- PHP Version: 7.4.9
+-- Generation Time: Sep 05, 2023 at 01:55 PM
+-- Server version: 8.0.27
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,13 +29,13 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `class`;
 CREATE TABLE IF NOT EXISTS `class` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `hugacaa` double NOT NULL,
-  `tuluv` int(11) NOT NULL,
-  `teacherid` int(11) NOT NULL,
+  `tuluv` int NOT NULL,
+  `teacherid` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `class`
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `class` (
 
 INSERT INTO `class` (`id`, `name`, `hugacaa`, `tuluv`, `teacherid`) VALUES
 (1, '1-1 Барилгын цахилгаанчин', 2.5, 1, 1),
-(3, '1-2 Барилгын засал чимэглэлчин', 2.5, 1, 2),
+(3, '1-2 Барилгын засал чимэглэлчин', 2.5, 1, 3),
 (4, '1-3 Барилгын өрөг угсрагч ', 2.5, 1, 1),
 (5, '1-4 Автомашины засварчин', 2.5, 1, 0),
 (6, '1-5 Хүнд машин механизмын засварчин', 2.5, 1, 0),
@@ -80,17 +80,17 @@ INSERT INTO `class` (`id`, `name`, `hugacaa`, `tuluv`, `teacherid`) VALUES
 
 DROP TABLE IF EXISTS `irc`;
 CREATE TABLE IF NOT EXISTS `irc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `state` int(11) NOT NULL,
-  `sid` int(11) NOT NULL,
-  `lessonid` int(11) NOT NULL,
-  `cag` int(11) NOT NULL,
-  `teacherid` int(11) NOT NULL,
-  `classid` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `state` int NOT NULL,
+  `sid` int NOT NULL,
+  `lessonid` int NOT NULL,
+  `cag` int NOT NULL,
+  `teacherid` int NOT NULL,
+  `classid` int NOT NULL,
   `ognoo` date DEFAULT NULL,
   `bich` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1954 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1954 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `irc`
@@ -406,17 +406,17 @@ INSERT INTO `irc` (`id`, `state`, `sid`, `lessonid`, `cag`, `teacherid`, `classi
 
 DROP TABLE IF EXISTS `students`;
 CREATE TABLE IF NOT EXISTS `students` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `fname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `lname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `gender` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` int(8) NOT NULL,
-  `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `class` int(10) NOT NULL,
-  `pass` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `lname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `gender` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `phone` int NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `class` int NOT NULL,
+  `pass` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=688 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=688 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `students`
@@ -1117,24 +1117,27 @@ INSERT INTO `students` (`id`, `code`, `fname`, `lname`, `gender`, `phone`, `emai
 
 DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE IF NOT EXISTS `teacher` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `lname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `at` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `pass` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `user_role` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `lname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `at` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `pass` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_role` int NOT NULL,
+  `tuluv` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `teacher`
 --
 
-INSERT INTO `teacher` (`id`, `fname`, `lname`, `phone`, `email`, `at`, `pass`, `user_role`) VALUES
-(1, 'Жавхлан', 'Бат-Ирээдүй', '88992842', '', 'Багш, мэдээллийн технологийн', '123', 1),
-(2, 'Г', 'Тунгалаг', '99909814', '', 'Арга зүйч', '123', 3);
+INSERT INTO `teacher` (`id`, `fname`, `lname`, `phone`, `email`, `at`, `pass`, `user_role`, `tuluv`) VALUES
+(1, 'Жавхлан', 'Бат-Ирээдүй', '88992842', '', 'Багш, мэдээллийн технологийн', '123', 1, 1),
+(2, 'Бадам', 'Оюумаа', '99909814', '', 'Арга зүйч', '123', 3, 1),
+(3, 'Оросоо', 'Гиваапил', '99061006', 'batireedui@uvcollege.edu.mn', 'Багш', '123', 1, 1),
+(4, 'Сүхбаатах', 'Баасансүрэн', '99692004', 'batireedui@uvcollege.edu.mn', 'Багш', '123', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1144,13 +1147,13 @@ INSERT INTO `teacher` (`id`, `fname`, `lname`, `phone`, `email`, `at`, `pass`, `
 
 DROP TABLE IF EXISTS `tlesson`;
 CREATE TABLE IF NOT EXISTS `tlesson` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tid` int(11) NOT NULL,
-  `lessonName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
-  `cag` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tid` int NOT NULL,
+  `lessonName` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `cag` int NOT NULL,
   `tuluv` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tlesson`

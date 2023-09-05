@@ -25,8 +25,11 @@
 <body>
     <section class="w-100 p-4 d-flex justify-content-center pb-4">
         <form style="width: 22rem;" method="POST" action="/sign-in">
+            <div class="w-100 p-4 d-flex justify-content-center">
+                <img src="/images/logo.jpg" class="img-fluid rounded-circle" width="150px"/>
+            </div>
             <div class="btn-group w-100 mb-4 justify-content-center " role="group">
-                <input type="radio" class="btn-check" id="btn_student" autocomplete="off" name="user_role" value="1"  checked="">
+                <input type="radio" class="btn-check" id="btn_student" autocomplete="off" name="user_role" value="1" checked="">
                 <label class="btn btn-outline-primary d-flex align-items-center justify-content-center" for="btn_student">
                     Багш
                 </label>
@@ -37,13 +40,13 @@
             </div>
             <!-- Email input -->
             <div class="form-outline mb-4">
-                <input type="text" name="username" class="form-control" required/>
+                <input type="text" name="username" class="form-control" required />
                 <label class="form-label" for="form2Example1">Нэвтрэх нэр</label>
             </div>
 
             <!-- Password input -->
             <div class="form-outline mb-2">
-                <input type="password" name="password" class="form-control" required/>
+                <input type="password" name="password" class="form-control" required />
                 <label class="form-label" for="form2Example2">Нууц үг</label>
             </div>
 

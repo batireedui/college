@@ -25,5 +25,14 @@ if (!isset($_SESSION['user_id'])) {
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
   <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+  <style>
+    .alert {
+      --mdb-alert-padding-x: 0.5rem;
+      --mdb-alert-padding-y: 0.3rem;
+    }
 
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    .btn-outline-primary {
+      --mdb-btn-active-bg: #386bc0;
+      --mdb-btn-active-color: #fff;
+    }
+  </style>

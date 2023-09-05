@@ -14,6 +14,17 @@ _select(
     $tuluv,
     $teacherid
 );
+
+_select(
+    $tstmt,
+    $tcount,
+    "SELECT id, fname, UPPER(lname) FROM teacher WHERE tuluv=? and user_role=1",
+    "i",
+    ['1'],
+    $tid,
+    $fname,
+    $lname
+);
 ?>
 
 <div>
@@ -47,7 +58,7 @@ _select(
                     <td id="f1-<?= $id ?>"><?= $name ?></td>
                     <td id="f2-<?= $id ?>"><?= $hugacaa ?></td>
                     <td id="f4-<?= $id ?>">
-                        <span onclick="setTeacher(<?= $id ?>)" class="badge badge-success" type="button" data-mdb-toggle="modal" data-mdb-target="#change">
+                        <span onclick="setTeacher(<?= $t_id ?>, <?= $id ?>)" class="badge badge-success" type="button" data-mdb-toggle="modal" data-mdb-target="#change">
                             <?php
                             echo  $t_id == 0 ? "Багшгүй" : $t_fname . " <span class='text-uppercase'>" . $t_lname . "</span>";
                             ?>
@@ -71,15 +82,26 @@ _select(
                     <h5 class="modal-title" id="changeLabel">Ангийн багш солих</h5>
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="changebody">
-                    <select class="select2" name="state">
-                        <option value="AL">Alabama</option>
-                        <option value="WY">Wyoming</option>
+                <div class="modal-body">
+                    <div id="changebody" class="mb-3">
+
+                    </div>
+                    <input type="text" value="0" id="angi_id" readonly style="display: none;" />
+                    <select class="form form-control mb-3" id="teacherList">
+                        <?php if ($tcount > 0) : ?>
+                            <?php
+                            while (_fetch($tstmt)) : ?>
+                                <option value="<?= $tid ?>"><?= $fname ?> <?= $lname ?></option>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
                     </select>
+                    <div id="changeinfo" class="alert alert-warning" style="display: none;">
+dd
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Хаах</button>
-                    <button type="button" class="btn btn-primary">Хадгалах</button>
+                    <button type="button" class="btn btn-primary" onclick="saveTeacher()">Хадгалах</button>
                 </div>
             </div>
         </div>
@@ -120,12 +142,37 @@ _select(
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
+    function saveTeacher() {
+        $('#changeinfo').show();
+        if ($('#teacherList').val() === null) {
 
-    function setTeacher(id) {
-        console.log(id);
+        } else {
+           /* $.ajax({
+                url: "ajax",
+                type: "POST",
+                data: {
+                    angi_id: $('#angi_id').val(),
+                    teacher_id: $('#teacherList').val()
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    $("#changebody").html("Алдаа гарлаа !");
+                },
+                beforeSend: function() {
+                    $("#changebody").html("Түр хүлээнэ үү ...");
+                },
+                success: function(data) {
+                    $("#changebody").html(data);
+                },
+                async: true
+            });*/
+        }
+    }
+
+    function setTeacher(id, angi) {
+        $('#changeinfo').hide();
+        $('#teacherList').val(id);
+        $('#angi_id').val(angi);
+        $('#changebody').html($('#f1-' + angi).text());
         /*
         $.ajax({
             url: "ajax",
