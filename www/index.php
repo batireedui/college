@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+date_default_timezone_set('Asia/Singapore');
 ini_set('display_errors', 1);
 define('ROOT', dirname(dirname(__FILE__)));
 

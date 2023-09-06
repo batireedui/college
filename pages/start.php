@@ -27,7 +27,7 @@ if (!isset($_SESSION['user_id'])) {
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
   <style>
     .alert {
-      --mdb-alert-padding-x: 0.5rem;
+      --mdb-alert-padding-x: 0.8rem;
       --mdb-alert-padding-y: 0.3rem;
     }
 

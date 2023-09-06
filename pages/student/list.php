@@ -86,8 +86,8 @@ $columnNumber = 7;
                         <td id="f5-<?= $id ?>"><?= $code ?></td>
                         <td id="f6-<?= $id ?>" style="font-size: 12px;"><?= $cname ?></td>
                         <td>
-                            <i class="fas fa-trash m-1" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
-                            <i class="fas fa-pen-to-square" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>, <?= $class ?>, <?= $tuluv ?>)"></i>
+                            <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
+                            <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>, <?= $class ?>, <?= $tuluv ?>)"></i>
                         </td>
                     </tr>
                 <?php endwhile; ?>

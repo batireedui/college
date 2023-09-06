@@ -30,10 +30,14 @@ if (isset($_SESSION['user_id'])) {
                     <td><?= $too ?></td>
                     <td id="f1-<?= $id ?>"><?= $name ?></td>
                     <td id="f2-<?= $id ?>"><?= $cag ?></td>
-                    <td id="f3-<?= $id ?>"><?= $tuluv ?></td>
+                    <td id="f3-<?= $id ?>">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" onclick="change(<?= $id ?>, this)" <?php echo $tuluv > 0 ? "checked" : "" ?> />
+                        </div>
+                    </td>
                     <td>
-                        <i class="fas fa-trash m-1" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
-                        <i class="fas fa-pen-to-square" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>)"></i>
+                        <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
+                        <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>)"></i>
                     </td>
                 </tr>
             <?php endwhile; ?>

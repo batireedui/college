@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (isset($_SESSION['user_id'])) {
     $mode = $_POST['mode'];
     $lesson_name = $_POST['lesson_name'];
@@ -8,14 +8,14 @@ if (isset($_SESSION['user_id'])) {
         $success = _exec(
             "UPDATE tlesson SET lessonName = ?, cag=? WHERE id = ?",
             'sii',
-            [$lesson_name, $lesson_cag, $lesson_id ],
+            [$lesson_name, $lesson_cag, $lesson_id],
             $count
         );
     } elseif ($mode == 2) {
         $success = _exec(
-            "INSERT INTO tlesson (lessonName, cag) VALUES(?, ?)",
-            'si',
-            [$lesson_name, $lesson_cag],
+            "INSERT INTO tlesson (tid, lessonName, cag, tuluv) VALUES(?, ?, ?, ?)",
+            'isii',
+            [$_SESSION['user_id'], $lesson_name, $lesson_cag, '1'],
             $count
         );
     } elseif ($mode == 3) {
@@ -26,6 +26,24 @@ if (isset($_SESSION['user_id'])) {
             [$lesson_id],
             $count
         );
+    } elseif ($mode == 4) {
+        $lesson_id = $_POST['lesson_id'];
+        $tuluv = $_POST['tuluv'];
+        if ($tuluv == "true") {
+            $success = _exec(
+                "UPDATE tlesson SET tuluv = ? WHERE id = ?",
+                'ii',
+                ["1", $lesson_id],
+                $count
+            );
+        } else {
+            $success = _exec(
+                "UPDATE tlesson SET tuluv = ? WHERE id = ?",
+                'ii',
+                ["0", $lesson_id],
+                $count
+            );
+        }
     }
     echo "Амжилттай!";
 ?>

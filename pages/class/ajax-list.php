@@ -51,8 +51,8 @@ if (isset($_SESSION['user_id'])) {
                     <td>
                     </td>
                     <th>
-                        <i class="fas fa-trash m-1" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
-                        <i class="fas fa-pen-to-square" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="setTeacher(<?= $t_id ?>, <?= $id ?>)"></i>
+                        <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
+                        <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="setTeacher(<?= $t_id ?>, <?= $id ?>)"></i>
                     </th>
                 </tr>
             <?php endwhile; ?>

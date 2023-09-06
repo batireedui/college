@@ -94,6 +94,27 @@ require ROOT . "/pages/header.php";
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+    function change(id, tuluv) {
+        console.log(tuluv.checked);
+
+        $.ajax({
+            url: "ajax",
+            type: "POST",
+            data: {
+                mode: 4,
+                lesson_id: id,
+                tuluv: tuluv.checked
+            },
+            error: function(xhr, textStatus, errorThrown) {},
+            beforeSend: function() {},
+            success: function(data) {
+                $('#toastbody').html(data);
+                tshow();
+            },
+            async: true
+        });
+    }
+
     function get() {
         $.ajax({
             url: "ajax-list",
@@ -153,8 +174,8 @@ require ROOT . "/pages/footer.php"; ?>
                     $("#changeinfo").html("Түр хүлээнэ үү ...");
                 },
                 success: function(data) {
-                    $('#change').modal('hide');
                     $("#changeinfo").html(data);
+                    $('#change').modal('hide');
                     get();
                 },
                 async: true
@@ -164,7 +185,7 @@ require ROOT . "/pages/footer.php"; ?>
 
     function addLesson() {
         $('#addinfo').hide();
-        if ($('#add_teacher_id').val() === null || $('#add_lesson_name').val() === '') {
+        if ($('#add_lesson_cag').val() === '' || $('#add_lesson_name').val() === '') {
             $('#addinfo').html("Мэдээлэл дутуу байна!");
             $('#addinfo').show();
         } else {
@@ -173,9 +194,8 @@ require ROOT . "/pages/footer.php"; ?>
                 type: "POST",
                 data: {
                     mode: 2,
-                    teacher_id: $('#add_teacher_id').val(),
                     lesson_name: $('#add_lesson_name').val(),
-                    hugacaa: $('#addhugacaa').val()
+                    lesson_cag: $('#add_lesson_cag').val()
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     $("#addbody").html("Алдаа гарлаа !");

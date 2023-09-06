@@ -49,8 +49,8 @@ if (isset($_SESSION['user_id'])) {
                     <td id="f9-<?= $id ?>" style="display: none"><?= $tuluv ?></td>
                     <td id="f10-<?= $id ?>" style="display: none"><?= $class ?></td>
                     <td>
-                        <i class="fas fa-trash m-1" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
-                        <i class="fas fa-pen-to-square" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>)"></i>
+                        <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
+                        <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>)"></i>
                     </td>
                 </tr>
             <?php endwhile; ?>
