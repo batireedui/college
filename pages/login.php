@@ -19,6 +19,10 @@
             --mdb-btn-active-bg: #386bc0;
             --mdb-btn-active-color: #fff;
         }
+
+        [class*=btn-outline-] {
+            --mdb-btn-border-width: 1px;
+        }
     </style>
 </head>
 
@@ -26,7 +30,7 @@
     <section class="w-100 p-4 d-flex justify-content-center pb-4">
         <form style="width: 22rem;" method="POST" action="/sign-in">
             <div class="w-100 p-4 d-flex justify-content-center">
-                <img src="/images/logo.jpg" class="img-fluid rounded-circle" width="150px"/>
+                <img src="/images/logo.jpg" class="img-fluid rounded-circle" width="150px" />
             </div>
             <div class="btn-group w-100 mb-4 justify-content-center " role="group">
                 <input type="radio" class="btn-check" id="btn_student" autocomplete="off" name="user_role" value="1" checked="">

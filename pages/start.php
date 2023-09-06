@@ -35,4 +35,11 @@ if (!isset($_SESSION['user_id'])) {
       --mdb-btn-active-bg: #386bc0;
       --mdb-btn-active-color: #fff;
     }
+
+    [class*=btn-outline-] {
+      --mdb-btn-border-width: 1px;
+    }
+    .table>:not(caption)>*>* {
+      padding: 0.3rem 0.8rem;
+    }
   </style>

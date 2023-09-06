@@ -1,5 +1,5 @@
 </head>
-
+<?php $columnNumber = 3 ?>
 <body>
   <div>
 
@@ -16,24 +16,36 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Navbar brand -->
           <a class="navbar-brand mt-2 mt-lg-0" href="#">
-            <img src="/images/logo.jpg" height="35" alt="MDB Logo" loading="lazy" />
+            <img src="/images/logo.jpg" height="35" loading="lazy" />
           </a>
           <!-- Left links -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" href="#">ЭХЛЭЛ</a>
+              <a class="nav-link <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАГЛЦАГЧ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">СУРАГЛЦАГЧИД</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">ИРЦ</a>
+              <a class="nav-link <?php echo strpos($page, "/att") > -1 ? 'active' : ''; ?>" href="/att/list">ИРЦ</a>
             </li>
             <?php
             if ($user_role == 3) {
             ?>
               <li class="nav-item">
-                <a class="nav-link" href="/class/list">АНГИЙН БҮРТГЭЛ</a>
+                <a class="nav-link <?php echo strpos($page, "/class") > -1 ? 'active' : ''; ?>" href="/class/list">АНГИ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ</a>
+              </li>
+            <?php
+            }
+            ?>
+            <?php
+            if ($user_role < 3) {
+            ?>
+              <li class="nav-item">
+                <a class="nav-link <?php echo strpos($page, "/tclass") > -1 ? 'active' : ''; ?>" href="/tclass/list">АНГИ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link <?php echo strpos($page, "/lesson") > -1 ? 'active' : ''; ?>" href="/lesson/list">ХИЧЭЭЛ</a>
               </li>
             <?php
             }
@@ -61,6 +73,7 @@
           <div class="dropdown">
             <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
               <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+              <span class="m-2" style="font-size: 12px;"><?= substr(trim($user_fname), 0, 2)?>.<?= $user_lname?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
               <li>
