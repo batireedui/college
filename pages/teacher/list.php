@@ -168,7 +168,10 @@ require ROOT . "/pages/header.php";
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="deletebody">
+                    <div id="deletebody" class="mb-3">
+
+                    </div>
+                    <div id="deleteinfo" class="alert alert-warning" style="display: none;">
 
                     </div>
                     <input type="text" value="0" id="delete_t_id" readonly style="display: none;" />
@@ -214,11 +217,19 @@ require ROOT . "/pages/footer.php"; ?>
                 mode: 3,
                 id: $('#delete_t_id').val()
             },
-            error: function(xhr, textStatus, errorThrown) {},
-            beforeSend: function() {},
+            error: function(xhr, textStatus, errorThrown) {
+                $('#deleteinfo').show();
+                $("#deleteinfo").html("Алдаа гарлаа!");
+            },
+            beforeSend: function() {
+                $('#deleteinfo').show();
+                $("#deleteinfo").html("Түр хүлээнэ үү!");
+            },
             success: function(data) {
-                get();
-                $('#delete').modal('hide');
+                if (data === "Амжилттай!") {
+                    get();
+                    $('#delete').modal('hide');
+                } else $("#deleteinfo").html(data);
             },
             async: true
         });
@@ -311,6 +322,7 @@ require ROOT . "/pages/footer.php"; ?>
     function deleteBtn(id) {
         $('#delete_t_id').val(id);
         $('#deletebody').html('"' + $('#f1-' + id).text() + ' ' + $('#f2-' + id).text() + '" багшийг утгахдаа итгэлтэй байна уу?');
+        $('#deleteinfo').hide();
     }
 </script>
 <?php

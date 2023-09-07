@@ -2,7 +2,7 @@
 _selectNoParam(
     $stmt,
     $count,
-    "SELECT att.id, class.name, tlesson.lessonName, cag.name, cag.inter, ognoo FROM att 
+    "SELECT att.id, class.name, tlesson.lessonName, cag.name, cag.inter, ognoo, att.lessonid FROM att 
         INNER JOIN class ON att.classid = class.id 
             INNER JOIN tlesson ON att.lessonid = tlesson.id 
                 INNER JOIN cag ON att.cagid = cag.id 
@@ -12,8 +12,22 @@ _selectNoParam(
     $lesson,
     $cag,
     $cag_inter,
-    $ognoo
+    $ognoo,
+    $lessonid
 );
+
+$zaasanArr = [];
+while (_fetch($stmt)) {
+    $item = new stdClass;
+    $item->id = $id;
+    $item->class = $class;
+    $item->lesson = $lesson;
+    $item->cag = $cag;
+    $item->cag_inter = $cag_inter;
+    $item->ognoo = $ognoo;
+    $item->lessonid = $lessonid;
+    array_push($zaasanArr, $item);
+}
 
 $lessonArr = array();
 $lessonNameArr = array();
@@ -28,14 +42,20 @@ _selectNoParam(
 
 $orson = [];
 $uldsen = [];
-while (_fetch($gstmt)) {
+foreach ($zaasanArr as $it) {
+    $gcag = 0;
+    _selectRowNoParam(
+        "SELECT cag FROM `tlesson` WHERE tuluv < 2 and id = '" . $it->lessonid . "'",
+        $gcag,
+    );
+
     $gtoo = 0;
     _selectRowNoParam(
-        "SELECT COUNT(id) from att WHERE lessonid = $gid",
+        "SELECT COUNT(id) from att WHERE id = $it->id",
         $gtoo
     );
-    array_push($orson, $gtoo*2);
-    array_push($uldsen, $gcag - $gtoo*2);
+    array_push($orson, $gtoo * 2);
+    array_push($uldsen, $gcag - $gtoo * 2);
 
     array_push($lessonNameArr, $glesson);
 }
@@ -51,7 +71,7 @@ array_push($lessonArr, $gra);
 ?>
 
 <div>
-<div class="p-3 bg-light d-flex justify-content-between align-items-center">
+    <div class="p-3 bg-light d-flex justify-content-between align-items-center">
         ЦАГИЙН ГҮЙЦЭТГЭЛ
     </div>
     <div id="chart"></div>
@@ -70,18 +90,16 @@ array_push($lessonArr, $gra);
                     <th></th>
                 </tr>
             </thead>
-            <?php if ($count > 0) : ?>
-                <?php $too = 0;
-                while (_fetch($stmt)) :
-                    $too++ ?>
-                    <tr>
-                        <td><?= $too ?></td>
-                        <td id="f1-<?= $id ?>"><?= $class ?></td>
-                        <td id="f2-<?= $id ?>"><?= $lesson ?></td>
-                        <td id="f3-<?= $id ?>"><?= str_replace("-", ".",  $ognoo) ?>, <?= $cag ?> (<?= $cag_inter ?>)</td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php endif; ?>
+            <?php $too = 0;
+            foreach ($zaasanArr as $el) :
+                $too++ ?>
+                <tr>
+                    <td><?= $too ?></td>
+                    <td id="f1-<?= $id ?>"><?= $el->class ?></td>
+                    <td id="f2-<?= $id ?>"><?= $el->lesson ?></td>
+                    <td id="f3-<?= $id ?>"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
+                </tr>
+            <?php endforeach ?>
         </table>
     </div>
 </div>
@@ -115,7 +133,7 @@ array_push($lessonArr, $gra);
                 colors: ['#fff']
             },
             title: {
-                text: '<?=$user_fname?> <?=$user_lname?>'
+                text: '<?= $user_fname ?> <?= $user_lname ?>'
             },
             xaxis: {
                 categories: <?php echo json_encode($lessonNameArr) ?>,

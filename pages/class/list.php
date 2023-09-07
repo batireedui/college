@@ -30,7 +30,6 @@ while (_fetch($tstmt)) {
         <h3>Ангийн бүртгэл</h3>
         <button class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#add">БҮРТГЭХ</button>
     </div>
-
     <div id="table">
 
     </div>
@@ -128,10 +127,13 @@ while (_fetch($tstmt)) {
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="deletebody">
+                    <div id="deletebody" class="mb-3">
 
                     </div>
                     <input type="text" value="0" id="delete_angi_id" readonly style="display: none;" />
+                    <div id="deleteinfo" class="alert alert-warning" style="display: none;">
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Болих</button>
@@ -174,11 +176,20 @@ require ROOT . "/pages/footer.php"; ?>
                 mode: 3,
                 angi_id: $('#delete_angi_id').val()
             },
-            error: function(xhr, textStatus, errorThrown) {},
-            beforeSend: function() {},
+            error: function(xhr, textStatus, errorThrown) {
+                $('#deleteinfo').show();
+                $("#deleteinfo").html("Алдаа гарлаа !");
+            },
+            beforeSend: function() {
+                $('#deleteinfo').show();
+                $("#deleteinfo").html("Түр хүлээнэ үү!");
+            },
             success: function(data) {
-                get();
-                $('#delete').modal('hide');
+                if (data === "Амжилттай!") {
+                    get();
+                    $('#delete').modal('hide');
+                }
+                else $("#deleteinfo").html(data);
             },
             async: true
         });
@@ -255,6 +266,7 @@ require ROOT . "/pages/footer.php"; ?>
     }
 
     function deleteBtn(angi) {
+        $('#deleteinfo').hide();
         $('#delete_angi_id').val(angi);
         $('#deletebody').html('"' + $('#f1-' + angi).text() + '" ангийг утгахдаа итгэлтэй байна уу?');
     }
