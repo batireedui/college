@@ -5,7 +5,7 @@ require ROOT . "/pages/header.php";
 _select(
     $tstmt,
     $tcount,
-    "SELECT id, fname, UPPER(lname) FROM teacher WHERE tuluv=? and user_role=1",
+    "SELECT id, fname, UPPER(lname) FROM teacher WHERE tuluv=? and user_role=1 ORDER BY lname",
     "i",
     ['1'],
     $tid,

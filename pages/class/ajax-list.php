@@ -42,7 +42,7 @@ if (isset($_SESSION['user_id'])) {
                     <td id="f1-<?= $id ?>"><?= $name ?></td>
                     <td id="f2-<?= $id ?>"><?= $hugacaa ?></td>
                     <td id="f4-<?= $id ?>">
-                        <span onclick="setTeacher(<?= $t_id ?>, <?= $id ?>)" class="badge badge-success" type="button" data-mdb-toggle="modal" data-mdb-target="#change">
+                        <span onclick="setTeacher(<?php echo  $t_id == 0 ? '0' : $t_id ?>, <?= $id ?>)" class="badge badge-success" type="button" data-mdb-toggle="modal" data-mdb-target="#change">
                             <?php
                             echo  $t_id == 0 ? "Багшгүй" : $t_fname . " <span class='text-uppercase'>" . $t_lname . "</span>";
                             ?>
@@ -52,7 +52,7 @@ if (isset($_SESSION['user_id'])) {
                     </td>
                     <th>
                         <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
-                        <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="setTeacher(<?= $t_id ?>, <?= $id ?>)"></i>
+                        <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="setTeacher(<?php echo  $t_id == 0 ? '0' : $t_id ?>, <?= $id ?>)"></i>
                     </th>
                 </tr>
             <?php endwhile; ?>

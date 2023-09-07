@@ -16,7 +16,7 @@ $teacher_page = array("/", "");
 $page = @$_SERVER['REDIRECT_URL'];
 
 $pageTitle = "Өвөрхангай ПК";
-$favi = "/assets/img/favicon/logo.png";
+$favi = "https://uvcollege.edu.mn/wp-content/uploads/2021/09/cropped-icon-32x32.png";
 if (empty($page)) {
     require ROOT . '/pages/home.php';
 } 

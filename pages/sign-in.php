@@ -1,6 +1,5 @@
 <?php
 // phone, userpassword хүлээж авна
-print_r($_POST);
 $username = trim(post('username', 100));
 $password = trim(post('password', 100));
 $user_role = trim(post('user_role', 10));
@@ -23,11 +22,11 @@ _selectRow(
     $user_phone
 );
 if (!empty($user_id)) {
-    /*$user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $success = _exec("insert into loginlog(user, hezee, email, userid, user_role, device, ip) VALUES(?, ?, ?, ?, ?, ?, ?)",
-    'sssisss',
-    [$user_name, ognoo(), $user_email, $user_id, $user_role, $user_agent, getIpAddress()],
-    $count);*/
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $success = _exec("insert into loginlog(user, hezee, device, ip) VALUES(?, ?, ?, ?)",
+    'isss',
+    [$user_id, ognoo(), $user_agent, getIpAddress()],
+    $count);
 
     $_SESSION['user_id'] = $user_id;
     $_SESSION['user_fname'] = $user_fname;

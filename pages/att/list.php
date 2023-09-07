@@ -98,27 +98,31 @@ $columnNumber = 7;
 require ROOT . "/pages/footer.php"; ?>
 <script>
     function check() {
-        $("#table").html("");
-        $.ajax({
-            url: "ajax",
-            type: "POST",
-            data: {
-                mode: 1,
-                date: $('#date').val(),
-                class: $('#class').val(),
-                cag: $('#cag').val()
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                $("#table").html("Алдаа гарлаа !");
-            },
-            beforeSend: function() {
-                $("#table").html("Түр хүлээнэ үү ...");
-            },
-            success: function(data) {
-                $("#table").html(data);
-            },
-            async: true
-        });
+        if ($('#class').val() === null) {
+            alert("Анги сонгогдоогүй байна!");
+        } else {
+            $("#table").html("");
+            $.ajax({
+                url: "ajax",
+                type: "POST",
+                data: {
+                    mode: 1,
+                    date: $('#date').val(),
+                    class: $('#class').val(),
+                    cag: $('#cag').val()
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    $("#table").html("Алдаа гарлаа !");
+                },
+                beforeSend: function() {
+                    $("#table").html("Түр хүлээнэ үү ...");
+                },
+                success: function(data) {
+                    $("#table").html(data);
+                },
+                async: true
+            });
+        }
     }
 </script>
 <?php

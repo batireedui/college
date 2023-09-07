@@ -3,7 +3,7 @@ if (isset($_SESSION['user_id'])) {
     _select(
         $stmt,
         $count,
-        "SELECT id, fname, lname, phone, email, at, pass, user_role, tuluv FROM teacher WHERE tuluv=?",
+        "SELECT id, fname, lname, phone, email, at, pass, user_role, tuluv FROM teacher WHERE tuluv=? ORDER BY lname",
         "i",
         [1],
         $id,
