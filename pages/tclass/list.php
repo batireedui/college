@@ -5,10 +5,11 @@ require ROOT . "/pages/header.php";
 _select(
     $stmt,
     $count,
-    "SELECT id, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=?",
+    "SELECT id, sname, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=?",
     "i",
     ['1'],
     $id,
+    $sname,
     $name,
     $hugacaa,
     $tuluv,
@@ -39,7 +40,7 @@ _select(
                     $too++ ?>
                     <tr>
                         <td><?= $too ?></td>
-                        <td id="f1-<?= $id ?>"><?= $name ?></td>
+                        <td id="f1-<?= $id ?>"><?= $sname ?> <?= $name ?></td>
                         <td id="f2-<?= $id ?>">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" onclick="change(<?= $id ?>, this)" <?php echo $tc_id > 0 ? "checked" : "" ?> />

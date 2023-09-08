@@ -34,30 +34,31 @@ $lessonNameArr = array();
 _selectNoParam(
     $gstmt,
     $gcount,
-    "SELECT id, lessonName, cag FROM `tlesson` WHERE tuluv < 2 and tid = '" . $_SESSION['user_id'] . "'",
-    $gid,
-    $glesson,
-    $gcag,
+    "SELECT lessonid, classid, sname FROM `att` INNER JOIN class ON att.classid = class.id WHERE tid = '" . $_SESSION['user_id'] . "'  GROUP BY classid, lessonid",
+    $glessonid,
+    $gclassid,
+    $sname
 );
 
 $orson = [];
 $uldsen = [];
-foreach ($zaasanArr as $it) {
+while (_fetch($gstmt)) {
     $gcag = 0;
     _selectRowNoParam(
-        "SELECT cag FROM `tlesson` WHERE tuluv < 2 and id = '" . $it->lessonid . "'",
+        "SELECT cag, lessonName FROM `tlesson` WHERE id = '" . $glessonid . "'",
         $gcag,
+        $glessonName
     );
 
     $gtoo = 0;
     _selectRowNoParam(
-        "SELECT COUNT(id) from att WHERE id = $it->id",
+        "SELECT COUNT(id) from att WHERE lessonid = '$glessonid,' and classid = '$gclassid' and tid = " . $_SESSION['user_id'],
         $gtoo
     );
     array_push($orson, $gtoo * 2);
     array_push($uldsen, $gcag - $gtoo * 2);
 
-    array_push($lessonNameArr, $glesson);
+    array_push($lessonNameArr, $sname . " " . $glessonName);
 }
 
 $gra = new stdClass;
@@ -72,14 +73,10 @@ array_push($lessonArr, $gra);
 
 <div>
     <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        ЦАГИЙН ГҮЙЦЭТГЭЛ
-    </div>
-    <div id="chart"></div>
-    <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        СҮҮЛИЙН ХИЧЭЭЛ ОРОЛТУУД (10)
+        СҮҮЛИЙН ХИЧЭЭЛ ОРОЛТУУД (10) <?= count($lessonNameArr) ?>
     </div>
     <div id="table">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
                     <th>№</th>
@@ -87,30 +84,70 @@ array_push($lessonArr, $gra);
                     <th>Хичээл</th>
                     <th>Цаг</th>
                     <th>Төлөв</th>
-                    <th></th>
                 </tr>
             </thead>
             <?php $too = 0;
             foreach ($zaasanArr as $el) :
                 $too++ ?>
-                <tr>
+                <tr class="table_rows" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" id="trow-<?= $el->id ?>" onclick="detial(<?= $el->id ?>)">
                     <td><?= $too ?></td>
                     <td id="f1-<?= $id ?>"><?= $el->class ?></td>
                     <td id="f2-<?= $id ?>"><?= $el->lesson ?></td>
                     <td id="f3-<?= $id ?>"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
+                    <td></td>
                 </tr>
             <?php endforeach ?>
         </table>
+        <div class="p-3 bg-light d-flex justify-content-between align-items-center">
+            ЦАГИЙН ГҮЙЦЭТГЭЛ
+        </div>
+        <div id="chart"></div>
+    </div>
+</div>
+<div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detialLabel">ИРЦ БҮРТГЭЛ</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+
+            </div>
+        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+    function detial(id) {
+        row_click(id)
+        $.ajax({
+                url: "../att/detial",
+                type: "POST",
+                data: {
+                    mode: 2,
+                    id: id
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    $("#modal-body").html("Алдаа гарлаа !");
+                },
+                beforeSend: function() {
+                    $('#modal-body').html("Түр хүлээнэ үү ...");
+                },
+                success: function(data) {
+                    get();
+                    $('#modal-body').html(data);
+                },
+                async: true
+            });
+    }
+
     function get() {
         var options = {
             series: <?php echo json_encode($lessonArr) ?>,
             chart: {
                 type: 'bar',
-                height: 350,
+                height: <?= count($lessonNameArr) * 100 ?>,
                 stacked: true,
             },
             plotOptions: {

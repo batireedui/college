@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 07, 2023 at 01:47 PM
--- Server version: 8.0.27
--- PHP Version: 8.0.13
+-- Generation Time: Sep 08, 2023 at 06:05 AM
+-- Server version: 5.7.31
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,24 +29,24 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `att`;
 CREATE TABLE IF NOT EXISTS `att` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `classid` int NOT NULL,
-  `tid` int NOT NULL,
-  `lessonid` int NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `classid` int(11) NOT NULL,
+  `tid` int(11) NOT NULL,
+  `lessonid` int(11) NOT NULL,
   `ognoo` date NOT NULL,
-  `cagid` int NOT NULL,
+  `cagid` int(11) NOT NULL,
   `irc` json NOT NULL,
   `emoj` json DEFAULT NULL,
   `bich` datetime NOT NULL,
-  `sedev` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `niit` int NOT NULL,
-  `v1` int NOT NULL,
-  `v2` int NOT NULL,
-  `v3` int NOT NULL,
-  `v4` int NOT NULL,
-  `tuluv` int DEFAULT NULL,
+  `sedev` text COLLATE utf8_unicode_ci NOT NULL,
+  `niit` int(11) NOT NULL,
+  `v1` int(11) NOT NULL,
+  `v2` int(11) NOT NULL,
+  `v3` int(11) NOT NULL,
+  `v4` int(11) NOT NULL,
+  `tuluv` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `att`
@@ -55,7 +55,11 @@ CREATE TABLE IF NOT EXISTS `att` (
 INSERT INTO `att` (`id`, `classid`, `tid`, `lessonid`, `ognoo`, `cagid`, `irc`, `emoj`, `bich`, `sedev`, `niit`, `v1`, `v2`, `v3`, `v4`, `tuluv`) VALUES
 (1, 1, 42, 1, '2023-09-07', 1, '[{\"id\": \"498\", \"val\": \"1\"}, {\"id\": \"499\", \"val\": \"1\"}, {\"id\": \"500\", \"val\": \"1\"}, {\"id\": \"501\", \"val\": \"1\"}, {\"id\": \"502\", \"val\": \"1\"}, {\"id\": \"503\", \"val\": \"1\"}, {\"id\": \"504\", \"val\": \"1\"}, {\"id\": \"505\", \"val\": \"1\"}, {\"id\": \"506\", \"val\": \"1\"}, {\"id\": \"507\", \"val\": \"1\"}, {\"id\": \"508\", \"val\": \"1\"}, {\"id\": \"509\", \"val\": \"3\"}, {\"id\": \"510\", \"val\": \"1\"}, {\"id\": \"511\", \"val\": \"3\"}, {\"id\": \"512\", \"val\": \"1\"}, {\"id\": \"513\", \"val\": \"1\"}, {\"id\": \"514\", \"val\": \"1\"}, {\"id\": \"515\", \"val\": \"1\"}, {\"id\": \"516\", \"val\": \"1\"}, {\"id\": \"517\", \"val\": \"1\"}, {\"id\": \"518\", \"val\": \"4\"}, {\"id\": \"519\", \"val\": \"1\"}, {\"id\": \"520\", \"val\": \"4\"}, {\"id\": \"521\", \"val\": \"1\"}, {\"id\": \"522\", \"val\": \"1\"}, {\"id\": \"523\", \"val\": \"1\"}, {\"id\": \"524\", \"val\": \"2\"}, {\"id\": \"525\", \"val\": \"2\"}]', NULL, '2023-09-07 15:41:49', 'Удиртгал', 28, 22, 2, 2, 2, NULL),
 (2, 3, 42, 1, '2023-09-07', 3, '[{\"id\": \"468\", \"val\": \"1\"}, {\"id\": \"469\", \"val\": \"1\"}, {\"id\": \"470\", \"val\": \"1\"}, {\"id\": \"471\", \"val\": \"1\"}, {\"id\": \"472\", \"val\": \"1\"}, {\"id\": \"473\", \"val\": \"1\"}, {\"id\": \"474\", \"val\": \"1\"}, {\"id\": \"475\", \"val\": \"1\"}, {\"id\": \"476\", \"val\": \"1\"}, {\"id\": \"477\", \"val\": \"1\"}, {\"id\": \"478\", \"val\": \"1\"}, {\"id\": \"479\", \"val\": \"1\"}, {\"id\": \"480\", \"val\": \"1\"}, {\"id\": \"481\", \"val\": \"1\"}, {\"id\": \"482\", \"val\": \"4\"}, {\"id\": \"483\", \"val\": \"4\"}, {\"id\": \"484\", \"val\": \"1\"}]', NULL, '2023-09-07 15:45:23', '', 17, 15, 0, 0, 2, NULL),
-(3, 3, 42, 1, '2023-09-07', 4, '[{\"id\": \"468\", \"val\": \"1\"}, {\"id\": \"469\", \"val\": \"1\"}, {\"id\": \"470\", \"val\": \"1\"}, {\"id\": \"471\", \"val\": \"1\"}, {\"id\": \"472\", \"val\": \"1\"}, {\"id\": \"473\", \"val\": \"1\"}, {\"id\": \"474\", \"val\": \"1\"}, {\"id\": \"475\", \"val\": \"1\"}, {\"id\": \"476\", \"val\": \"1\"}, {\"id\": \"477\", \"val\": \"1\"}, {\"id\": \"478\", \"val\": \"1\"}, {\"id\": \"479\", \"val\": \"1\"}, {\"id\": \"480\", \"val\": \"1\"}, {\"id\": \"481\", \"val\": \"3\"}, {\"id\": \"482\", \"val\": \"1\"}, {\"id\": \"483\", \"val\": \"1\"}, {\"id\": \"484\", \"val\": \"3\"}]', NULL, '2023-09-07 19:11:49', '', 17, 15, 0, 2, 0, NULL);
+(3, 3, 42, 1, '2023-09-07', 4, '[{\"id\": \"468\", \"val\": \"1\"}, {\"id\": \"469\", \"val\": \"1\"}, {\"id\": \"470\", \"val\": \"1\"}, {\"id\": \"471\", \"val\": \"1\"}, {\"id\": \"472\", \"val\": \"1\"}, {\"id\": \"473\", \"val\": \"1\"}, {\"id\": \"474\", \"val\": \"1\"}, {\"id\": \"475\", \"val\": \"1\"}, {\"id\": \"476\", \"val\": \"1\"}, {\"id\": \"477\", \"val\": \"1\"}, {\"id\": \"478\", \"val\": \"1\"}, {\"id\": \"479\", \"val\": \"1\"}, {\"id\": \"480\", \"val\": \"1\"}, {\"id\": \"481\", \"val\": \"3\"}, {\"id\": \"482\", \"val\": \"1\"}, {\"id\": \"483\", \"val\": \"1\"}, {\"id\": \"484\", \"val\": \"3\"}]', NULL, '2023-09-07 19:11:49', '', 17, 15, 0, 2, 0, NULL),
+(4, 1, 42, 1, '2023-09-08', 1, '[{\"id\": \"498\", \"val\": \"1\"}, {\"id\": \"499\", \"val\": \"1\"}, {\"id\": \"500\", \"val\": \"1\"}, {\"id\": \"501\", \"val\": \"1\"}, {\"id\": \"502\", \"val\": \"1\"}, {\"id\": \"503\", \"val\": \"1\"}, {\"id\": \"504\", \"val\": \"1\"}, {\"id\": \"505\", \"val\": \"1\"}, {\"id\": \"506\", \"val\": \"3\"}, {\"id\": \"507\", \"val\": \"3\"}, {\"id\": \"508\", \"val\": \"4\"}, {\"id\": \"509\", \"val\": \"4\"}, {\"id\": \"510\", \"val\": \"1\"}, {\"id\": \"511\", \"val\": \"1\"}, {\"id\": \"512\", \"val\": \"1\"}, {\"id\": \"513\", \"val\": \"1\"}, {\"id\": \"514\", \"val\": \"1\"}, {\"id\": \"515\", \"val\": \"1\"}, {\"id\": \"516\", \"val\": \"1\"}, {\"id\": \"517\", \"val\": \"1\"}, {\"id\": \"518\", \"val\": \"1\"}, {\"id\": \"519\", \"val\": \"1\"}, {\"id\": \"520\", \"val\": \"1\"}, {\"id\": \"521\", \"val\": \"1\"}, {\"id\": \"522\", \"val\": \"1\"}, {\"id\": \"523\", \"val\": \"1\"}, {\"id\": \"524\", \"val\": \"1\"}, {\"id\": \"525\", \"val\": \"1\"}]', NULL, '2023-09-08 09:55:05', '', 28, 24, 0, 2, 2, NULL),
+(5, 1, 42, 1, '2023-09-08', 3, '[{\"id\": \"498\", \"val\": \"1\"}, {\"id\": \"499\", \"val\": \"1\"}, {\"id\": \"500\", \"val\": \"3\"}, {\"id\": \"501\", \"val\": \"3\"}, {\"id\": \"502\", \"val\": \"1\"}, {\"id\": \"503\", \"val\": \"1\"}, {\"id\": \"504\", \"val\": \"1\"}, {\"id\": \"505\", \"val\": \"1\"}, {\"id\": \"506\", \"val\": \"1\"}, {\"id\": \"507\", \"val\": \"1\"}, {\"id\": \"508\", \"val\": \"1\"}, {\"id\": \"509\", \"val\": \"1\"}, {\"id\": \"510\", \"val\": \"1\"}, {\"id\": \"511\", \"val\": \"1\"}, {\"id\": \"512\", \"val\": \"1\"}, {\"id\": \"513\", \"val\": \"1\"}, {\"id\": \"514\", \"val\": \"1\"}, {\"id\": \"515\", \"val\": \"1\"}, {\"id\": \"516\", \"val\": \"1\"}, {\"id\": \"517\", \"val\": \"1\"}, {\"id\": \"518\", \"val\": \"1\"}, {\"id\": \"519\", \"val\": \"1\"}, {\"id\": \"520\", \"val\": \"1\"}, {\"id\": \"521\", \"val\": \"1\"}, {\"id\": \"522\", \"val\": \"1\"}, {\"id\": \"523\", \"val\": \"1\"}, {\"id\": \"524\", \"val\": \"1\"}, {\"id\": \"525\", \"val\": \"1\"}]', NULL, '2023-09-08 09:59:22', '', 28, 26, 0, 2, 0, NULL),
+(7, 1, 42, 1, '2023-09-08', 4, '[{\"id\": \"498\", \"val\": \"1\"}, {\"id\": \"499\", \"val\": \"1\"}, {\"id\": \"500\", \"val\": \"1\"}, {\"id\": \"501\", \"val\": \"4\"}, {\"id\": \"502\", \"val\": \"4\"}, {\"id\": \"503\", \"val\": \"1\"}, {\"id\": \"504\", \"val\": \"1\"}, {\"id\": \"505\", \"val\": \"1\"}, {\"id\": \"506\", \"val\": \"1\"}, {\"id\": \"507\", \"val\": \"1\"}, {\"id\": \"508\", \"val\": \"1\"}, {\"id\": \"509\", \"val\": \"1\"}, {\"id\": \"510\", \"val\": \"1\"}, {\"id\": \"511\", \"val\": \"1\"}, {\"id\": \"512\", \"val\": \"1\"}, {\"id\": \"513\", \"val\": \"1\"}, {\"id\": \"514\", \"val\": \"1\"}, {\"id\": \"515\", \"val\": \"1\"}, {\"id\": \"516\", \"val\": \"1\"}, {\"id\": \"517\", \"val\": \"1\"}, {\"id\": \"518\", \"val\": \"1\"}, {\"id\": \"519\", \"val\": \"1\"}, {\"id\": \"520\", \"val\": \"1\"}, {\"id\": \"521\", \"val\": \"1\"}, {\"id\": \"522\", \"val\": \"1\"}, {\"id\": \"523\", \"val\": \"1\"}, {\"id\": \"524\", \"val\": \"1\"}, {\"id\": \"525\", \"val\": \"1\"}]', NULL, '2023-09-08 11:41:42', '', 28, 26, 0, 0, 2, NULL),
+(8, 1, 42, 2, '2023-09-08', 5, '[{\"id\": \"498\", \"val\": \"1\"}, {\"id\": \"499\", \"val\": \"1\"}, {\"id\": \"500\", \"val\": \"1\"}, {\"id\": \"501\", \"val\": \"1\"}, {\"id\": \"502\", \"val\": \"1\"}, {\"id\": \"503\", \"val\": \"1\"}, {\"id\": \"504\", \"val\": \"1\"}, {\"id\": \"505\", \"val\": \"1\"}, {\"id\": \"506\", \"val\": \"1\"}, {\"id\": \"507\", \"val\": \"1\"}, {\"id\": \"508\", \"val\": \"1\"}, {\"id\": \"509\", \"val\": \"1\"}, {\"id\": \"510\", \"val\": \"1\"}, {\"id\": \"511\", \"val\": \"1\"}, {\"id\": \"512\", \"val\": \"1\"}, {\"id\": \"513\", \"val\": \"1\"}, {\"id\": \"514\", \"val\": \"1\"}, {\"id\": \"515\", \"val\": \"1\"}, {\"id\": \"516\", \"val\": \"1\"}, {\"id\": \"517\", \"val\": \"1\"}, {\"id\": \"518\", \"val\": \"1\"}, {\"id\": \"519\", \"val\": \"1\"}, {\"id\": \"520\", \"val\": \"1\"}, {\"id\": \"521\", \"val\": \"1\"}, {\"id\": \"522\", \"val\": \"1\"}, {\"id\": \"523\", \"val\": \"1\"}, {\"id\": \"524\", \"val\": \"1\"}, {\"id\": \"525\", \"val\": \"1\"}]', NULL, '2023-09-08 11:41:57', '', 28, 28, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,11 +69,11 @@ INSERT INTO `att` (`id`, `classid`, `tid`, `lessonid`, `ognoo`, `cagid`, `irc`, 
 
 DROP TABLE IF EXISTS `cag`;
 CREATE TABLE IF NOT EXISTS `cag` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `inter` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `inter` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `cag`
@@ -93,29 +97,30 @@ INSERT INTO `cag` (`id`, `name`, `inter`) VALUES
 
 DROP TABLE IF EXISTS `class`;
 CREATE TABLE IF NOT EXISTS `class` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sname` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `hugacaa` double NOT NULL,
-  `tuluv` int NOT NULL,
-  `teacherid` int NOT NULL,
+  `tuluv` int(11) NOT NULL,
+  `teacherid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `class`
 --
 
-INSERT INTO `class` (`id`, `name`, `hugacaa`, `tuluv`, `teacherid`) VALUES
-(1, '1-1 Барилгын цахилгаанчин', 3, 1, 39),
-(3, '1-2 Барилгын засал чимэглэлчин', 3, 1, 3),
-(4, '1-3 Барилгын өрөг угсрагч', 3, 1, 4),
-(5, '1-4 Автомашины засварчин', 2.5, 1, 3),
-(6, '1-5 Хүнд машин механизмын засварчин', 3, 1, 5),
-(7, '1-6 Хүнд машин механизмын засварчин', 3, 1, 4),
-(8, '1-7 Тогооч', 3, 1, 3),
-(9, '1-8 Оёмол бүтээгдэхүүний оёдолчин', 2.5, 1, 0),
-(10, '1-9 Компьютерын оператор', 2.5, 1, 0),
-(11, '1-10 Хэвлэлийн график дизайнч ', 2.5, 1, 0);
+INSERT INTO `class` (`id`, `sname`, `name`, `hugacaa`, `tuluv`, `teacherid`) VALUES
+(1, '3-1', 'Барилгын цахилгаанчин', 3, 1, 39),
+(3, '3-2', 'Барилгын засал чимэглэлчин', 3, 1, 3),
+(4, '3-3', 'Барилгын өрөг угсрагч', 3, 1, 4),
+(5, '3-4', 'Автомашины засварчин', 2.5, 1, 3),
+(6, '3-5', 'Хүнд машин механизмын засварчин', 3, 1, 5),
+(7, '3-6', 'Хүнд машин механизмын засварчин', 3, 1, 4),
+(8, '3-7', 'Тогооч', 3, 1, 3),
+(9, '3-8', 'Оёмол бүтээгдэхүүний оёдолчин', 2.5, 1, 0),
+(10, '3-9', 'Компьютерын оператор', 2.5, 1, 0),
+(11, '3-10', 'Хэвлэлийн график дизайнч ', 2.5, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -125,11 +130,11 @@ INSERT INTO `class` (`id`, `name`, `hugacaa`, `tuluv`, `teacherid`) VALUES
 
 DROP TABLE IF EXISTS `loginlog`;
 CREATE TABLE IF NOT EXISTS `loginlog` (
-  `user` int NOT NULL,
+  `user` int(11) NOT NULL,
   `hezee` datetime NOT NULL,
-  `device` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `ip` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+  `device` text COLLATE utf8_unicode_ci NOT NULL,
+  `ip` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `loginlog`
@@ -139,7 +144,9 @@ INSERT INTO `loginlog` (`user`, `hezee`, `device`, `ip`) VALUES
 (42, '2023-09-07 14:23:43', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69', '::1'),
 (9, '2023-09-07 15:08:14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69', '::1'),
 (42, '2023-09-07 15:41:27', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0', '::1'),
-(42, '2023-09-07 18:51:51', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69', '::1');
+(42, '2023-09-07 18:51:51', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69', '::1'),
+(42, '2023-09-08 09:49:22', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69', '::1'),
+(9, '2023-09-08 09:54:36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0', '::1');
 
 -- --------------------------------------------------------
 
@@ -149,17 +156,17 @@ INSERT INTO `loginlog` (`user`, `hezee`, `device`, `ip`) VALUES
 
 DROP TABLE IF EXISTS `students`;
 CREATE TABLE IF NOT EXISTS `students` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `lname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `gender` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `class` int NOT NULL,
-  `pass` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `tuluv` int NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `lname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `gender` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `class` int(11) NOT NULL,
+  `pass` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tuluv` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=689 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=689 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `students`
@@ -425,11 +432,11 @@ INSERT INTO `students` (`id`, `code`, `fname`, `lname`, `gender`, `phone`, `clas
 
 DROP TABLE IF EXISTS `tclass`;
 CREATE TABLE IF NOT EXISTS `tclass` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `classid` int NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tid` int(11) NOT NULL,
+  `classid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tclass`
@@ -448,18 +455,18 @@ INSERT INTO `tclass` (`id`, `tid`, `classid`) VALUES
 
 DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE IF NOT EXISTS `teacher` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `fname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `lname` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `at` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `pass` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `user_role` int NOT NULL,
-  `tuluv` int NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `lname` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `at` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pass` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `user_role` int(11) NOT NULL,
+  `tuluv` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `teacher`
@@ -549,20 +556,21 @@ INSERT INTO `teacher` (`id`, `fname`, `lname`, `phone`, `email`, `at`, `pass`, `
 
 DROP TABLE IF EXISTS `tlesson`;
 CREATE TABLE IF NOT EXISTS `tlesson` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `lessonName` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `cag` int DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tid` int(11) NOT NULL,
+  `lessonName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `cag` int(11) DEFAULT NULL,
   `tuluv` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `tlesson`
 --
 
 INSERT INTO `tlesson` (`id`, `tid`, `lessonName`, `cag`, `tuluv`) VALUES
-(1, 42, 'Өгөгдлийн бүтэц', 90, 1);
+(1, 42, 'Өгөгдлийн бүтэц', 90, 1),
+(2, 42, 'Мультимедиа технологи ашиглах', 108, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

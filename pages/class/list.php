@@ -44,11 +44,15 @@ while (_fetch($tstmt)) {
                 <div class="modal-body">
                     <div class="form-outline mb-4">
                         <input type="text" value="" id="angi_name" class="form form-control mb-3" />
-                        <label class="form-label" for="angi_name">Ангийн нэр</label>
+                        <label class="form-label" for="angi_name">Мэргэжил</label>
                     </div>
                     <input type="text" value="0" id="angi_id" readonly style="display: none;" />
                     <div class="row mb-4">
-                        <div class="col">
+                        <div class="col-2">
+                            <label class="form-label" for="hugacaa">Анги</label>
+                            <input type="text" value="" id="angi" class="form form-control mb-3" />
+                        </div>
+                        <div class="col-2">
                             <label class="form-label" for="hugacaa">Хугацаа</label>
                             <select class="form form-control mb-3" id="hugacaa">
                                 <option>3</option>
@@ -87,7 +91,7 @@ while (_fetch($tstmt)) {
                 <div class="modal-body">
                     <div class="form-outline mb-4">
                         <input type="text" value="" id="add_angi_name" class="form form-control" />
-                        <label class="form-label" for="add_angi_name">Ангийн нэр</label>
+                        <label class="form-label" for="add_angi_name">Мэргэжил</label>
                     </div>
                     <div class="row mb-4">
                         <div class="col">
@@ -188,8 +192,7 @@ require ROOT . "/pages/footer.php"; ?>
                 if (data === "Амжилттай!") {
                     get();
                     $('#delete').modal('hide');
-                }
-                else $("#deleteinfo").html(data);
+                } else $("#deleteinfo").html(data);
             },
             async: true
         });
@@ -263,6 +266,7 @@ require ROOT . "/pages/footer.php"; ?>
         $('#teacherList').val(id);
         $('#angi_id').val(angi);
         $('#angi_name').val($('#f1-' + angi).text());
+        $('#angi').val($('#f0-' + angi).text());
     }
 
     function deleteBtn(angi) {

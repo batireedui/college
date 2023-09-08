@@ -1,5 +1,6 @@
 </head>
 <?php $columnNumber = 3 ?>
+
 <body>
   <div>
 
@@ -20,6 +21,9 @@
           </a>
           <!-- Left links -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/">ЭХЛЭЛ</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАЛЦАГЧ</a>
             </li>
@@ -47,12 +51,22 @@
               <li class="nav-item">
                 <a class="nav-link <?php echo strpos($page, "/lesson") > -1 ? 'active' : ''; ?>" href="/lesson/list">ХИЧЭЭЛ</a>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                  ТАЙЛАН
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li>
+                    <a class="dropdown-item" href="#">ИРЦ</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">ЦАГИЙН ТООЦОО</a>
+                  </li>
+                </ul>
+              </li>
             <?php
             }
             ?>
-            <li class="nav-item">
-              <a class="nav-link" href="#">ТАЙЛАН</a>
-            </li>
           </ul>
         </div>
 
@@ -73,7 +87,7 @@
           <div class="dropdown">
             <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
               <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
-              <span class="m-2" style="font-size: 12px;"><?= substr(trim($user_fname), 0, 2)?>.<?= $user_lname?></span>
+              <span class="m-2" style="font-size: 12px;"><?= substr(trim($user_fname), 0, 2) ?>.<?= $user_lname ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
               <li>

@@ -39,7 +39,12 @@ if (!isset($_SESSION['user_id'])) {
     [class*=btn-outline-] {
       --mdb-btn-border-width: 1px;
     }
+
     .table>:not(caption)>*>* {
       padding: 0.3rem 0.8rem;
+    }
+
+    .active_row {
+      background-color: #d1b2f7;
     }
   </style>

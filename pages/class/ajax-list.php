@@ -3,10 +3,11 @@ if (isset($_SESSION['user_id'])) {
     _select(
         $stmt,
         $count,
-        "SELECT id, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=?",
+        "SELECT id, sname, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=?",
         "i",
         ['1'],
         $id,
+        $sname,
         $name,
         $hugacaa,
         $tuluv,
@@ -17,7 +18,8 @@ if (isset($_SESSION['user_id'])) {
         <thead class="table-light">
             <tr>
                 <th>№</th>
-                <th>Ангийн нэр</th>
+                <th>Анги</th>
+                <th>Мэргэжил</th>
                 <th>Хугацаа</th>
                 <th>Ангийн багш</th>
                 <th>Төлөв</th>
@@ -39,6 +41,7 @@ if (isset($_SESSION['user_id'])) {
                 $too++ ?>
                 <tr>
                     <td><?= $too ?></td>
+                    <td id="f0-<?= $id ?>"><?= $sname ?></td>
                     <td id="f1-<?= $id ?>"><?= $name ?></td>
                     <td id="f2-<?= $id ?>"><?= $hugacaa ?></td>
                     <td id="f4-<?= $id ?>">
