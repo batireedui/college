@@ -31,8 +31,25 @@ if (isset($_SESSION['user_id'])) {
         $inter,
         $tlesson_cag
     );
+
+    _select(
+        $stmt,
+        $count,
+        "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.tuluv  
+            FROM students WHERE students.class = '$classid' and students.tuluv=?",
+        "i",
+        [1],
+        $sid,
+        $code,
+        $sfname,
+        $slname,
+        $gender,
+        $tuluv
+    );
+
+    $irc = json_decode($irc);
 ?>
-    <div class="badge badge-secondary mb-3"><?= $ognoo ?> <?= $cag ?> (<?= $inter ?>)</div>
+    <div class="badge badge-secondary mb-3"><?= $ognoo ?>, <?= dayofweek($ognoo); ?>, <?= $cag ?> (<?= $inter ?>)</div>
     <div class="mb-3"><?= $fname ?> <?= $lname ?> (<?= $lessonName ?>, <?= $tlesson_cag ?> цаг)</div>
     <div class="mb-3">Сэдэв: <?= $sedev ?></div>
     <span class="badge badge-primary m-1">Нийт: <?= $niit ?></span>
@@ -46,13 +63,30 @@ if (isset($_SESSION['user_id'])) {
                 <th>№</th>
                 <th>Эцэг/эхийн нэр</th>
                 <th>Нэр</th>
-                <th>Утас</th>
-                <th>Хүйс</th>
-                <th>РД</th>
-                <th>Анги</th>
-                <th></th>
+                <th>Ирц</th>
             </tr>
         </thead>
+        <tbody>
+            <?php if ($count > 0) : ?>
+                <?php $too = 0;
+                while (_fetch($stmt)) :
+                    $sval = 0;
+                    foreach ($irc as $key => $el) {
+                        if ($el->id == $sid) {
+                            $sval = $el->val;
+                            break;
+                        }
+                    }
+                    $too++ ?>
+                    <tr>
+                        <td><?= $too ?></td>
+                        <td id="tf1-<?= $sid ?>"><?= $sfname ?></td>
+                        <td id="tf2-<?= $sid ?>"><?= $slname ?></td>
+                        <td id="tf3-<?= $sid ?>"><span class="badge badge-<?= @$tuluvColor[$sval]?>"><?= @$tuluvIrc[$sval] ?></span></td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php endif; ?>
+        </tbody>
     </table>
 <?php
 

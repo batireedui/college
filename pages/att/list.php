@@ -9,11 +9,12 @@ if ($user_role < 3) {
 _select(
     $tstmt,
     $tcount,
-    "SELECT class.name, tclass.classid FROM tclass INNER JOIN class ON tclass.classid = class.id WHERE tclass.tid = ?",
+    "SELECT class.name, tclass.classid, sname FROM tclass INNER JOIN class ON tclass.classid = class.id WHERE tclass.tid = ?",
     "i",
     [$user_id],
     $class_name,
-    $class_id
+    $class_id,
+    $sname
 );
 
 _selectNoParam(
@@ -30,6 +31,7 @@ $classList = array();
 while (_fetch($tstmt)) {
     $item = new stdClass();
     $item->class_name = $class_name;
+    $item->sname = $sname;
     $item->class_id = $class_id;
 
     array_push($classList, $item);
@@ -55,7 +57,7 @@ $columnNumber = 7;
         <div class="col-md">
             <select class="form form-control mb-3" id="class">
                 <?php foreach ($classList as $el) : ?>
-                    <option value="<?= $el->class_id ?>"><?= $el->class_name ?></option>
+                    <option value="<?= $el->class_id ?>"><?= $el->sname ?> <?= $el->class_name ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

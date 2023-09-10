@@ -17,15 +17,39 @@ $page = @$_SERVER['REDIRECT_URL'];
 
 $pageTitle = "Өвөрхангай ПК";
 $favi = "https://uvcollege.edu.mn/wp-content/uploads/2021/09/cropped-icon-32x32.png";
+$tuluvIrc = [1 => "Ирсэн", 2 => "Өвчтэй", 3 => "Чөлөөтэй", 4 => "Тасалсан"];
+$tuluvColor= [1 => "success", 2 => "warning", 3 => "primary", 4 => "danger"];
+
 if (empty($page)) {
     require ROOT . '/pages/home.php';
-} 
-else {
+} else {
     $script = ROOT . "/pages$page.php";
     if (file_exists($script)) {
         require $script;
     } else {
         require ROOT . '/pages/404.php';
+    }
+}
+
+function dayofweek($ognoo)
+{
+    $day = date('w', strtotime($ognoo));
+    switch ($day) {
+        case 1:
+            return "Даваа";
+        case 2:
+            return "Мягмар";
+        case 3:
+            return "Лхагва";
+        case 4:
+            return "Пүрэв";
+        case 5:
+            return "Баасан";
+        case 6:
+            return "Бямба";
+        case 0:
+            return "Ням";
+        default: return $day;
     }
 }
 

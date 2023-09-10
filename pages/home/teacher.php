@@ -73,7 +73,7 @@ array_push($lessonArr, $gra);
 
 <div>
     <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        СҮҮЛИЙН ХИЧЭЭЛ ОРОЛТУУД (10) <?= count($lessonNameArr) ?>
+        СҮҮЛИЙН ХИЧЭЭЛ ОРОЛТУУД (10)
     </div>
     <div id="table">
         <table class="table table-bordered table-hover">
@@ -122,27 +122,25 @@ array_push($lessonArr, $gra);
     function detial(id) {
         row_click(id)
         $.ajax({
-                url: "../att/detial",
-                type: "POST",
-                data: {
-                    mode: 2,
-                    id: id
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    $("#modal-body").html("Алдаа гарлаа !");
-                },
-                beforeSend: function() {
-                    $('#modal-body').html("Түр хүлээнэ үү ...");
-                },
-                success: function(data) {
-                    get();
-                    $('#modal-body').html(data);
-                },
-                async: true
-            });
+            url: "../att/detial",
+            type: "POST",
+            data: {
+                mode: 2,
+                id: id
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                $("#modal-body").html("Алдаа гарлаа !");
+            },
+            beforeSend: function() {
+                $('#modal-body').html("Түр хүлээнэ үү ...");
+            },
+            success: function(data) {
+                $('#modal-body').html(data);
+            },
+            async: true
+        });
     }
-
-    function get() {
+    window.onload = (event) => {
         var options = {
             series: <?php echo json_encode($lessonArr) ?>,
             chart: {
@@ -204,44 +202,5 @@ array_push($lessonArr, $gra);
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-    }
-    get();
-
-    function addAngi() {
-        $('#addinfo').hide();
-        if ($('#add_teacher_id').val() === null || $('#add_angi_name').val() === '') {
-            $('#addinfo').html("Мэдээлэл дутуу байна!");
-            $('#addinfo').show();
-        } else {
-            $.ajax({
-                url: "ajax",
-                type: "POST",
-                data: {
-                    mode: 2,
-                    teacher_id: $('#add_teacher_id').val(),
-                    angi_name: $('#add_angi_name').val(),
-                    hugacaa: $('#addhugacaa').val()
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    $("#addbody").html("Алдаа гарлаа !");
-                },
-                beforeSend: function() {
-                    $('#addinfo').html("Түр хүлээнэ үү ...");
-                    $('#addinfo').show();
-                },
-                success: function(data) {
-                    get();
-                    $('#add').modal('hide');
-                },
-                async: true
-            });
-        }
-    }
-
-    function setTeacher(id, angi) {
-        $('#changeinfo').hide();
-        $('#teacherList').val(id);
-        $('#angi_id').val(angi);
-        $('#angi_name').val($('#f1-' + angi).text());
-    }
+    };
 </script>
