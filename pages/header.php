@@ -57,10 +57,10 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li>
-                    <a class="dropdown-item" href="#">ИРЦ</a>
+                    <a class="dropdown-item" href="/report/att">ИРЦ</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">ЦАГИЙН ТООЦОО</a>
+                    <a class="dropdown-item" href="/report/cag">ЦАГИЙН ТООЦОО</a>
                   </li>
                 </ul>
               </li>

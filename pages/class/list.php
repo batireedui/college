@@ -94,7 +94,11 @@ while (_fetch($tstmt)) {
                         <label class="form-label" for="add_angi_name">Мэргэжил</label>
                     </div>
                     <div class="row mb-4">
-                        <div class="col">
+                    <div class="col-2">
+                            <label class="form-label" for="hugacaa">Анги</label>
+                            <input type="text" value="" id="addangi" class="form form-control mb-3" />
+                        </div>
+                        <div class="col-2">
                             <label class="form-label" for="addhugacaa">Хугацаа</label>
                             <select class="form form-control" id="addhugacaa">
                                 <option>3</option>
@@ -211,7 +215,8 @@ require ROOT . "/pages/footer.php"; ?>
                     angi_id: $('#angi_id').val(),
                     teacher_id: $('#teacherList').val(),
                     angi_name: $('#angi_name').val(),
-                    hugacaa: $('#hugacaa').val()
+                    hugacaa: $('#hugacaa').val(),
+                    angi: $('#angi').val()
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     $('#changeinfo').show();
@@ -243,7 +248,8 @@ require ROOT . "/pages/footer.php"; ?>
                     mode: 2,
                     teacher_id: $('#add_teacher_id').val(),
                     angi_name: $('#add_angi_name').val(),
-                    hugacaa: $('#addhugacaa').val()
+                    hugacaa: $('#addhugacaa').val(),
+                    angi: $('#addangi').val()
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     $("#addbody").html("Алдаа гарлаа !");

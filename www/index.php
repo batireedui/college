@@ -18,6 +18,7 @@ $page = @$_SERVER['REDIRECT_URL'];
 $pageTitle = "Өвөрхангай ПК";
 $favi = "https://uvcollege.edu.mn/wp-content/uploads/2021/09/cropped-icon-32x32.png";
 $tuluvIrc = [1 => "Ирсэн", 2 => "Өвчтэй", 3 => "Чөлөөтэй", 4 => "Тасалсан"];
+
 $tuluvColor= [1 => "success", 2 => "warning", 3 => "primary", 4 => "danger"];
 
 if (empty($page)) {
@@ -69,8 +70,6 @@ function logError($e)
         [getIpAddress(), $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine()],
         $count
     );
-
-    alertAdmin($e->getMessage());
 }
 
 function redirect($url)
@@ -128,12 +127,6 @@ function getIpAddress()
         return $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
     return $_SERVER['REMOTE_ADDR'];
-}
-
-function alertAdmin($message)
-{
-    // email -> sendgrid
-    // sms -> skytel web2sms url?phone=99442233&msg=aldaa: $message
 }
 
 function formatMoney($value)

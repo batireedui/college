@@ -48,7 +48,7 @@ $columnNumber = 7;
 </style>
 <div>
     <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        <h3>Ирц бүртгэл <?php ?></h3>
+        <h3>Цагийн тооцоо <?php ?></h3>
     </div>
     <div class="row mb-3">
         <div class="col-md">

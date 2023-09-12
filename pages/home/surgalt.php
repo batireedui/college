@@ -87,7 +87,7 @@ while (_fetch($stmt)) {
                             $huvi = 0;
                             if ($v1 != 0 && $niit != 0)
                                 $huvi = round($v1 / $niit * 100);
-                            $echo = "<i class='fa-solid fa-circle-check text-success'></i> $huvi%";
+                            $echo = "<i class='fa-solid fa-circle-check text-success' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'></i> $huvi%";
                         }
                     ?>
                         <td style='text-align: center'>
@@ -103,7 +103,40 @@ while (_fetch($stmt)) {
         </table>
     </div>
 </div>
+<div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detialLabel">ИРЦ БҮРТГЭЛ</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-
+    function detial(id) {
+        row_click(id)
+        $.ajax({
+            url: "../att/detial",
+            type: "POST",
+            data: {
+                mode: 2,
+                id: id
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                $("#modal-body").html("Алдаа гарлаа !");
+            },
+            beforeSend: function() {
+                $('#modal-body').html("Түр хүлээнэ үү ...");
+            },
+            success: function(data) {
+                $('#modal-body').html(data);
+            },
+            async: true
+        });
+    }
 </script>

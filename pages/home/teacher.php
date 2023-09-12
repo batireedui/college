@@ -93,7 +93,7 @@ array_push($lessonArr, $gra);
                     <td><?= $too ?></td>
                     <td id="f1-<?= $id ?>"><?= $el->class ?></td>
                     <td id="f2-<?= $id ?>"><?= $el->lesson ?></td>
-                    <td id="f3-<?= $id ?>"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
+                    <td id="f3-<?= $id ?>"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= dayofweek($el->ognoo); ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
                     <td></td>
                 </tr>
             <?php endforeach ?>

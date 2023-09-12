@@ -44,7 +44,7 @@ if (isset($_SESSION['user_id'])) {
             if (!empty($oldid)) {
                 $editIrc = true;
                 $oldirc = json_decode($oldirc);
-                echo "<div  class='alert alert-success' role='alert'>
+                echo "<div  class='alert alert-warning' role='alert'>
                     Та өмнө нь ирц оруулсан байна! Мэдээллээ өөрчлөөд ИРЦ ХАДГАЛ дарна уу!
                 </div>";
             }
@@ -166,11 +166,27 @@ if (isset($_SESSION['user_id'])) {
                                     </label>
 
                                 </div>
+
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <label class="btn btn-outline-warning" for="e1-<?= $id ?>">
+                                        <i class="fa-regular fa-face-smile fa-2xl"></i>
+                                    </label>
+                                    <input type="radio" class="btn-check" id="e2-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <label class="btn btn-outline-warning" for="e2-<?= $id ?>">
+                                        <i class="fa-regular fa-face-meh fa-2xl"></i>
+                                    </label>
+                                    <input type="radio" class="btn-check" id="e3-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <label class="btn btn-outline-warning" for="e3-<?= $id ?>">
+                                        <i class="fa-regular fa-face-frown fa-2xl"></i>
+                                    </label>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php endif; ?>
             </table>
+            <div class="action"></div>
             <div class="mb-5">
                 <button class="btn btn-success w-100" onclick="<?php echo $editIrc ? "save_change_att($oldid)" : "save_att()" ?>">ИРЦ ХАДГАЛ</button>
             </div>
@@ -223,6 +239,7 @@ if (isset($_SESSION['user_id'])) {
                 }
 
                 function save_att() {
+                    $("#action").html("");
                     console.log(ircArr)
                     $.ajax({
                         url: "ajax",
@@ -242,13 +259,19 @@ if (isset($_SESSION['user_id'])) {
                             v4: v4
                         },
                         error: function(xhr, textStatus, errorThrown) {
-                            $("#table").html("Алдаа гарлаа !");
+                            $('div.action').each(function() {
+                                $(this).html("");
+                            });
                         },
                         beforeSend: function() {
-                            $("#table").html("Түр хүлээнэ үү ...");
+                            $('div.action').each(function() {
+                                $(this).html("");
+                            });
                         },
                         success: function(data) {
-                            $("#table").html(data);
+                            $('div.action').each(function() {
+                                $(this).html(data);
+                            });
                             $('#class').prop('disabled', false);
                             $('#cag').prop('disabled', false);
                             $('#date').prop('disabled', false);
@@ -258,6 +281,7 @@ if (isset($_SESSION['user_id'])) {
                 }
 
                 function save_change_att(attid) {
+                    $("#action").html("");
                     console.log(ircArr)
                     $.ajax({
                         url: "ajax",
@@ -275,13 +299,19 @@ if (isset($_SESSION['user_id'])) {
                             v4: v4
                         },
                         error: function(xhr, textStatus, errorThrown) {
-                            $("#table").html("Алдаа гарлаа !");
+                            $('div.action').each(function() {
+                                $(this).html("");
+                            });
                         },
                         beforeSend: function() {
-                            $("#table").html("Түр хүлээнэ үү ...");
+                            $('div.action').each(function() {
+                                $(this).html("");
+                            });
                         },
                         success: function(data) {
-                            $("#table").html(data);
+                            $('div.action').each(function() {
+                                $(this).html(data);
+                            });
                             $('#class').prop('disabled', false);
                             $('#cag').prop('disabled', false);
                             $('#date').prop('disabled', false);
@@ -303,15 +333,17 @@ if (isset($_SESSION['user_id'])) {
         $v3 = $_POST['v3'];
         $v4 = $_POST['v4'];
         $ircpost = json_encode($_POST['ircpost']);
+        $checkid = check($date, $class, $cag);
+        if ($checkid == '0') {
+            $success = _exec(
+                "INSERT INTO att (classid, tid, lessonid, ognoo, cagid, irc, emoj, bich, sedev, niit, v1, v2, v3, v4) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                'iiisissssiiiii',
+                [$class, $_SESSION['user_id'], $lesson, $date, $cag, $ircpost, null, ognoo(), $sedev, $niit, $v1, $v2, $v3, $v4],
+                $count
+            );
 
-        $success = _exec(
-            "INSERT INTO att (classid, tid, lessonid, ognoo, cagid, irc, emoj, bich, sedev, niit, v1, v2, v3, v4) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            'iiisissssiiiii',
-            [$class, $_SESSION['user_id'], $lesson, $date, $cag, $ircpost, null, ognoo(), $sedev, $niit, $v1, $v2, $v3, $v4],
-            $count
-        );
-
-        echo "<div  class='alert alert-success' role='alert'>Амжилттай хадгалагдлаа!</div>";
+            echo "<div  class='alert alert-success' role='alert'>Амжилттай хадгалагдлаа!</div>";
+        }
     } elseif ($mode == 3) {
         $attid = $_POST['attid'];
         $lesson = $_POST['lesson'];
