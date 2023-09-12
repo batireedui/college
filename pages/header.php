@@ -28,7 +28,7 @@
               <a class="nav-link <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАЛЦАГЧ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link <?php echo strpos($page, "/att") > -1 ? 'active' : ''; ?>" href="/att/list">ИРЦ</a>
+              <a class="nav-link <?php echo strpos($page, "/att/list") > -1 ? 'active' : ''; ?>" href="/att/list">ИРЦ</a>
             </li>
             <?php
             if ($user_role == 3) {
@@ -52,7 +52,7 @@
                 <a class="nav-link <?php echo strpos($page, "/lesson") > -1 ? 'active' : ''; ?>" href="/lesson/list">ХИЧЭЭЛ</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/report") > -1 ? 'active' : ''; ?>" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                   ТАЙЛАН
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

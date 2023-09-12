@@ -123,9 +123,9 @@ if (isset($_SESSION['user_id'])) {
 
                         $niit = $v3 + $v4 + $v2;
                         $shuvi = $v3 + $v4 + $v2 + $v1;
-                        if ($niit == 0)
+                        if ($v4 == 0)
                             $huvi = "100";
-                        else $huvi = round(($shuvi - $niit) / $shuvi * 100);
+                        else $huvi = round(($shuvi - $v4) / $shuvi * 100);
 
                         $dniit += $niit;
                         $dshuvi += $shuvi;
@@ -137,9 +137,9 @@ if (isset($_SESSION['user_id'])) {
                         <td class="fw-bold" style="text-align: center;"><?= $huvi ?>% (<?= $shuvi * 2 ?>)</td>
                     <?php endforeach;
 
-                    if ($dniit == 0)
+                    if ($sv4 == 0)
                         $dhuvi = "100";
-                    else $dhuvi = round(($dshuvi - $dniit) / $dshuvi * 100);
+                    else $dhuvi = round(($dshuvi - $sv4) / $dshuvi * 100);
                     ?>
                     <td class="fw-bold" style="text-align: center;"><span class="alert alert-<?= $tuluvColor[2] ?>"><?= $sv2 * 2 ?></span></td>
                     <td class="fw-bold" style="text-align: center;"><span class="alert alert-<?= $tuluvColor[3] ?>"><?= $sv3 * 2 ?></span></td>
