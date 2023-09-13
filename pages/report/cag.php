@@ -52,7 +52,10 @@ $columnNumber = 7;
     </div>
     <div class="row mb-3">
         <div class="col-md">
-            <input type="date" class="form form-control mb-3" id="date" value="<?= date('Y-m-d') ?>" autocompleted />
+            <input type="date" class="form form-control mb-3" id="sdate" value="<?= date('Y-m-d') ?>" autocompleted />
+        </div>
+        <div class="col-md">
+            <input type="date" class="form form-control mb-3" id="ldate" value="<?= date('Y-m-d') ?>" autocompleted />
         </div>
         <div class="col-md">
             <select class="form form-control mb-3" id="class">

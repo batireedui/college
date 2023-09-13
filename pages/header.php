@@ -107,4 +107,4 @@
       <!-- Container wrapper -->
     </nav>
   </div>
-  <div class="container-xxl">
+  <div class="container-fluid">

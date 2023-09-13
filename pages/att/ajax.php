@@ -6,11 +6,13 @@ if (isset($_SESSION['user_id'])) {
     $class = @$_POST['class'];
     $cag = @$_POST['cag'];
 
-    function check($date, $class, $cag)
+    function check($date, $class, $cag, $attid = null)
     {
         $id = '0';
         _selectRowNoParam(
-            "SELECT att.id, fname, lname FROM att INNER JOIN teacher ON att.tid = teacher.id WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid != '" . $_SESSION['user_id'] . "'",
+            "SELECT att.id, fname, lname FROM att 
+                INNER JOIN teacher ON att.tid = teacher.id 
+                    WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid != '" . $_SESSION['user_id'] . "'",
             $cid,
             $fname,
             $lname
@@ -19,7 +21,9 @@ if (isset($_SESSION['user_id'])) {
             $id = "<div  class='alert alert-success' role='alert'>Таны сонгосон цагт \"$fname $lname\" багш ирц бүртгэсэн байна!</div>";
         else {
             _selectRowNoParam(
-                "SELECT att.id, class.name FROM att INNER JOIN class ON att.classid = class.id WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
+                "SELECT att.id, class.name FROM att 
+                    INNER JOIN class ON att.classid = class.id 
+                        WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
                 $aid,
                 $cname
             );
@@ -35,12 +39,22 @@ if (isset($_SESSION['user_id'])) {
         if ($checkid == '0') {
             $editIrc = false;
             $oldsedev = "";
+            $oldltype = 1;
             _selectRowNoParam(
-                "SELECT att.id, irc, sedev FROM att WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid = '" . $_SESSION['user_id'] . "'",
+                "SELECT att.id, irc, sedev, ltype FROM att WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid = '" . $_SESSION['user_id'] . "'",
                 $oldid,
                 $oldirc,
-                $oldsedev
+                $oldsedev,
+                $oldltype
             );
+            _selectNoParam(
+                $ltypestmt,
+                $ltypecount,
+                "SELECT id, name FROM `ltype`",
+                $ltypeid,
+                $ltypename
+            );
+
             if (!empty($oldid)) {
                 $editIrc = true;
                 $oldirc = json_decode($oldirc);
@@ -76,11 +90,18 @@ if (isset($_SESSION['user_id'])) {
                         <?php endwhile; ?>
                     </select>
                 </div>
+                <div class="col-md-2">
+                    <select class="form form-control mb-3" id="ltype">
+                        <?php while (_fetch($ltypestmt)) : ?>
+                            <option value="<?= $ltypeid ?>" <?php echo $ltypeid == $oldltype ? " selected" : "" ?>><?= $ltypename ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
                 <div class="col-md">
                     <input type="text" value="<?= $oldsedev ?>" id="sedev" class="form form-control mb-3" placeholder="Хичээлийн сэдэв" />
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-primary w-100" onclick="cancel()">ЦУЦЛАХ</button>
+                    <button class="btn btn-primary w-100" onclick="cancel()">БОЛИХ</button>
                 </div>
             </div>
             <div class="row mb-3">
@@ -192,13 +213,13 @@ if (isset($_SESSION['user_id'])) {
             </div>
             <script>
                 $('#class').prop('disabled', true);
-                $('#cag').prop('disabled', true);
-                $('#date').prop('disabled', true);
+                /*$('#cag').prop('disabled', true);
+                $('#date').prop('disabled', true);*/
 
                 function cancel() {
                     $('#class').prop('disabled', false);
-                    $('#cag').prop('disabled', false);
-                    $('#date').prop('disabled', false);
+                    /*$('#cag').prop('disabled', false);
+                    $('#date').prop('disabled', false);*/
                     $("#table").html("");
                 }
 
@@ -251,6 +272,7 @@ if (isset($_SESSION['user_id'])) {
                             cag: $('#cag').val(),
                             lesson: $('#lesson').val(),
                             sedev: $('#sedev').val(),
+                            ltype: $('#ltype').val(),
                             ircpost: ircArr,
                             niit: niit,
                             v1: v1,
@@ -289,9 +311,13 @@ if (isset($_SESSION['user_id'])) {
                         data: {
                             mode: 3,
                             attid: attid,
+                            date: $('#date').val(),
+                            class: $('#class').val(),
+                            cag: $('#cag').val(),
                             lesson: $('#lesson').val(),
                             sedev: $('#sedev').val(),
                             ircpost: ircArr,
+                            ltype: $('#ltype').val(),
                             niit: niit,
                             v1: v1,
                             v2: v2,
@@ -332,17 +358,20 @@ if (isset($_SESSION['user_id'])) {
         $v2 = $_POST['v2'];
         $v3 = $_POST['v3'];
         $v4 = $_POST['v4'];
+        $ltype = $_POST['ltype'];
         $ircpost = json_encode($_POST['ircpost']);
         $checkid = check($date, $class, $cag);
         if ($checkid == '0') {
             $success = _exec(
-                "INSERT INTO att (classid, tid, lessonid, ognoo, cagid, irc, emoj, bich, sedev, niit, v1, v2, v3, v4) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                'iiisissssiiiii',
-                [$class, $_SESSION['user_id'], $lesson, $date, $cag, $ircpost, null, ognoo(), $sedev, $niit, $v1, $v2, $v3, $v4],
+                "INSERT INTO att (classid, tid, lessonid, ognoo, cagid, irc, emoj, bich, sedev, niit, v1, v2, v3, v4, ltype) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                'iiisissssiiiiii',
+                [$class, $_SESSION['user_id'], $lesson, $date, $cag, $ircpost, null, ognoo(), $sedev, $niit, $v1, $v2, $v3, $v4, $ltype],
                 $count
             );
 
             echo "<div  class='alert alert-success' role='alert'>Амжилттай хадгалагдлаа!</div>";
+        } else {
+            echo $checkid;
         }
     } elseif ($mode == 3) {
         $attid = $_POST['attid'];
@@ -353,15 +382,28 @@ if (isset($_SESSION['user_id'])) {
         $v2 = $_POST['v2'];
         $v3 = $_POST['v3'];
         $v4 = $_POST['v4'];
+        $ltype = $_POST['ltype'];
         $ircpost = json_encode($_POST['ircpost']);
-
+        $checkid = check($date, $class, $cag, $attid);
+        if ($checkid == '0') {
+            $success = _exec(
+                "UPDATE att SET classid=?, ognoo=?, cagid=?, lessonid=?, sedev=?, irc=?, niit=?, v1=?, v2=?, v3=?, v4=?, ltype=? WHERE id = ?",
+                'isiissiiiiiii',
+                [$class, $date, $cag, $lesson, $sedev, $ircpost, $niit, $v1, $v2, $v3, $v4, $ltype, $attid],
+                $count
+            );
+            echo "<div  class='alert alert-success' role='alert'>Амжилттай хадгалагдлаа!</div>";
+        } else {
+            echo $checkid;
+        }
+    } elseif ($mode == 4) {
+        $attid = $_POST['attid'];
         $success = _exec(
-            "UPDATE att SET lessonid=?, sedev=?, irc=?, niit=?, v1=?, v2=?, v3=?, v4=? WHERE id = ?",
-            'issiiiiii',
-            [$lesson, $sedev, $ircpost, $niit, $v1, $v2, $v3, $v4, $attid],
+            "DELETE FROM att WHERE id = ?",
+            'i',
+            [$attid],
             $count
         );
-        echo "<div  class='alert alert-success' role='alert'>Амжилттай хадгалагдлаа!</div>";
     }
     ?>
 <?php

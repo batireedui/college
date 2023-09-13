@@ -51,7 +51,7 @@ $columnNumber = 7;
         <h3>Ирц бүртгэл <?php ?></h3>
     </div>
     <div class="row mb-3">
-        <div class="col-md">
+        <div class="col-md-2">
             <input type="date" class="form form-control mb-3" id="date" value="<?= date('Y-m-d') ?>" autocompleted />
         </div>
         <div class="col-md">
@@ -61,7 +61,7 @@ $columnNumber = 7;
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="col-md">
+        <div class="col-md-2">
             <select class="form form-control mb-3" id="cag">
                 <?php while (_fetch($cstmt)) : ?>
                     <option value="<?= $cag_id ?>"><?= $cag_name ?> (<?= $cag_inter ?>)</option>

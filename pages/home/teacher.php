@@ -2,7 +2,7 @@
 _selectNoParam(
     $stmt,
     $count,
-    "SELECT att.id, class.name, tlesson.lessonName, cag.name, cag.inter, ognoo, att.lessonid FROM att 
+    "SELECT att.id, class.name, tlesson.lessonName, cag.name, cag.inter, ognoo, att.lessonid, class.sname, att.tuluv FROM att 
         INNER JOIN class ON att.classid = class.id 
             INNER JOIN tlesson ON att.lessonid = tlesson.id 
                 INNER JOIN cag ON att.cagid = cag.id 
@@ -13,7 +13,9 @@ _selectNoParam(
     $cag,
     $cag_inter,
     $ognoo,
-    $lessonid
+    $lessonid,
+    $sname,
+    $atttuluv
 );
 
 $zaasanArr = [];
@@ -26,6 +28,8 @@ while (_fetch($stmt)) {
     $item->cag_inter = $cag_inter;
     $item->ognoo = $ognoo;
     $item->lessonid = $lessonid;
+    $item->sname = $sname;
+    $item->atttuluv = $atttuluv;
     array_push($zaasanArr, $item);
 }
 
@@ -39,6 +43,7 @@ _selectNoParam(
     $gclassid,
     $sname
 );
+
 
 $orson = [];
 $uldsen = [];
@@ -89,12 +94,19 @@ array_push($lessonArr, $gra);
             <?php $too = 0;
             foreach ($zaasanArr as $el) :
                 $too++ ?>
-                <tr class="table_rows" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" id="trow-<?= $el->id ?>" onclick="detial(<?= $el->id ?>)">
+                <tr class="table_rows" id="trow-<?= $el->id ?>">
                     <td><?= $too ?></td>
-                    <td id="f1-<?= $id ?>"><?= $el->class ?></td>
-                    <td id="f2-<?= $id ?>"><?= $el->lesson ?></td>
-                    <td id="f3-<?= $id ?>"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= dayofweek($el->ognoo); ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
-                    <td></td>
+                    <td id="f1-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= $el->sname ?> <?= $el->class ?></td>
+                    <td id="f2-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= $el->lesson ?></td>
+                    <td id="f3-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= dayofweek($el->ognoo); ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
+                    <td><?php
+                        echo $el->atttuluv == 1 ?
+                            "<span class='alert alert-success'>Баталгаажсан</span>" :
+                            "<span class='alert alert-danger' role='button'
+                            data-mdb-toggle='modal' data-mdb-target='#deleteModal'
+                            onclick='deleteAtt(" . $el->id . ")'
+                            >Устгах</span>".$el->atttuluv;
+                        ?></td>
                 </tr>
             <?php endforeach ?>
         </table>
@@ -113,6 +125,24 @@ array_push($lessonArr, $gra);
             </div>
             <div class="modal-body" id="modal-body">
 
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteLabel">ИРЦ БҮРТГЭЛ УСТГАХ</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-dbody">
+                
+            </div>
+            <input type="text" style="display: none;" id="deleteId"/>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Болих</button>
+                <button type="button" class="btn btn-danger" onclick="attDelete()">Устгах</button>
             </div>
         </div>
     </div>
@@ -139,7 +169,36 @@ array_push($lessonArr, $gra);
             },
             async: true
         });
+    };
+
+    function deleteAtt(id) {
+        row_click(id)
+        $('#deleteId').val(id);
+        $('#modal-dbody').html($('#f1-' + id).text() + ' ангид ' + $('#f3-' + id).text() + ' орсон ' + $('#f2-' + id).text() + ' хичээлийн ирц бүртгэл утсгах уу?');
     }
+
+    function attDelete() {
+        $.ajax({
+            url: "../att/ajax",
+            type: "POST",
+            data: {
+                mode: 4,
+                attid: $('#deleteId').val()
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                $("#modal-dbody").html("Алдаа гарлаа !");
+            },
+            beforeSend: function() {
+                $('#modal-dbody').html("Түр хүлээнэ үү ...");
+            },
+            success: function(data) {
+                location.reload();
+            },
+            async: true
+        });
+
+    }
+
     window.onload = (event) => {
         var options = {
             series: <?php echo json_encode($lessonArr) ?>,
