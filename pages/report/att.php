@@ -130,6 +130,7 @@ require ROOT . "/pages/footer.php"; ?>
                 url: "ajax",
                 type: "POST",
                 data: {
+                    mode: 1,
                     class: $('#class').val(),
                     son: $('#son').val(),
                     ssar: $('#ssar').val(),

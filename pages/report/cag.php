@@ -57,20 +57,6 @@ $columnNumber = 7;
         <div class="col-md">
             <input type="date" class="form form-control mb-3" id="ldate" value="<?= date('Y-m-d') ?>" autocompleted />
         </div>
-        <div class="col-md">
-            <select class="form form-control mb-3" id="class">
-                <?php foreach ($classList as $el) : ?>
-                    <option value="<?= $el->class_id ?>"><?= $el->sname ?> <?= $el->class_name ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="col-md">
-            <select class="form form-control mb-3" id="cag">
-                <?php while (_fetch($cstmt)) : ?>
-                    <option value="<?= $cag_id ?>"><?= $cag_name ?> (<?= $cag_inter ?>)</option>
-                <?php endwhile; ?>
-            </select>
-        </div>
         <div class="col-md-2">
             <button class="btn btn-warning w-100" onclick="check()">ШАЛГАХ</button>
         </div>
@@ -117,10 +103,9 @@ require ROOT . "/pages/footer.php"; ?>
                 url: "ajax",
                 type: "POST",
                 data: {
-                    mode: 1,
-                    date: $('#date').val(),
-                    class: $('#class').val(),
-                    cag: $('#cag').val()
+                    mode: 2,
+                    sdate: $('#sdate').val(),
+                    ldate: $('#ldate').val()
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     $("#table").html("Алдаа гарлаа !");
