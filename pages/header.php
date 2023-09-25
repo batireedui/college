@@ -39,7 +39,7 @@
                     <a class="dropdown-item" href="/student/list">Суралцагчдын бүртгэл</a>
                     </li>
                   <li>
-                    <a class="dropdown-item" href="/student/list">Ирц бүртгэл</a>
+                    <a class="dropdown-item" href="/student/j-detial">Ирц бүртгэл</a>
                   </li>
                 </ul>
             </li>

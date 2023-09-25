@@ -94,10 +94,10 @@ if ($_SESSION['user_role'] < 3) {
                 tid: $('#tid').val()
             },
             error: function(xhr, textStatus, errorThrown) {
-
+                $('#classList').html("<option>Алдаа</option>");
             },
             beforeSend: function() {
-
+                $('#classList').html("<option>Түр хүлээнэ үү</option>");
             },
             success: function(data) {
                 $('#classList').html(data);
@@ -120,10 +120,10 @@ if ($_SESSION['user_role'] < 3) {
                 class: $('#classList').val()
             },
             error: function(xhr, textStatus, errorThrown) {
-
+                $('#lessonList').html("<option>Алдаа</option>");
             },
             beforeSend: function() {
-
+                $('#lessonList').html("<option>Түр хүлээнэ үү</option>");
             },
             success: function(data) {
                 $('#lessonList').html(data);
@@ -143,10 +143,10 @@ if ($_SESSION['user_role'] < 3) {
                 lesson: $('#lessonList').val(),
             },
             error: function(xhr, textStatus, errorThrown) {
-
+                $('#table').html("Алдаа");
             },
             beforeSend: function() {
-
+                $('#table').html("Түр хүлээнэ үү");
             },
             success: function(data) {
                 $('#table').html(data);

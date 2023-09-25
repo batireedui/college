@@ -17,7 +17,7 @@ if ($_SESSION['user_role'] < 3) {
         "SELECT id, fname, lname FROM teacher WHERE id=? and tuluv=? ORDER BY lname",
         "ii",
         [$_SESSION['user_id'], 1],
-        $id,
+        $stid,
         $fname,
         $lname
     );
@@ -107,7 +107,7 @@ while (_fetch($stmt)) {
                 <input type="date" class="form form-control mb-3" name="sdate" value="<?= $sdate ?>" autocompleted />
             </div>
             <div class="col-md">
-                <input type="date" class="form form-control mb-3" name="ldate" value="<?= $edate ?>" autocompleted />
+                <input type="date" class="form form-control mb-3" name="edate" value="<?= $edate ?>" autocompleted />
             </div>
             <div class="col-md-2">
                 <button class="btn btn-warning w-100">ХАРАХ</button>
