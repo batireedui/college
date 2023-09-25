@@ -5,7 +5,7 @@ require ROOT . "/pages/header.php";
 _select(
     $stmt,
     $count,
-    "SELECT id, sname, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=?",
+    "SELECT id, sname, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=? ORDER BY sname",
     "i",
     ['1'],
     $id,
@@ -21,7 +21,7 @@ _select(
         <h3>Хичээл зааж буй анги сонгох</h3>
     </div>
     <div id="table">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
                     <th>№</th>
@@ -35,7 +35,7 @@ _select(
                     $tc_id = "0";
                     _selectRowNoParam(
                         "SELECT id FROM tclass WHERE tid='$user_id' and classid = '$id'",
-                        $tc_id,
+                        $tc_id
                     );
                     $too++ ?>
                     <tr>

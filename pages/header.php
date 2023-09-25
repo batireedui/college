@@ -24,13 +24,41 @@
             <li class="nav-item">
               <a class="nav-link" href="/">ЭХЛЭЛ</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАЛЦАГЧ</a>
+            <?php
+            if ($user_role == 1) {
+                _selectRowNoParam(
+                    "SELECT COUNT(id) FROM `class` WHERE teacherid = '$user_id' and tuluv = 1",
+                    $myClass
+                );
+                if($myClass > 0 ){
+            ?>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">МАНАЙ АНГИ</a>
+                <ul class="dropdown-menu" aria-labelledby="mcl">
+                  <li>
+                    <a class="dropdown-item" href="/student/list">Суралцагчдын бүртгэл</a>
+                    </li>
+                  <li>
+                    <a class="dropdown-item" href="/student/list">Ирц бүртгэл</a>
+                  </li>
+                </ul>
             </li>
+            <?php }}
+            else {?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАЛЦАГЧИД</a>
+            </li>
+            <?php 
+            }
+            ?>
+            <?php
+            if ($user_role < 3) {
+            ?>
             <li class="nav-item">
               <a class="nav-link <?php echo strpos($page, "/att/list") > -1 ? 'active' : ''; ?>" href="/att/list">ИРЦ</a>
             </li>
             <?php
+            }
             if ($user_role == 3) {
             ?>
               <li class="nav-item">
@@ -56,11 +84,39 @@
                   ТАЙЛАН
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <?php  if($myClass > 0 ){ ?>
                   <li>
-                    <a class="dropdown-item" href="/report/att">ИРЦ</a>
+                    <a class="dropdown-item" href="/report/att">АНГИЙН ИРЦ</a>
                   </li>
+                  <?php  } ?>
                   <li>
                     <a class="dropdown-item" href="/report/cag">ЦАГИЙН ТООЦОО</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/report/list">ИРЦ БҮРТГЭЛ</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/report/jurnal">ЖУРГАЛ</a>
+                  </li>
+                </ul>
+              </li>
+            <?php
+            }
+            else {
+            ?>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/report") > -1 ? 'active' : ''; ?>" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                  ТАЙЛАН
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li>
+                    <a class="dropdown-item" href="/report/att">АНГИЙН ИРЦ</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/report/list">ИРЦ БҮРТГЭЛ</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/report/jurnal">ЖУРГАЛ</a>
                   </li>
                 </ul>
               </li>
@@ -91,10 +147,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
               <li>
-                <a class="dropdown-item" href="#">Миний мэдээлэл</a>
+                <a class="dropdown-item" href="/profile/info">Миний мэдээлэл</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#">Тохигоо</a>
+                <a class="dropdown-item" href="/profile/password">Нууц үг солих</a>
               </li>
               <li>
                 <a class="dropdown-item" href="/sign-out">Гарах</a>

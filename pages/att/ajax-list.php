@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
         $cname
     );
 ?>
-    <table class="table table-bordered" id="datalist">
+    <table class="table table-bordered table-hover" id="datalist">
         <thead class="table-light">
             <tr>
                 <th>№</th>

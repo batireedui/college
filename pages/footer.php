@@ -18,4 +18,20 @@
 
         $("#trow-" + id).addClass("active_row");
     }
+
+    function updateSedev(element, id) {
+        var value = element.innerText;
+        console.log(id + value);
+        $.ajax({
+            url: '/att/ajax-sedev',
+            type: 'post',
+            data: {
+                attid: id,
+                sedev: value
+            },
+            success: function(data) {
+
+            }
+        })
+    }
 </script>

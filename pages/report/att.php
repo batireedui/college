@@ -9,7 +9,7 @@ if ($user_role < 3) {
 _selectNoParam(
     $cstmt,
     $ccount,
-    "SELECT id, sname, name FROM class WHERE tuluv=1",
+    "SELECT id, sname, name FROM class WHERE tuluv=1 $sql",
     $class_id,
     $sname,
     $class_name
@@ -130,6 +130,7 @@ require ROOT . "/pages/footer.php"; ?>
                 url: "ajax",
                 type: "POST",
                 data: {
+                    mode: 1,
                     class: $('#class').val(),
                     son: $('#son').val(),
                     ssar: $('#ssar').val(),

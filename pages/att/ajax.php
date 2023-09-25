@@ -21,14 +21,15 @@ if (isset($_SESSION['user_id'])) {
             $id = "<div  class='alert alert-success' role='alert'>Таны сонгосон цагт \"$fname $lname\" багш ирц бүртгэсэн байна!</div>";
         else {
             _selectRowNoParam(
-                "SELECT att.id, class.name FROM att 
+                "SELECT att.id, class.name, class.sname FROM att 
                     INNER JOIN class ON att.classid = class.id 
                         WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
                 $aid,
-                $cname
+                $cname,
+                $sname
             );
             if (!empty($aid))
-                $id = "<div  class='alert alert-success' role='alert'>Та энэ цаг дээр \"$cname\" ангид ирц бүртгэсэн байна!</div>";
+                $id = "<div  class='alert alert-success' role='alert'>Та энэ цаг дээр \"$sname $cname\" ангид ирц бүртгэсэн байна!</div>";
         }
         return $id;
     }
@@ -80,7 +81,7 @@ if (isset($_SESSION['user_id'])) {
                 [1],
                 $id,
                 $fname,
-                $lname,
+                $lname
             ); ?>
             <div class="row">
                 <div class="col-md">
@@ -109,7 +110,8 @@ if (isset($_SESSION['user_id'])) {
 
                 </div>
             </div>
-            <table class="table table-bordered" id="datalist">
+            <div>
+            <table class="table table-bordered table-hover" id="datalist">
                 <thead class="table-light">
                     <tr>
                         <th>№</th>
@@ -138,8 +140,8 @@ if (isset($_SESSION['user_id'])) {
                         $too++ ?>
                         <tr>
                             <td style="width: 3px;"><?= $too ?></td>
-                            <td id="f1-<?= $id ?>"><span style="font-size: 12px;"><?= $fname ?></span> <?= $lname ?></td>
-                            <td style="text-align: center;">
+                            <td id="f1-<?= $id ?>"><span style="text-transform: uppercase"><?= $lname ?></span> (<span style="font-size: 12px;"><?= $fname ?></span>)</td>
+                            <td style="text-align: left;">
                                 <div class="btn-group" role="group">
                                     <input type="radio" class="btn-check" id="v1-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 1)" value="1" <?php
                                                                                                                                                                     if ($editIrc) {
@@ -187,7 +189,7 @@ if (isset($_SESSION['user_id'])) {
                                     </label>
 
                                 </div>
-
+                                <!--
                                 <div class="btn-group" role="group">
                                     <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
                                     <label class="btn btn-outline-warning" for="e1-<?= $id ?>">
@@ -201,14 +203,15 @@ if (isset($_SESSION['user_id'])) {
                                     <label class="btn btn-outline-warning" for="e3-<?= $id ?>">
                                         <i class="fa-regular fa-face-frown fa-2xl"></i>
                                     </label>
-                                </div>
+                                </div>-->
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php endif; ?>
             </table>
+            </div>
             <div class="action"></div>
-            <div class="mb-5">
+            <div class="mb-5" id="saveBtn">
                 <button class="btn btn-success w-100" onclick="<?php echo $editIrc ? "save_change_att($oldid)" : "save_att()" ?>">ИРЦ ХАДГАЛ</button>
             </div>
             <script>
@@ -260,90 +263,103 @@ if (isset($_SESSION['user_id'])) {
                 }
 
                 function save_att() {
-                    $("#action").html("");
-                    console.log(ircArr)
-                    $.ajax({
-                        url: "ajax",
-                        type: "POST",
-                        data: {
-                            mode: 2,
-                            date: $('#date').val(),
-                            class: $('#class').val(),
-                            cag: $('#cag').val(),
-                            lesson: $('#lesson').val(),
-                            sedev: $('#sedev').val(),
-                            ltype: $('#ltype').val(),
-                            ircpost: ircArr,
-                            niit: niit,
-                            v1: v1,
-                            v2: v2,
-                            v3: v3,
-                            v4: v4
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            $('div.action').each(function() {
-                                $(this).html("");
-                            });
-                        },
-                        beforeSend: function() {
-                            $('div.action').each(function() {
-                                $(this).html("");
-                            });
-                        },
-                        success: function(data) {
-                            $('div.action').each(function() {
-                                $(this).html(data);
-                            });
-                            $('#class').prop('disabled', false);
-                            $('#cag').prop('disabled', false);
-                            $('#date').prop('disabled', false);
-                        },
-                        async: true
-                    });
+                    if ($('#lesson').val() === null) {
+                        alert("Хичээл сонгогдоогүй байна!");
+                    }
+                    else {
+                        $("#action").html("");
+                        console.log(ircArr)
+                        $.ajax({
+                            url: "ajax",
+                            type: "POST",
+                            data: {
+                                mode: 2,
+                                date: $('#date').val(),
+                                class: $('#class').val(),
+                                cag: $('#cag').val(),
+                                lesson: $('#lesson').val(),
+                                sedev: $('#sedev').val(),
+                                ltype: $('#ltype').val(),
+                                ircpost: ircArr,
+                                niit: niit,
+                                v1: v1,
+                                v2: v2,
+                                v3: v3,
+                                v4: v4
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                $('div.action').each(function() {
+                                    $(this).html("Алдаа гарлаа");
+                                });
+                            },
+                            beforeSend: function() {
+                                $('#saveBtn').html('');
+                                $('div.action').each(function() {
+                                    $(this).html("Түр хүлээнэ үү");
+                                });
+                            },
+                            success: function(data) {
+                                $('div.action').each(function() {
+                                    $(this).html(data);
+                                    $('#saveBtn').html('');
+                                    
+                                });
+                                $('#class').prop('disabled', false);
+                                $('#cag').prop('disabled', false);
+                                $('#date').prop('disabled', false);
+                            },
+                            async: true
+                        });
+                    }
                 }
 
                 function save_change_att(attid) {
-                    $("#action").html("");
-                    console.log(ircArr)
-                    $.ajax({
-                        url: "ajax",
-                        type: "POST",
-                        data: {
-                            mode: 3,
-                            attid: attid,
-                            date: $('#date').val(),
-                            class: $('#class').val(),
-                            cag: $('#cag').val(),
-                            lesson: $('#lesson').val(),
-                            sedev: $('#sedev').val(),
-                            ircpost: ircArr,
-                            ltype: $('#ltype').val(),
-                            niit: niit,
-                            v1: v1,
-                            v2: v2,
-                            v3: v3,
-                            v4: v4
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            $('div.action').each(function() {
-                                $(this).html("");
-                            });
-                        },
-                        beforeSend: function() {
-                            $('div.action').each(function() {
-                                $(this).html("");
-                            });
-                        },
-                        success: function(data) {
-                            $('div.action').each(function() {
-                                $(this).html(data);
-                            });
-                            $('#class').prop('disabled', false);
-                            $('#cag').prop('disabled', false);
-                            $('#date').prop('disabled', false);
-                        },
-                        async: true
-                    });
+                    if ($('#lesson').val() === null) {
+                        alert("Хичээл сонгогдоогүй байна!");
+                    }
+                    else {
+                        $("#action").html("");
+                        console.log(ircArr)
+                        $.ajax({
+                            url: "ajax",
+                            type: "POST",
+                            data: {
+                                mode: 3,
+                                attid: attid,
+                                date: $('#date').val(),
+                                class: $('#class').val(),
+                                cag: $('#cag').val(),
+                                lesson: $('#lesson').val(),
+                                sedev: $('#sedev').val(),
+                                ircpost: ircArr,
+                                ltype: $('#ltype').val(),
+                                niit: niit,
+                                v1: v1,
+                                v2: v2,
+                                v3: v3,
+                                v4: v4
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                $('div.action').each(function() {
+                                    $(this).html("");
+                                });
+                            },
+                            beforeSend: function() {
+                                $('div.action').each(function() {
+                                    $(this).html("");
+                                });
+                            },
+                            success: function(data) {
+                                $('div.action').each(function() {
+                                    $(this).html(data);
+                                });
+                                $('#class').prop('disabled', false);
+                                $('#cag').prop('disabled', false);
+                                $('#date').prop('disabled', false);
+                            },
+                            async: true
+                        });
+                    }
                 }
             </script>
     <?php
