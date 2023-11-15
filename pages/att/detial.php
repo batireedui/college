@@ -36,7 +36,7 @@ if (isset($_SESSION['user_id'])) {
         $stmt,
         $count,
         "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.tuluv  
-            FROM students WHERE students.class = '$classid' and students.tuluv=?",
+            FROM students WHERE students.class = '$classid' and students.tuluv=? order by lname",
         "i",
         [1],
         $sid,

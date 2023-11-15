@@ -24,9 +24,10 @@ while (_fetch($cstmt)) {
 _selectNoParam(
     $stmt,
     $count,
-    "SELECT id, name FROM class WHERE tuluv = 1",
+    "SELECT id, name, sname FROM class WHERE tuluv = 1 ORDER BY sname",
     $cid,
-    $cname
+    $cname,
+    $sname
 );
 
 $classArr = [];
@@ -35,6 +36,7 @@ while (_fetch($stmt)) {
     $item = new stdClass();
     $item->cid = $cid;
     $item->cname = $cname;
+    $item->sname = $sname;
     array_push($classArr, $item);
 }
 
@@ -55,7 +57,7 @@ while (_fetch($stmt)) {
         </div>
     </form>
     <div id="table">
-        <table class="table table-bordered">
+        <table class="table table-bordered hovercell">
             <thead class="table-light">
                 <tr>
                     <th>№</th>
@@ -72,10 +74,10 @@ while (_fetch($stmt)) {
             foreach ($classArr as $cel) : $k++ ?>
                 <tr>
                     <td style='text-align: center'><?= $k ?></td>
-                    <td><?= $cel->cname ?></td>
+                    <td><?= $cel->sname ?> <?= $cel->cname ?></td>
                     <?php
                     foreach ($cagArr as $el) :
-                        $echo = "";
+                        $echo = "<td></td>";
                         $check = 0;
                         _selectRowNoParam(
                             "SELECT id, niit, v1 FROM att WHERE ognoo = '$date' and classid = '$cel->cid' and cagid='$el->id'",
@@ -87,12 +89,10 @@ while (_fetch($stmt)) {
                             $huvi = 0;
                             if ($v1 != 0 && $niit != 0)
                                 $huvi = round($v1 / $niit * 100);
-                            $echo = "<i class='fa-solid fa-circle-check text-success' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'></i> $huvi%";
+                            $echo = "<td style='text-align: center' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'><i class='fa-solid fa-circle-check text-success'></i></td>";
                         }
                     ?>
-                        <td style='text-align: center'>
-                            <?= $echo ?>
-                        </td>
+                        <?= $echo ?>
                     <?php
                     endforeach
                     ?>
@@ -119,6 +119,7 @@ while (_fetch($stmt)) {
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     function detial(id) {
+        console.log(id);
         row_click(id)
         $.ajax({
             url: "../att/detial",

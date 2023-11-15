@@ -9,7 +9,7 @@ if ($user_role < 3) {
 _selectNoParam(
     $cstmt,
     $ccount,
-    "SELECT id, sname, name FROM class WHERE tuluv=1",
+    "SELECT id, sname, name FROM class WHERE tuluv=1 $sql ORDER BY sname",
     $class_id,
     $sname,
     $class_name
@@ -88,6 +88,10 @@ $columnNumber = 7;
             <button class="btn btn-warning w-100" onclick="check()">Харах</button>
         </div>
     </div>
+    <div style="text-align: end" class="mb-3">
+        <a href="#" onclick="exportToExcel('table')" role="button" class="btn btn-success" style="">Excel</a>
+        <a href="#" onclick="print()" role="button" class="btn btn-primary" style="">Хэвлэх</a>
+    </div>
     <div class="action">
 
     </div>
@@ -118,6 +122,20 @@ $columnNumber = 7;
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
+        	let tableData = document.getElementById(tableId).outerHTML;
+        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+        
+        	let a = document.createElement('a');
+        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        	a.download = $('#class option:selected').text() + ', ИРЦИЙН НЭГТГЭЛ' + '.xls'
+        	a.click()
+    }
+    function print(){
+        $('#table').printElement({
+        });
+    }
     function check() {
         $('div.action').each(function() {
             $(this).html("");

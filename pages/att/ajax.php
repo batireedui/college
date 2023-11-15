@@ -9,26 +9,37 @@ if (isset($_SESSION['user_id'])) {
     function check($date, $class, $cag, $attid = null)
     {
         $id = '0';
+        $year = date("Y",strtotime($date));
+        $sar = date("n",strtotime($date));
         _selectRowNoParam(
-            "SELECT att.id, fname, lname FROM att 
-                INNER JOIN teacher ON att.tid = teacher.id 
-                    WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid != '" . $_SESSION['user_id'] . "'",
-            $cid,
-            $fname,
-            $lname
+            "SELECT id FROM batal WHERE class='$class' and year='$year' and sar='$sar'",
+            $batal
         );
-        if (!empty($cid))
-            $id = "<div  class='alert alert-success' role='alert'>Таны сонгосон цагт \"$fname $lname\" багш ирц бүртгэсэн байна!</div>";
-        else {
+        if(!empty($batal)) {
+            $id = "<div  class='alert alert-success' role='alert'>Тус ангийн $year оны $sar-р сарын ирц бүртгэл хаагдсан байна! Зайлшгүй шаардлагатай тохиолдолд сургалтын албаар дамжуулан бүртгэл хийнэ үү!</div>";
+        } else {
             _selectRowNoParam(
-                "SELECT att.id, class.name FROM att 
-                    INNER JOIN class ON att.classid = class.id 
-                        WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
-                $aid,
-                $cname
+                "SELECT att.id, fname, lname FROM att 
+                    INNER JOIN teacher ON att.tid = teacher.id 
+                        WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid != '" . $_SESSION['user_id'] . "'",
+                $cid,
+                $fname,
+                $lname
             );
-            if (!empty($aid))
-                $id = "<div  class='alert alert-success' role='alert'>Та энэ цаг дээр \"$cname\" ангид ирц бүртгэсэн байна!</div>";
+            if (!empty($cid))
+                $id = "<div  class='alert alert-success' role='alert'>Таны сонгосон цагт \"$fname $lname\" багш ирц бүртгэсэн байна!</div>";
+            else {
+                _selectRowNoParam(
+                    "SELECT att.id, class.name, class.sname FROM att 
+                        INNER JOIN class ON att.classid = class.id 
+                            WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
+                    $aid,
+                    $cname,
+                    $sname
+                );
+                if (!empty($aid))
+                    $id = "<div  class='alert alert-success' role='alert'>Та энэ цаг дээр \"$sname $cname\" ангид ирц бүртгэсэн байна!</div>";
+            }
         }
         return $id;
     }
@@ -41,11 +52,12 @@ if (isset($_SESSION['user_id'])) {
             $oldsedev = "";
             $oldltype = 1;
             _selectRowNoParam(
-                "SELECT att.id, irc, sedev, ltype FROM att WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid = '" . $_SESSION['user_id'] . "'",
+                "SELECT att.id, irc, sedev, ltype, lessonid FROM att WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid = '" . $_SESSION['user_id'] . "'",
                 $oldid,
                 $oldirc,
                 $oldsedev,
-                $oldltype
+                $oldltype,
+                $oldlessonid
             );
             _selectNoParam(
                 $ltypestmt,
@@ -75,18 +87,18 @@ if (isset($_SESSION['user_id'])) {
                 $stmt,
                 $count,
                 "SELECT students.id, students.fname, students.lname  
-                    FROM students WHERE students.tuluv=? and class = '$class'",
+                    FROM students WHERE students.tuluv=? and class = '$class' ORDER BY lname",
                 "i",
                 [1],
                 $id,
                 $fname,
-                $lname,
+                $lname
             ); ?>
             <div class="row">
                 <div class="col-md">
                     <select class="form form-control mb-3" id="lesson">
                         <?php while (_fetch($lstmt)) : ?>
-                            <option value="<?= $l_id ?>"><?= $l_name ?> (<?= $l_cag ?>)</option>
+                            <option value="<?= $l_id ?>" <?php echo $l_id == $oldlessonid ? " selected" : "" ?>><?= $l_name ?> (<?= $l_cag ?>)</option>
                         <?php endwhile; ?>
                     </select>
                 </div>
@@ -109,7 +121,8 @@ if (isset($_SESSION['user_id'])) {
 
                 </div>
             </div>
-            <table class="table table-bordered" id="datalist">
+            <div>
+            <table class="table table-bordered table-hover" id="datalist">
                 <thead class="table-light">
                     <tr>
                         <th>№</th>
@@ -138,8 +151,8 @@ if (isset($_SESSION['user_id'])) {
                         $too++ ?>
                         <tr>
                             <td style="width: 3px;"><?= $too ?></td>
-                            <td id="f1-<?= $id ?>"><span style="font-size: 12px;"><?= $fname ?></span> <?= $lname ?></td>
-                            <td style="text-align: center;">
+                            <td id="f1-<?= $id ?>"><span style="text-transform: uppercase"><?= $lname ?></span> (<span style="font-size: 12px;"><?= $fname ?></span>)</td>
+                            <td style="text-align: left;">
                                 <div class="btn-group" role="group">
                                     <input type="radio" class="btn-check" id="v1-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 1)" value="1" <?php
                                                                                                                                                                     if ($editIrc) {
@@ -187,17 +200,17 @@ if (isset($_SESSION['user_id'])) {
                                     </label>
 
                                 </div>
-
+                                
                                 <div class="btn-group" role="group">
-                                    <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e1-<?= $id ?>">
                                         <i class="fa-regular fa-face-smile fa-2xl"></i>
                                     </label>
-                                    <input type="radio" class="btn-check" id="e2-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <input type="radio" class="btn-check" id="e2-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e2-<?= $id ?>">
                                         <i class="fa-regular fa-face-meh fa-2xl"></i>
                                     </label>
-                                    <input type="radio" class="btn-check" id="e3-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <input type="radio" class="btn-check" id="e3-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e3-<?= $id ?>">
                                         <i class="fa-regular fa-face-frown fa-2xl"></i>
                                     </label>
@@ -207,8 +220,8 @@ if (isset($_SESSION['user_id'])) {
                     <?php endwhile; ?>
                 <?php endif; ?>
             </table>
-            <div class="action"></div>
-            <div class="mb-5">
+            </div>
+            <div class="mb-5" id="saveBtn">
                 <button class="btn btn-success w-100" onclick="<?php echo $editIrc ? "save_change_att($oldid)" : "save_att()" ?>">ИРЦ ХАДГАЛ</button>
             </div>
             <script>
@@ -224,6 +237,7 @@ if (isset($_SESSION['user_id'])) {
                 }
 
                 ircArr = <?php echo json_encode($ircArr) ?>;
+                tasArr = [];
                 niit = 0;
                 v1 = 0;
                 v2 = 0;
@@ -245,7 +259,7 @@ if (isset($_SESSION['user_id'])) {
                     });
                     too = '<span class="badge badge-primary m-1">Нийт: ' + niit + '</span><span class="badge badge-success m-1">Ирсэн: ' + v1 + '</span><span class="badge badge-info m-1">Чөлөөтэй: ' + v3 + '</span><span class="badge badge-danger m-1">Тасалсан: ' + v4 + '</span><span class="badge badge-warning m-1">Өвчтэй: ' + v2 + '</span>';
                     $("#info").html(too);
-                    console.log(niit + " v1-" + v1 + " v2-" + v2 + " v3-" + v3 + " v4-" + v4);
+                   // console.log(niit + " v1-" + v1 + " v2-" + v2 + " v3-" + v3 + " v4-" + v4);
                 }
                 tool();
 
@@ -253,97 +267,167 @@ if (isset($_SESSION['user_id'])) {
                     ircArr.map((el) => {
                         if (el.id == id) {
                             el.val = val;
+                            if(val == 4){
+                                tasArr.push(id);
+                            }
+                            else {
+                                tasArr = tasArr.filter(v => v !== id);
+                            }    
                         }
                     });
-                    console.log(id + "-" + val)
+                    console.log(tasArr)
                     tool();
                 }
 
                 function save_att() {
-                    $("#action").html("");
-                    console.log(ircArr)
-                    $.ajax({
-                        url: "ajax",
-                        type: "POST",
-                        data: {
-                            mode: 2,
-                            date: $('#date').val(),
-                            class: $('#class').val(),
-                            cag: $('#cag').val(),
-                            lesson: $('#lesson').val(),
-                            sedev: $('#sedev').val(),
-                            ltype: $('#ltype').val(),
-                            ircpost: ircArr,
-                            niit: niit,
-                            v1: v1,
-                            v2: v2,
-                            v3: v3,
-                            v4: v4
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            $('div.action').each(function() {
-                                $(this).html("");
+                    if ($('#lesson').val() === null) {
+                        alert("Хичээл сонгогдоогүй байна!");
+                    }
+                    else {
+                        $("#action").html("");
+                        console.log(ircArr)
+                        $.ajax({
+                            url: "ajax",
+                            type: "POST",
+                            data: {
+                                mode: 2,
+                                date: $('#date').val(),
+                                class: $('#class').val(),
+                                cag: $('#cag').val(),
+                                lesson: $('#lesson').val(),
+                                sedev: $('#sedev').val(),
+                                ltype: $('#ltype').val(),
+                                ircpost: ircArr,
+                                niit: niit,
+                                v1: v1,
+                                v2: v2,
+                                v3: v3,
+                                v4: v4
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                $('div.action').each(function() {
+                                    $(this).html("Алдаа гарлаа");
+                                });
+                                $("#table").html("");
+                            },
+                            beforeSend: function() {
+                                $('#saveBtn').html('');
+                                $('div.action').each(function() {
+                                    $(this).html("Түр хүлээнэ үү");
+                                });
+                                $("#table").html("");
+                            },
+                            success: function(data) {
+                                $('div.action').each(function() {
+                                    $(this).html(data);
+                                    $('#saveBtn').html('');
+                                    
+                                });
+                                $("#table").html("");
+                                $('#class').prop('disabled', false);
+                                $('#cag').prop('disabled', false);
+                                $('#date').prop('disabled', false);
+                            },
+                            async: true
+                        });
+                        
+                        if(tasArr.length > 0){
+                            $.ajax({
+                                url: "/api/sendnoti",
+                                type: "POST",
+                                data: {
+                                    mode: 2,
+                                    date: $('#date').val(),
+                                    cag: $('#cag').val(),
+                                    tasArr: tasArr
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("Алдаа гарлаа");
+                                },
+                                beforeSend: function() {
+                                    console.log("Түр хүлээнэ үү");
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                async: true
                             });
-                        },
-                        beforeSend: function() {
-                            $('div.action').each(function() {
-                                $(this).html("");
-                            });
-                        },
-                        success: function(data) {
-                            $('div.action').each(function() {
-                                $(this).html(data);
-                            });
-                            $('#class').prop('disabled', false);
-                            $('#cag').prop('disabled', false);
-                            $('#date').prop('disabled', false);
-                        },
-                        async: true
-                    });
+                        }
+                    }
                 }
 
                 function save_change_att(attid) {
-                    $("#action").html("");
-                    console.log(ircArr)
-                    $.ajax({
-                        url: "ajax",
-                        type: "POST",
-                        data: {
-                            mode: 3,
-                            attid: attid,
-                            date: $('#date').val(),
-                            class: $('#class').val(),
-                            cag: $('#cag').val(),
-                            lesson: $('#lesson').val(),
-                            sedev: $('#sedev').val(),
-                            ircpost: ircArr,
-                            ltype: $('#ltype').val(),
-                            niit: niit,
-                            v1: v1,
-                            v2: v2,
-                            v3: v3,
-                            v4: v4
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            $('div.action').each(function() {
-                                $(this).html("");
+                    if ($('#lesson').val() === null) {
+                        alert("Хичээл сонгогдоогүй байна!");
+                    }
+                    else {
+                        $("#action").html("");
+                        console.log(ircArr)
+                        $.ajax({
+                            url: "ajax",
+                            type: "POST",
+                            data: {
+                                mode: 3,
+                                attid: attid,
+                                date: $('#date').val(),
+                                class: $('#class').val(),
+                                cag: $('#cag').val(),
+                                lesson: $('#lesson').val(),
+                                sedev: $('#sedev').val(),
+                                ircpost: ircArr,
+                                ltype: $('#ltype').val(),
+                                niit: niit,
+                                v1: v1,
+                                v2: v2,
+                                v3: v3,
+                                v4: v4
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                $('div.action').each(function() {
+                                    $(this).html("Алдаа гарлаа");
+                                });
+                                 $("#table").html("");
+                            },
+                            beforeSend: function() {
+                                $('div.action').each(function() {
+                                    $(this).html("Түр хүлээнэ үү");
+                                });
+                                $("#table").html("");
+                            },
+                            success: function(data) {
+                                $('div.action').each(function() {
+                                    $(this).html(data);
+                                });
+                                $("#table").html("");
+                                $('#class').prop('disabled', false);
+                                $('#cag').prop('disabled', false);
+                                $('#date').prop('disabled', false);
+                            },
+                            async: true
+                        });
+                        if(tasArr.length > 0){
+                            $.ajax({
+                                url: "/api/sendnoti",
+                                type: "POST",
+                                data: {
+                                    mode: 2,
+                                    date: $('#date').val(),
+                                    cag: $('#cag').val(),
+                                    tasArr: tasArr
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("Алдаа гарлаа");
+                                },
+                                beforeSend: function() {
+                                    console.log("Түр хүлээнэ үү");
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                async: true
                             });
-                        },
-                        beforeSend: function() {
-                            $('div.action').each(function() {
-                                $(this).html("");
-                            });
-                        },
-                        success: function(data) {
-                            $('div.action').each(function() {
-                                $(this).html(data);
-                            });
-                            $('#class').prop('disabled', false);
-                            $('#cag').prop('disabled', false);
-                            $('#date').prop('disabled', false);
-                        },
-                        async: true
-                    });
+                        }
+                    }
                 }
             </script>
     <?php

@@ -8,7 +8,7 @@ if ($user_role < 3) {
 _select(
     $stmt,
     $count,
-    "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.phone, students.class, students.pass, students.tuluv, class.name  
+    "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.phone, students.class, students.pass, students.tuluv, class.name , class.sname
         FROM students INNER JOIN class ON students.class = class.id WHERE $sql students.tuluv=?",
     "i",
     [1],
@@ -21,17 +21,19 @@ _select(
     $class,
     $pass,
     $tuluv,
-    $cname
+    $cname,
+    $sname
 );
 
 _select(
     $tstmt,
     $tcount,
-    "SELECT id, name FROM class WHERE $sql tuluv=?",
+    "SELECT id, name, sname FROM class WHERE $sql tuluv=?",
     "i",
     ['1'],
     $cid,
-    $cname
+    $cname,
+    $sname
 );
 
 $classList = array();
@@ -40,6 +42,7 @@ while (_fetch($tstmt)) {
     $item = new stdClass();
     $item->id = $cid;
     $item->name = $cname;
+    $item->sname = $sname;
 
     array_push($classList, $item);
 }
@@ -84,7 +87,7 @@ $columnNumber = 7;
                         <td id="f3-<?= $id ?>"><?= $phone ?></td>
                         <td id="f4-<?= $id ?>"><?= $gender ?></td>
                         <td id="f5-<?= $id ?>"><?= $code ?></td>
-                        <td id="f6-<?= $id ?>" style="font-size: 12px;"><?= $cname ?></td>
+                        <td id="f6-<?= $id ?>" style="font-size: 12px;"><?= $sname ?> <?= $cname ?></td>
                         <td>
                             <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
                             <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>, <?= $class ?>, <?= $tuluv ?>)"></i>
@@ -157,7 +160,7 @@ $columnNumber = 7;
                             <label class="form-label" for="class">Анги*</label>
                             <select class="form form-control mb-3" id="class">
                                 <?php foreach ($classList as $el) : ?>
-                                    <option value="<?= $el->id ?>"><?= $el->name ?></option>
+                                    <option value="<?= $el->id ?>"><?= $el->sname ?> <?= $el->name ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -235,7 +238,7 @@ $columnNumber = 7;
                             <label class="form-label" for="aclass">Анги*</label>
                             <select class="form form-control mb-3" id="aclass">
                                 <?php foreach ($classList as $el) : ?>
-                                    <option value="<?= $el->id ?>"><?= $el->name ?></option>
+                                    <option value="<?= $el->id ?>"><?= $el->sname ?> <?= $el->name ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

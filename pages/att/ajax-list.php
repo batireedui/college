@@ -4,7 +4,7 @@ if (isset($_SESSION['user_id'])) {
         $stmt,
         $count,
         "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.phone, students.class, students.pass, students.tuluv, class.name  
-            FROM students INNER JOIN class ON students.class = class.id WHERE students.tuluv=?",
+            FROM students INNER JOIN class ON students.class = class.id WHERE students.tuluv=? ORDER BY lname",
         "i",
         [1],
         $id,
@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
         $cname
     );
 ?>
-    <table class="table table-bordered" id="datalist">
+    <table class="table table-bordered table-hover" id="datalist">
         <thead class="table-light">
             <tr>
                 <th>№</th>

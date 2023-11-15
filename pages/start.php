@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION['user_id'])) {
-  redirect("login");
+  redirect("/login");
 } else {
   $user_id = $_SESSION['user_id'];
   $user_fname = $_SESSION['user_fname'];
@@ -35,10 +35,12 @@ if (!isset($_SESSION['user_id'])) {
       --mdb-btn-active-bg: #386bc0;
       --mdb-btn-active-color: #fff;
     }
+
     .btn-outline-warning {
       --mdb-btn-active-bg: #e4a11b;
       --mdb-btn-active-color: #fff;
     }
+
     [class*=btn-outline-] {
       --mdb-btn-border-width: 1px;
     }
@@ -49,5 +51,14 @@ if (!isset($_SESSION['user_id'])) {
 
     .active_row {
       background-color: #d1b2f7;
+    }
+
+    .editcell {
+      background-color: #dddddd;
+      padding: 5px 10px 5px 10px;
+      border-radius: 10px;
+    }
+    .hovercell td:hover {
+        background-color: azure; !important;
     }
   </style>

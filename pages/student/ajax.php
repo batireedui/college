@@ -2,13 +2,13 @@
 if (isset($_SESSION['user_id'])) {
     $mode = $_POST['mode'];
 
-    $code = $_POST['rd'];
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $gender = $_POST['gender'];
-    $phone = $_POST['phone'];
-    $class = $_POST['class'];
-    $tuluv = $_POST['tuluv'];
+    $code = @$_POST['rd'];
+    $fname = @$_POST['fname'];
+    $lname = @$_POST['lname'];
+    $gender = @$_POST['gender'];
+    $phone = @$_POST['phone'];
+    $class = @$_POST['class'];
+    $tuluv = @$_POST['tuluv'];
 
     if ($mode == 1) {
         $id = $_POST['id'];

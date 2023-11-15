@@ -2,7 +2,7 @@
 _selectNoParam(
     $stmt,
     $count,
-    "SELECT att.id, class.name, tlesson.lessonName, cag.name, cag.inter, ognoo, att.lessonid, class.sname, att.tuluv FROM att 
+    "SELECT att.id, class.name, tlesson.lessonName, cag.name, cag.inter, ognoo, att.lessonid, class.sname, att.tuluv, tlesson.cag FROM att 
         INNER JOIN class ON att.classid = class.id 
             INNER JOIN tlesson ON att.lessonid = tlesson.id 
                 INNER JOIN cag ON att.cagid = cag.id 
@@ -15,7 +15,8 @@ _selectNoParam(
     $ognoo,
     $lessonid,
     $sname,
-    $atttuluv
+    $atttuluv,
+    $lcag
 );
 
 $zaasanArr = [];
@@ -30,6 +31,7 @@ while (_fetch($stmt)) {
     $item->lessonid = $lessonid;
     $item->sname = $sname;
     $item->atttuluv = $atttuluv;
+    $item->lcag = $lcag;
     array_push($zaasanArr, $item);
 }
 
@@ -97,19 +99,22 @@ array_push($lessonArr, $gra);
                 <tr class="table_rows" id="trow-<?= $el->id ?>">
                     <td><?= $too ?></td>
                     <td id="f1-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= $el->sname ?> <?= $el->class ?></td>
-                    <td id="f2-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= $el->lesson ?></td>
+                    <td id="f2-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= $el->lesson ?> (<?= $el->lcag ?> цаг)</td>
                     <td id="f3-<?= $el->id  ?>" data-mdb-toggle="modal" data-mdb-target="#detial" role="button" onclick="detial(<?= $el->id ?>)"><?= str_replace("-", ".",  $el->ognoo) ?>, <?= dayofweek($el->ognoo); ?>, <?= $el->cag ?> (<?= $el->cag_inter ?>)</td>
-                    <td><?php
+                    <td style="text-align: center"><?php
                         echo $el->atttuluv == 1 ?
-                            "<span class='alert alert-success'>Баталгаажсан</span>" :
+                            "<i class='fa-solid fa-circle-check text-success'></i>" :
                             "<span class='alert alert-danger' role='button'
                             data-mdb-toggle='modal' data-mdb-target='#deleteModal'
                             onclick='deleteAtt(" . $el->id . ")'
-                            >Устгах</span>".$el->atttuluv;
+                            >Устгах</span>";
                         ?></td>
                 </tr>
             <?php endforeach ?>
         </table>
+        <div style="text-align: end">
+            <a href="/report/list" role="button" class="btn btn-primary">ДЭЛГЭРЭНГҮЙ</a>
+        </div>
         <div class="p-3 bg-light d-flex justify-content-between align-items-center">
             ЦАГИЙН ГҮЙЦЭТГЭЛ
         </div>
@@ -204,7 +209,7 @@ array_push($lessonArr, $gra);
             series: <?php echo json_encode($lessonArr) ?>,
             chart: {
                 type: 'bar',
-                height: <?= count($lessonNameArr) * 100 ?>,
+                height: <?= (count($lessonNameArr)+1) * 100 ?>,
                 stacked: true,
             },
             plotOptions: {

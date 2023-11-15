@@ -64,7 +64,7 @@ $columnNumber = 7;
         <div class="col-md-2">
             <select class="form form-control mb-3" id="cag">
                 <?php while (_fetch($cstmt)) : ?>
-                    <option value="<?= $cag_id ?>"><?= $cag_name ?> (<?= $cag_inter ?>)</option>
+                    <option value="<?= $cag_id ?>">(<?= $cag_inter ?> цаг) <?= $cag_name ?></option>
                 <?php endwhile; ?>
             </select>
         </div>
@@ -108,7 +108,8 @@ require ROOT . "/pages/footer.php"; ?>
         });
         if ($('#class').val() === null) {
             alert("Анги сонгогдоогүй байна!");
-        } else {
+        } 
+        else {
             $("#table").html("");
             $.ajax({
                 url: "ajax",

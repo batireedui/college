@@ -20,10 +20,17 @@ if (isset($_SESSION['user_id'])) {
     _selectNoParam(
         $lstmt,
         $lcount,
-        "SELECT ognoo, cagid, irc FROM att WHERE ognoo BETWEEN '$start' and '$last' and irc LIKE " . '\'%{"id": "' . $id . '"%\'',
+        "SELECT ognoo, name, irc, lessonName, lname, fname FROM att 
+        INNER JOIN tlesson ON att.lessonid = tlesson.id 
+        INNER JOIN teacher ON att.tid = teacher.id 
+        INNER JOIN cag ON att.cagid = cag.id 
+        WHERE ognoo BETWEEN '$start' and '$last' and irc LIKE " . '\'%{"id":"' . $id . '",%\''. " ORDER BY ognoo, cag.name",
         $ognoo,
         $cag,
-        $irc
+        $irc,
+        $lessonName,
+        $lname,
+        $fname
     );
 ?>
     <div class="mb-3"><?= $sfname ?> <?= $slname ?> (<?= $start ?> - <?= $last ?>)</div>
@@ -43,7 +50,7 @@ if (isset($_SESSION['user_id'])) {
                 $too++ ?>
                 <tr>
                     <td><?= $too ?></td>
-                    <td id="tf1-<?= $sid ?>"><?= $ognoo ?></td>
+                    <td id="tf1-<?= $sid ?>"><?= $ognoo ?> <span style='font-size: 12px'>( <?=$lessonName?>, <?= substr($fname, 0, 2)?>.<?=$lname?>)</span></td>
                     <td id="tf2-<?= $sid ?>"><?= $cag ?></td>
                     <td id="tf3-<?= $sid ?>">
                         <?php

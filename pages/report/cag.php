@@ -52,14 +52,18 @@ $columnNumber = 7;
     </div>
     <div class="row mb-3">
         <div class="col-md">
-            <input type="date" class="form form-control mb-3" id="sdate" value="<?= date('Y-m-d') ?>" autocompleted />
+            <input type="date" class="form form-control mb-3" id="sdate" value="<?= date('Y-m-01') ?>" autocompleted />
         </div>
         <div class="col-md">
             <input type="date" class="form form-control mb-3" id="ldate" value="<?= date('Y-m-d') ?>" autocompleted />
         </div>
         <div class="col-md-2">
-            <button class="btn btn-warning w-100" onclick="check()">ШАЛГАХ</button>
+            <button class="btn btn-warning w-100" onclick="check()">ХАРАХ</button>
         </div>
+    </div>
+    <div style="text-align: end" class="mb-3">
+        <a href="#" onclick="exportToExcel('table')" role="button" class="btn btn-success" style="">Excel</a>
+        <a href="#" onclick="print()" role="button" class="btn btn-primary" style="">Хэвлэх</a>
     </div>
     <div class="action">
 
@@ -91,6 +95,20 @@ $columnNumber = 7;
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
+        	let tableData = document.getElementById(tableId).outerHTML;
+        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+        
+        	let a = document.createElement('a');
+        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        	a.download = '<?php echo $user_fname ." ". $user_lname ?>' + ', ЦАГИЙН ТООЦОО' + '.xls'
+        	a.click()
+    }
+    function print(){
+        $('#table').printElement({
+        });
+    }
     function check() {
         $('div.action').each(function() {
             $(this).html("");
