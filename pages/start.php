@@ -59,6 +59,6 @@ if (!isset($_SESSION['user_id'])) {
       border-radius: 10px;
     }
     .hovercell td:hover {
-        background-color: azure !important;
+        background-color: azure; !important;
     }
   </style>
