@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_fname'])) {
   redirect("/login");
 } else {
   $user_id = $_SESSION['user_id'];
@@ -59,6 +59,6 @@ if (!isset($_SESSION['user_id'])) {
       border-radius: 10px;
     }
     .hovercell td:hover {
-        background-color: azure !important;
+        background-color: azure; !important;
     }
   </style>

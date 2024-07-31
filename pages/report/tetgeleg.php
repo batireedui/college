@@ -40,7 +40,11 @@ $columnNumber = 7;
         <div class="col-md-2">
             <label>Он</label>
             <select class="form form-control mb-3" id="on">
-                <option>2023</option>
+                <?php
+                $con = $thison;
+                while($con >= $starton){?>
+                    <option><?=$con?></option>
+                <?php $con--; } ?>
             </select>
         </div>
         <div class="col-md-1">

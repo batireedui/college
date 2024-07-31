@@ -33,7 +33,10 @@ if (isset($_POST['id'])) {
         $fname
     );
 ?>
-    <div class="mb-3"><?= $start ?> - <?= $last ?></div>
+    <div class="mb-3"><?= str_replace("-", ".", $start) ?>-<?= str_replace("-", ".", $last) ?> (ИРЦИЙН ХУВЬ)</div>
+    <div class="progress m-3" id="tas" style="height: 20px;">
+      
+    </div>
     <table class="table table-bordered" id="datalist">
         <thead class="table-light">
             <tr>
@@ -43,7 +46,7 @@ if (isset($_POST['id'])) {
             </tr>
         </thead>
         <tbody>
-            <?php $too = 0;
+            <?php $too = 0; $tas = 0;
             while (_fetch($lstmt)) :
                 $irc = json_decode($irc);
                 $too++ ?>
@@ -53,15 +56,24 @@ if (isset($_POST['id'])) {
                     <td id="tf3-<?= $sid ?>">
                         <?php
                         foreach ($irc as $key => $el) {
-                            if ($el->id == $sid)
+                            if ($el->id == $sid){
                                 echo "<span style='font-size: 12px;' class='alert alert-" .$tuluvColor[$el->val] . "'>" . $tuluvIrc[$el->val] . "</span";
+                                if($el->val == 4) $tas++;
+                            }
                         }
                         ?>
                     </td>
                 </tr>
-            <?php endwhile; ?>
+            <?php endwhile; 
+            $huvi = 100;
+            if($too>0)
+                $huvi = intval(($too - $tas)/$too*100);
+            ?>
         </tbody>
     </table>
+    <script>
+        document.getElementById("tas").innerHTML = '<div class="progress-bar bg-danger" role="progressbar" style="width: <?=$huvi?>%;" aria-valuenow="<?=$huvi?>" aria-valuemin="0" aria-valuemax="100"><?=$huvi?>%</div>';
+    </script>
 <?php
 
 }

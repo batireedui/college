@@ -2,17 +2,23 @@
 require ROOT . "/pages/start.php";
 require ROOT . "/pages/header.php";
 _selectRowNoParam(
-    "SELECT fname, lname, phone, email, at FROM teacher WHERE id = $user_id",
+    "SELECT fname, lname, phone, email, at, zereg FROM teacher WHERE id = $user_id",
     $fname,
     $lname,
     $phone,
     $email,
-    $at
+    $at,
+    $zereg
 );
 
-$columnNumber = 7;
+_selectNoParam(
+            $stmtz,
+            $countz,
+            "SELECT id, name FROM tzereg order by id desc",
+            $zid,
+            $zname
+        );
 ?>
-<link rel="stylesheet" type="text/css" href="/css/dataTable.css">
 <style>
     .dt-buttons {
         text-align: end;
@@ -56,6 +62,15 @@ $columnNumber = 7;
             </div>
         </div>
         <div class="col-md-2">
+            <div class="form-outline mb-4">
+                <select class="form-select" name="zereg">
+                    <?php while(_fetch($stmtz)) { ?>
+                        <option value="<?=$zid?>" <?php echo $zid == $zereg ? " selected" : "" ?> ><?=$zname?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
             <input type='submut' class="btn btn-warning w-100" onclick="check()" value='Хадгалах'/>
         </div>
     </div>
@@ -76,7 +91,7 @@ require ROOT . "/pages/footer.php"; ?>
             $("#table").html("");
             
             $.ajax({
-                url: "ajax",
+                url: "/profile/ajax",
                 type: "POST",
                 data: formData,
                 error: function(xhr, textStatus, errorThrown) {

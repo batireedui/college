@@ -1,8 +1,50 @@
 <?php
 require ROOT . "/pages/start.php";
 require ROOT . "/pages/header.php";
-?>
+$columnNumber = 5;
 
+    _select(
+        $ostmt,
+        $ocount,
+        "SELECT id, name FROM office WHERE tuluv=?",
+        "i",
+        [1],
+        $oid,
+        $oname
+    );
+    
+    _select(
+        $dstmt,
+        $dcount,
+        "SELECT id, name FROM department WHERE tuluv=?",
+        "i",
+        [1],
+        $did,
+        $dname
+    );
+    $oarray = array();
+    $darray = array();
+    while(_fetch($ostmt)) {
+        $orow = new stdClass();
+        $orow->oid = $oid;
+        $orow->oname = $oname;
+        array_push($oarray, $orow);
+    }
+    
+    while(_fetch($dstmt)) {
+        $orow = new stdClass();
+        $orow->did = $did;
+        $orow->dname = $dname;
+        array_push($darray, $orow);
+    }
+?>
+<link rel="stylesheet" type="text/css" href="/css/dataTable.css">
+<style>
+    .dt-buttons {
+        text-align: end;
+        margin-bottom: 15px
+    }
+</style>
 <div>
     <div class="p-3 bg-light d-flex justify-content-between align-items-center">
         <h3>Багшийн бүртгэл</h3>
@@ -56,6 +98,24 @@ require ROOT . "/pages/header.php";
                                 <input type="text" value="" id="at" class="form form-control" placeholder="Мэдээллийн технологийн багш" />
                                 <label class="form-label" for="at">Албан тушаал</label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label" for="office">Алба*</label>
+                            <select class="form form-control mb-3" id="office">
+                                <?php foreach($oarray as $el) { ?>
+                                    <option value="<?=$el->oid?>"><?=$el->oname?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="defartment">Хэлтэс*</label>
+                            <select class="form form-control mb-3" id="defartment">
+                                <?php foreach($darray as $el) { ?>
+                                    <option value="<?=$el->did?>"><?=$el->dname?></option>
+                                <?php }?>
+                            </select>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -125,6 +185,24 @@ require ROOT . "/pages/header.php";
                     </div>
                     <div class="row mb-3">
                         <div class="col">
+                            <label class="form-label" for="aoffice">Алба*</label>
+                            <select class="form form-control mb-3" id="aoffice">
+                                <?php foreach($oarray as $el) { ?>
+                                    <option value="<?=$el->oid?>"><?=$el->oname?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="form-label" for="adefartment">Хэлтэс*</label>
+                            <select class="form form-control mb-3" id="adefartment">
+                                <?php foreach($darray as $el) { ?>
+                                    <option value="<?=$el->did?>"><?=$el->dname?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
                             <div class="form-outline mb-3">
                                 <input type="text" value="" id="aat" class="form form-control" placeholder="Мэдээллийн технологийн багш" />
                                 <label class="form-label" for="aat">Албан тушаал</label>
@@ -137,6 +215,9 @@ require ROOT . "/pages/header.php";
                             <select class="form form-control mb-3" id="auser_role">
                                 <option value="1">Багш</option>
                                 <option value="3">Арга зүйч/Менежер</option>
+                                <option value="5">ЗАА-н ажилтан</option>
+                                <option value="6">Хүний нөөц/Дотоод хяналт</option>
+                                <option value="7">ХАБ</option>
                                 <option value="4">Захирал</option>
                             </select>
                         </div>
@@ -326,5 +407,6 @@ require ROOT . "/pages/footer.php"; ?>
     }
 </script>
 <?php
+require ROOT . "/pages/dataTablefooter.php";
 require ROOT . "/pages/end.php";
 ?>

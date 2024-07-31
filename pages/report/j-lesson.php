@@ -140,6 +140,7 @@ if (isset($_SESSION['user_id'])) {
                 <table class="table table-bordered table-hover">
                     <thead style="position: sticky; top: 0; background-color: #182c5c;z-index: 1000;color:#fff">
                         <tr>
+                            <td style="width: 30px;">№</td>
                             <td style="width: 150px;">Огноо</td>
                             <td style="width: 70px;">Цаг</td>
                             <td style="width: 50px;">Төрөл</td>
@@ -147,13 +148,16 @@ if (isset($_SESSION['user_id'])) {
                         </tr>
                     </thead>
                     <?php
+                    $dd = 1;
                     foreach ($data as $el) {
                         echo "<tr>
+                        <td>$dd</td>
                         <td>". str_replace("-", ".", $el->ognoo) ."<span style='font-size: 10px'>($el->cag)</span></td>
                         <td>2 цаг</td>
                         <td>$el->ltype</td>
                         <td><div class='editcell' onblur='updateSedev(this, $el->attid)' contenteditable=''>$el->sedev</div></td>
                         </tr>";
+                    $dd++;
                     }
                     ?>
             </div>

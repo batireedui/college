@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
         $tuluv
     );
 ?>
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="datalist">
         <thead class="table-light">
             <tr>
                 <th>№</th>
@@ -26,6 +26,10 @@ if (isset($_SESSION['user_id'])) {
                 <th>Утас</th>
                 <th>E-mail</th>
                 <th>Албан тушаал</th>
+                <th>Алба</th>
+                <th>Хэлтэс</th>
+                <th style="display: none"></th>
+                <th style="display: none"></th>
                 <th></th>
             </tr>
         </thead>
@@ -40,6 +44,8 @@ if (isset($_SESSION['user_id'])) {
                     <td id="f3-<?= $id ?>"><?= $phone ?></td>
                     <td id="f4-<?= $id ?>"><?= $email ?></td>
                     <td id="f5-<?= $id ?>"><?= $at ?></td>
+                    <td id="f8-<?= $id ?>"><?= $at ?></td>
+                    <td id="f9-<?= $id ?>"><?= $at ?></td>
                     <td id="f6-<?= $id ?>" style="display: none"><?= $user_role ?></td>
                     <td id="f7-<?= $id ?>" style="display: none"><?= $tuluv ?></td>
                     <td>

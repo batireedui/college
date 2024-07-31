@@ -79,6 +79,7 @@ if (isset($_SESSION['user_id'])) {
                             $str2 = "";
                             $col = 0;
                             $k=0;
+                            $montd = "";
                             foreach($data as $el){
                                 $k++;
                                 $timestamp = strtotime($el->ognoo);

@@ -40,7 +40,11 @@ $columnNumber = 7;
         <div class="col-md-2">
             <label>Эхлэх он</label>
             <select class="form form-control mb-3" id="son">
-                <option>2023</option>
+                <?php
+                $con = $thison;
+                while($con >= $starton){?>
+                    <option><?=$con?></option>
+                <?php $con--; } ?>
             </select>
         </div>
         <div class="col-md-1">
@@ -63,7 +67,11 @@ $columnNumber = 7;
         <div class="col-md-2">
             <label>Сүүлийн он</label>
             <select class="form form-control mb-3" id="lon">
-                <option>2023</option>
+                <?php
+                $con = $thison;
+                while($con >= $starton){?>
+                    <option><?=$con?></option>
+                <?php $con--; } ?>
             </select>
         </div>
         <div class="col-md-1">

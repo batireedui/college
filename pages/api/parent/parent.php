@@ -14,33 +14,24 @@
         $json = file_get_contents('php://input');
         $obj = json_decode($json, true);
         $user_id = @$_GET["user_id"];
+        
         if (!empty($user_id)) {
-        _selectRowNoParam(
-            "SELECT student_id, class.id, class.name, students.fname, students.lname FROM `parent` INNER JOIN students ON parent.student_id = students.id INNER JOIN class ON students.class = class.id WHERE parent.id = $user_id",
+        _selectNoParam(
+            $stmt, $count,
+            "SELECT tax_pareant.student_id, class.id, class.name, students.fname, students.lname FROM `parent` INNER JOIN tax_pareant ON parent.id = tax_pareant.parent_id INNER JOIN students ON tax_pareant.student_id = students.id INNER JOIN class ON students.class = class.id WHERE parent.id = $user_id",
             $student_id, $classid, $class, $fname, $lname
         );
-        
-        _selectNoParam(
-            $cstmt,
-            $ccount,
-            "SELECT YEAR(ognoo), MONTH(ognoo) FROM `att` WHERE classid = $classid  GROUP BY MONTH(ognoo), YEAR(ognoo)",
-            $YEAR,
-            $MONTH
-        );
+
         ?>
             <div class="container-fluid">
-                <div style="text-align: center">
-                    <h5>
-                        <?=$fname?> овогтой <?=$lname?>
-                    </h5>
-                    <p>
-                        <?=$class?>
-                    </p>
-                </div>
-                <div style="text-align: center; margin-bottom: 15px;">
-                    <?php while (_fetch($cstmt)) : ?>
-                        <button type="button" class="btn btn-primary" onclick="detial(<?=$student_id?>, <?=$YEAR?>, <?=$MONTH?>)"><?=$YEAR?>-<?=$MONTH?></button>
+                <div style="text-align: center; margin: 10px;">
+                    <?php while (_fetch($stmt)) : ?>
+                    <input type="radio" class="btn-check" name="options-outlined" id="success-outlined<?= $student_id ?>" onchange="sar(<?= $classid ?>, <?= $student_id ?>)" autocomplete="off">
+                    <label class="btn btn-outline-success" for="success-outlined<?= $student_id ?>"><?=substr($fname, 0, 2)?>.<?=$lname?><br><span style="font-size: 12px;"><?=$class?></span></label>
                     <?php endwhile; ?>
+                </div>
+                <div id="sar" style="text-align: center; margin-bottom: 15px;">
+
                 </div>
                 <div id="table" style="text-align: center">
                     
@@ -53,6 +44,27 @@
     </body>
 </html>
 <script>
+    function sar(classid, student_id) {
+                $.ajax({
+                    url: "parent-sar",
+                    type: "POST",
+                    data: {
+                        classid: classid,
+                        student_id: student_id
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        $("#sar").html("Алдаа гарлаа !");
+                    },
+                    beforeSend: function() {
+                        $('#sar').html("Түр хүлээнэ үү ...");
+                    },
+                    success: function(data) {
+                        $('#sar').html(data);
+                    },
+                    async: true
+                });
+    }
+    
     function detial(id, onn, ssar) {
                 $.ajax({
                     url: "parent-att",

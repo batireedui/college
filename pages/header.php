@@ -1,5 +1,13 @@
 </head>
-<?php $columnNumber = 3 ?>
+<?php $columnNumber = 3;
+
+$ntoo = 0;
+_selectRowNoParam(
+    "SELECT count(id) FROM noti_user 
+            WHERE noti_user.user_id = '$user_id' and see is null",
+    $ntoo
+    );
+?>
 
 <body>
   <div>
@@ -65,7 +73,7 @@
                 <a class="nav-link <?php echo strpos($page, "/class/list") > -1 ? 'active' : ''; ?>" href="/class/list">АНГИ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ</a>
+                <a class="nav-link <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ, АЖИЛТАН</a>
               </li>
               
             <?php
@@ -133,6 +141,19 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/noti") > -1 ? 'active' : ''; ?>" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                  ЗАР
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li>
+                    <a class="dropdown-item" href="/noti/send">ИЛГЭЭСЭН ЗАР</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/noti/new">ЗАР ИЛГЭЭХ</a>
+                  </li>
+                </ul>
+              </li>
             <?php
             }
             ?>
@@ -142,15 +163,12 @@
         <div class="d-flex align-items-center">
           <!-- Notifications -->
           <div class="dropdown">
-            <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+            <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="/noti/list" role="button">
               <i class="fas fa-bell"></i>
-              <span class="badge rounded-pill badge-notification bg-danger">1</span>
+              <?php if($ntoo > 0) {?>
+                <span class="badge rounded-pill badge-notification bg-danger"><?=$ntoo?></span>
+              <?php } ?>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-              <li>
-                <a class="dropdown-item" href="#">Мэдээлэл</a>
-              </li>
-            </ul>
           </div>
           <!-- Avatar -->
           <div class="dropdown">

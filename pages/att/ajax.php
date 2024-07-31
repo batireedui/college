@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id'])) {
                 $fname,
                 $lname
             ); ?>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md">
                     <select class="form form-control mb-3" id="lesson">
                         <?php while (_fetch($lstmt)) : ?>
@@ -122,6 +122,94 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
             <div>
+            <?php 
+            if(isset($_POST['mobile'])) { ?>
+            
+                        <table class="table table-bordered table-hover" id="datalist">
+                <thead class="table-light">
+                    <tr>
+                        <th>№</th>
+                        <th>Нэр</th>
+                    </tr>
+                </thead>
+                <?php if ($count > 0) : ?>
+                    <?php $too = 0;
+                    while (_fetch($stmt)) :
+                        $ircItem = new stdClass();
+                        $ircItem->id = $id;
+
+                        if ($editIrc) {
+                            foreach ($oldirc as $key => $el) {
+                                if ($el->id == $id) {
+                                    $ircItem->val = $el->val;
+                                    break;
+                                }
+                                $ircItem->val = 1;
+                            }
+                        } else {
+                            $ircItem->val = 1;
+                        }
+                        array_push($ircArr, $ircItem);
+                        $too++ ?>
+                        <tr>
+                            <td style="width: 3px;"><?= $too ?></td>
+                            <td id="f1-<?= $id ?>"><span style="text-transform: uppercase"><?= $lname ?></span> (<span style="font-size: 12px;"><?= $fname ?></span>)
+                                <br>
+                                <div class="btn-group text-center" role="group">
+                                    <input type="radio" class="btn-check" id="v1-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 1)" value="1" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 1)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    } else echo 'checked=""';
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-success" for="v1-<?= $id ?>">
+                                        Ирсэн
+                                    </label>
+                                    <input type="radio" class="btn-check" id="v3-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 3)" value="3" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 3)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-info" style="border-left-width: 0px;" for="v3-<?= $id ?>">
+                                        Чөл
+                                    </label>
+                                    <input type="radio" class="btn-check" id="v4-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 4)" value="4" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 4)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-danger" style="border-left-width: 0px; border-right-width: 0px;" for="v4-<?= $id ?>">
+                                        Тас
+                                    </label>
+                                    <input type="radio" class="btn-check" id="v2-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 2)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-warning" for="v2-<?= $id ?>">
+                                        Өвч
+                                    </label>
+
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            </table>
+            
+            <?php }
+            else { ?>
             <table class="table table-bordered table-hover" id="datalist">
                 <thead class="table-light">
                     <tr>
@@ -220,6 +308,7 @@ if (isset($_SESSION['user_id'])) {
                     <?php endwhile; ?>
                 <?php endif; ?>
             </table>
+            <?php } ?>
             </div>
             <div class="mb-5" id="saveBtn">
                 <button class="btn btn-success w-100" onclick="<?php echo $editIrc ? "save_change_att($oldid)" : "save_att()" ?>">ИРЦ ХАДГАЛ</button>
@@ -257,7 +346,7 @@ if (isset($_SESSION['user_id'])) {
                         else if (el.val == 3) v3++;
                         else if (el.val == 4) v4++;
                     });
-                    too = '<span class="badge badge-primary m-1">Нийт: ' + niit + '</span><span class="badge badge-success m-1">Ирсэн: ' + v1 + '</span><span class="badge badge-info m-1">Чөлөөтэй: ' + v3 + '</span><span class="badge badge-danger m-1">Тасалсан: ' + v4 + '</span><span class="badge badge-warning m-1">Өвчтэй: ' + v2 + '</span>';
+                    too = '<span class="badge badge-primary m-1">Нийт: ' + niit + '</span><span class="badge badge-success m-1">Ирсэн: ' + v1 + '</span><span class="badge badge-info m-1">Чөл: ' + v3 + '</span><span class="badge badge-danger m-1">Тас: ' + v4 + '</span><span class="badge badge-warning m-1">Өвч: ' + v2 + '</span>';
                     $("#info").html(too);
                    // console.log(niit + " v1-" + v1 + " v2-" + v2 + " v3-" + v3 + " v4-" + v4);
                 }
@@ -287,7 +376,7 @@ if (isset($_SESSION['user_id'])) {
                         $("#action").html("");
                         console.log(ircArr)
                         $.ajax({
-                            url: "ajax",
+                            url: "/att/ajax",
                             type: "POST",
                             data: {
                                 mode: 2,
@@ -364,7 +453,7 @@ if (isset($_SESSION['user_id'])) {
                         $("#action").html("");
                         console.log(ircArr)
                         $.ajax({
-                            url: "ajax",
+                            url: "/att/ajax",
                             type: "POST",
                             data: {
                                 mode: 3,

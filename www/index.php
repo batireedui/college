@@ -15,6 +15,8 @@ $teacher_page = array("/", "");
 
 $page = @$_SERVER['REDIRECT_URL'];
 
+$cdn = "https://admin.ireedui.site/";
+
 $pageTitle = "Өвөрхангай ПК";
 $favi = "https://uvcollege.edu.mn/wp-content/uploads/2021/09/cropped-icon-32x32.png";
 $tuluvIrc = [1 => "Ирсэн", 2 => "Өвчтэй", 3 => "Чөлөөтэй", 4 => "Тасалсан"];
@@ -22,6 +24,9 @@ $tuluvIrcShort = [1 => "И", 2 => "Ө", 3 => "Ч", 4 => "Т"];
 $tuluvColor= [1 => "success", 2 => "warning", 3 => "primary", 4 => "danger"];
 
 $school_name = "Өвөрхангай аймаг дахь Политехник коллеж";
+
+$starton = 2023;
+$thison = date("Y");
 
 if (empty($page)) {
     require ROOT . '/pages/home.php';

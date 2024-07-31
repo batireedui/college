@@ -89,7 +89,7 @@ while (_fetch($stmt)) {
                             $huvi = 0;
                             if ($v1 != 0 && $niit != 0)
                                 $huvi = round($v1 / $niit * 100);
-                            $echo = "<td style='text-align: center' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'><i class='fa-solid fa-circle-check text-success'></i></td>";
+                            $echo = "<td style='text-align: center' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'><i class='fa-solid fa-circle-check text-success'></i><small> $huvi%</small></td>";
                         }
                     ?>
                         <?= $echo ?>

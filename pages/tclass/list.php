@@ -67,7 +67,7 @@ require ROOT . "/pages/footer.php"; ?>
         console.log(tuluv.checked);
 
         $.ajax({
-            url: "ajax",
+            url: "/tclass/ajax",
             type: "POST",
             data: {
                 angi_id: id,
