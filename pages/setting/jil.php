@@ -11,16 +11,16 @@ require ROOT . "/pages/header.php";
 <div class="row">
     <div class="col border border-success rounded p-3 m-3">
         <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-            <h3>Одоо тохируулсан байгаа хичээлийн жил (<?=$this_on?>)</h3>
+            <h3>Одоо тохируулсан байгаа хичээлийн жил (<?= $this_on ?>)</h3>
         </div>
-                <div class="mb-4">
-                        <label class="form-label" for="form2Example1" style="margin-left: 0px;">Хичээлийн жил</label>
-                        <input type="text" id="jil" class="form-control" required="" placeholder="2024-2025" value="<?=$this_on?>">
-                </div>
-                <div class="mb-4">
-                        <input type="button" class="btn btn-success" value='ХАДГАЛАХ' onclick="change()"/>
-                </div>
+        <div class="mb-4">
+            <label class="form-label" for="form2Example1" style="margin-left: 0px;">Хичээлийн жил</label>
+            <input type="text" id="jil" class="form-control" required="" placeholder="2024-2025" value="<?= $this_on ?>">
         </div>
+        <div class="mb-4">
+            <input type="button" class="btn btn-success" value='ХАДГАЛАХ' onclick="change()" />
+        </div>
+    </div>
 </div>
 <?php
 require ROOT . "/pages/footer.php"; ?>
@@ -28,10 +28,10 @@ require ROOT . "/pages/footer.php"; ?>
     function change() {
         const regex = /^\d{4}-\d{4}$/;
         let jil = $('#jil').val().trim();
-        
+
         const result = regex.test(jil);
-        
-        if(result) {
+
+        if (result) {
             $.ajax({
                 url: "/setting/ajax",
                 type: "POST",
@@ -47,8 +47,7 @@ require ROOT . "/pages/footer.php"; ?>
                 },
                 async: true
             });
-        }
-        else {
+        } else {
             alert("Бичигдэр формат буруу байна");
         }
     }

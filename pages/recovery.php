@@ -10,7 +10,7 @@ if(isset($_POST['username'])){
         $success = _exec(
             "UPDATE teacher SET pass = ? WHERE id = ?",
             'ss',
-            [$pass, $rid],
+            [password_hash($newp, PASSWORD_BCRYPT, ["cost" => 8]), $rid],
             $count
         );
         $to = $_POST['username'];

@@ -30,7 +30,7 @@ if (isset($_SESSION['user_id'])) {
         $success = _exec(
             "INSERT INTO teacher (fname, lname, phone, email, at, pass, user_role, tuluv, office_id, department_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             'ssssssiiii',
-            [$fname, $lname, $phone, $email, $at, $password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $user_role, $tuluv, $office, $department],
+            [$fname, $lname, $phone, $email, $at, password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $user_role, $tuluv, $office, $department],
             $count
         );
         echo "Амжилттай!";
