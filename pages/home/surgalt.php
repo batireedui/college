@@ -5,7 +5,7 @@ if (isset($_GET['date'])) $date = $_GET['date'];
 _selectNoParam(
     $cstmt,
     $ccount,
-    "SELECT id, name, inter FROM cag",
+    "SELECT id, name, inter FROM cag WHERE tuluv=1",
     $id,
     $name,
     $inter
@@ -43,6 +43,9 @@ while (_fetch($stmt)) {
 ?>
 
 <div>
+    <div class="alert alert-info m-3">
+       <?=$this_on ?> ХИЧЭЭЛИЙН ЖИЛ
+    </div>
     <form>
         <div class="row mb-3 p-3">
             <div class="col-md">
@@ -57,7 +60,7 @@ while (_fetch($stmt)) {
         </div>
     </form>
     <div id="table">
-        <table class="table table-bordered">
+        <table class="table table-bordered hovercell">
             <thead class="table-light">
                 <tr>
                     <th>№</th>
@@ -77,10 +80,10 @@ while (_fetch($stmt)) {
                     <td><?= $cel->sname ?> <?= $cel->cname ?></td>
                     <?php
                     foreach ($cagArr as $el) :
-                        $echo = "";
+                        $echo = "<td></td>";
                         $check = 0;
                         _selectRowNoParam(
-                            "SELECT id, niit, v1 FROM att WHERE ognoo = '$date' and classid = '$cel->cid' and cagid='$el->id'",
+                            "SELECT id, niit, v1 FROM att WHERE this_on = '$this_on' and ognoo = '$date' and classid = '$cel->cid' and cagid='$el->id'",
                             $check,
                             $niit,
                             $v1
@@ -89,12 +92,10 @@ while (_fetch($stmt)) {
                             $huvi = 0;
                             if ($v1 != 0 && $niit != 0)
                                 $huvi = round($v1 / $niit * 100);
-                            $echo = "<i class='fa-solid fa-circle-check text-success' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'></i>";
+                            $echo = "<td style='text-align: center' data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'><i class='fa-solid fa-circle-check text-success'></i><small> $huvi%</small></td>";
                         }
                     ?>
-                        <td style='text-align: center'>
-                            <?= $echo ?>
-                        </td>
+                        <?= $echo ?>
                     <?php
                     endforeach
                     ?>
@@ -121,6 +122,7 @@ while (_fetch($stmt)) {
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     function detial(id) {
+        console.log(id);
         row_click(id)
         $.ajax({
             url: "../att/detial",

@@ -12,22 +12,22 @@
             buttons: [{
                     extend: 'copy',
                     className: 'btn btn-outline-primary',
-                    text: '<span><i class="bx bx-copy me-2"></i>Хуулах</span>'
+                    text: '<span>Хуулах</span>'
                 },
                 {
                     extend: 'excel',
                     className: 'btn btn-outline-primary',
-                    text: '<span><i class="bx bx-file me-2"></i>Excel</span>'
+                    text: '<span>Excel</span>'
                 },
                 {
                     extend: 'pdf',
                     className: 'btn btn-outline-primary',
-                    text: '<span><i class="bx bxs-file-pdf me-2"></i>Pdf</span>'
+                    text: '<span>Pdf</span>'
                 },
                 {
                     extend: 'print',
                     className: 'btn btn-outline-primary',
-                    text: '<span><i class="bx bx-printer me-2"></i>Хэвлэх</span>',
+                    text: '<span>Хэвлэх</span>',
                     exportOptions: {
                         columns: [<?php
                             for($i=0; $i <= $columnNumber-1; $i++)

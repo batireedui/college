@@ -35,3 +35,4 @@
         })
     }
 </script>
+<script src="/js/print.js"></script>

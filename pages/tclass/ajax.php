@@ -7,7 +7,7 @@ if (isset($_SESSION['user_id'])) {
         $tc_id = 0;
         _selectRowNoParam(
             "SELECT id FROM tclass WHERE tid='$user_id' and classid = '$angi_id'",
-            $tc_id,
+            $tc_id
         );
         if ($tc_id == 0) {
             $success = _exec(

@@ -154,6 +154,33 @@ while (_fetch($tstmt)) {
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+    function grad(id, text) {
+        let result = confirm(text + " ангийг <?=$this_on?> хичээлийн жилд төгсөлтөөр бүртгэхдээ итгэлтэй байна уу? Нийт суралцагчид төгсөгчөөр бүртгэгдэх болно.");
+        if (result === true) {
+            $.ajax({
+                url: "ajax",
+                type: "POST",
+                data: {
+                    mode: "grad",
+                    angi_id: id
+                },
+                error: function(xhr, textStatus, errorThrown) {
+
+                },
+                beforeSend: function() {
+
+                },
+                success: function(data) {
+                    if (data === "Амжилттай!") {
+                        window.location.reload();
+                    }
+                    else alert(data);
+                },
+                async: true
+            });
+        }
+    }
+    
     function get() {
         $.ajax({
             url: "ajax-list",

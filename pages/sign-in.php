@@ -13,7 +13,7 @@ if (sizeof($errors) > 0) {
 }
 
 _selectRow(
-    "select id, fname, lname, phone from teacher where phone=? and pass=? and user_role=?",
+    "select id, fname, lname, phone from teacher where tuluv=1 and phone=? and pass=? and user_role=?",
     'ssi',
     [$username, $password, $user_role],
     $user_id,

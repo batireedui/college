@@ -30,9 +30,9 @@ if (isset($_SESSION['user_id'])) {
             echo "<div class='alert alert-danger'>Хоосон утга байж болохгүй!</div>";
         else {
             $success = _exec(
-                "UPDATE teacher SET fname=?, lname=?, phone=?, email=?, at=? WHERE id = ?",
-                'sssssi',
-                [$_POST['fname'], $_POST['lname'], $_POST['phone'], $_POST['email'], $_POST['at'], $_SESSION['user_id'] ],
+                "UPDATE teacher SET fname=?, lname=?, phone=?, email=?, at=?, zereg=? WHERE id = ?",
+                'sssssii',
+                [$_POST['fname'], $_POST['lname'], $_POST['phone'], $_POST['email'], $_POST['at'], $_POST['zereg'], $_SESSION['user_id'] ],
                 $count
             );
             echo "<div class='alert alert-success'>Амжилттай солигдлоо!</div>";

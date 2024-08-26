@@ -39,6 +39,14 @@ if (isset($_SESSION['user_id'])) {
             );
             echo "Амжилттай!";
         }
+    } elseif ($mode == "grad") {
+        $success = _exec(
+            "UPDATE class SET tuluv=2, last_on=? WHERE id = ?",
+            'si',
+            [$this_on, $_POST['angi_id']],
+            $count
+        );
+        echo "Амжилттай!";
     }
 ?>
 <?php

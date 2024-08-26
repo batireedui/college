@@ -58,7 +58,7 @@
             <div class="row mb-2">
                 <div class="col text-end">
                     <!-- Simple link -->
-                    <a href="#!" style="font-size: 12px;">Нууц үгээ мартсан уу?</a>
+                    <a href="/recovery" style="font-size: 12px;">Нууц үгээ мартсан уу?</a>
                 </div>
             </div>
             <?php if (!empty($_SESSION['errors'])) : ?>

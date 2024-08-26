@@ -56,7 +56,7 @@ _selectNoParam(
     $sname,
     $atttuluv,
     $lcag,
-    $tid
+    $atttid
 );
 
 $zaasanArr = [];
@@ -72,7 +72,7 @@ while (_fetch($stmt)) {
     $item->sname = $sname;
     $item->atttuluv = $atttuluv;
     $item->lcag = $lcag;
-    $item->tid = $tid;
+    $item->tid = $atttid;
     array_push($zaasanArr, $item);
 }
 ?>

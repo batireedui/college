@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id'])) {
         $teacherid
     );
 ?>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
                 <th>№</th>
@@ -56,6 +56,7 @@ if (isset($_SESSION['user_id'])) {
                     <th>
                         <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
                         <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="setTeacher(<?php echo  $t_id == 0 ? '0' : $t_id ?>, <?= $id ?>)"></i>
+                        <span class="alert alert-warning" role="button" onclick="grad(<?= $id ?>, '<?= $sname ?>, <?= $name ?>')">ТӨГСӨЛТ</span>
                     </th>
                 </tr>
             <?php endwhile; ?>

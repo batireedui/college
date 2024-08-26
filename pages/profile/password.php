@@ -47,7 +47,7 @@ require ROOT . "/pages/footer.php"; ?>
     function check() 
     {
         $.ajax({
-            url: "ajax",
+            url: "/profile/ajax",
                 type: "POST",
                 data: {
                     mode: 2,

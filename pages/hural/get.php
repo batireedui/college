@@ -18,7 +18,7 @@
     if (isset($_GET['id'])) {
         $teacherid = $_GET['id'];
         _selectRowNoParam(
-            "SELECT id, fname, lname FROM teacher WHERE id='$teacherid'",
+            "SELECT id, fname, lname FROM huralusers WHERE id='$teacherid'",
             $t_id,
             $t_fname,
             $t_lname
@@ -43,10 +43,10 @@
     <div class="container-md" style="margin-top: 30px;">
         <h5 style="text-align: center; color: #032c94">
             <img src="https://surgalt.uvcollege.edu.mn/images/logo.jpg" height="100" loading="lazy"><br><br>
-            ӨВӨРХАНГАЙ АЙМАГ ДАХЬ ПОЛИТЕХНИК КОЛЛЕЖИЙН БАГШ НАРЫН БАГА ХУРАЛ
+            “Чанартай боловсрол-Нээлттэй түншлэл VI” аймгийн зөвлөгөөн
         </h5>
-        <h1 style="text-align: center; margin-top: 30px; color:#025226"><?= $t_fname ?> <span style="text-transform: uppercase;"><?= $t_lname ?></span> </h1>
-        <h5 style="text-align: center; color:#025226">та тус хуралд оролцохоор бүртгэгдлээ. Танд баярлалаа!</h5>
+        <h1 style="text-align: center; margin-top: 30px; color:#025226;text-transform: uppercase;"><?= $t_fname ?> <span style="text-transform: uppercase;"><?= $t_lname ?></span> </h1>
+        <h5 style="text-align: center; color:#025226">тус зөвлөгөөнд оролцохоор бүртгэгдлээ. Танд баярлалаа!</h5>
         <h3 style="text-align: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="50" fill="#fa7d00" class="bi bi-emoji-smile" viewBox="0 0 16 16">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />

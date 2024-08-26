@@ -45,12 +45,28 @@ if (isset($_SESSION['user_id'])) {
             array_push($sarList, $item);
         }
 
-
+        _selectRowNoParam(
+            "SELECT sname, name, fname, lname FROM class INNER JOIN teacher ON class.teacherid = teacher.id WHERE class.id='$class'",
+            $sname,
+            $class_name,
+            $tfname,
+            $tlname
+        );
 
         $dd = 0;
 
 ?>
-        <table class="table table-bordered">
+<h3 style='text-align: center;'>ИРЦИЙН НЭГТГЭЛ</h3>
+<p style='text-align: center;'><?php echo "$sname $class_name"; ?></p>
+<div style="display: flex;justify-content: space-between;">
+    <?php if($son == $lon && $ssar == $lsar){ ?>
+    <div>Хугацаа: <?=$lon?> оны <?=$lsar?>-р сар</div>
+    <?php } else {?>
+    <div>Хугацаа: <?=$son?> оны <?=$ssar?>-р сараас <?=$lon?> оны <?=$lsar?>-р сар</div>
+    <?php } ?>
+    <div>Хэвлэсэн: <?=date("Y.m.d H:i")?></div>
+</div>
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th rowspan="2"></th>
@@ -153,6 +169,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php } ?>
             </tbody>
         </table>
+        <p style='text-align: center;'>Анги удирдсан багш .......................... <?php echo substr($tfname, 0, 2). ".$tlname"; ?></p>
         <div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -212,34 +229,43 @@ if (isset($_SESSION['user_id'])) {
             $lessonName
         );
     ?>
-        <table class="table table-bordered">
+<h5 style='text-align: center;'>ЦАГИЙН ТООЦОО</h5>
+<p style='text-align: center; text-transform: uppercase;'><?php echo $school_name."ийн багш <br>" . $_SESSION['user_fname'] . " овогтой " . $_SESSION['user_lname']; ?></p>
+
+<div style="display: flex;justify-content: space-between;">
+    <div>Хугацаа: <?=$sdate?> өдрөөс <?=$ldate?>-н хүртэл</div>
+    <div>Хэвлэсэн: <?=date("Y.m.d H:i")?></div>
+</div>
+        <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
-                    <th>№</th>
+                    <th style="width: 50px">№</th>
                     <th>Анги</th>
                     <th>Хичээл</th>
                     <th>Сэдэв</th>
-                    <th>Огноо</th>
-                    <th>Цаг</th>
+                    <th style='text-align: center'>Огноо</th>
+                    <th style='text-align: center'>Цаг</th>
                 </tr>
             </thead>
             <?php
             $tmp_sum = 0;
+            $dun = 0;
             while (_fetch($sstmt)) {
                 _selectNoParam(
                     $istmt,
                     $icount,
-                    "SELECT classid, att.lessonid, sedev, ognoo FROM `att`  
+                    "SELECT classid, att.lessonid, sedev, ognoo, att.id FROM `att`  
                         WHERE att.tid= '" . $_SESSION['user_id'] . "' and classid='$classid' and  lessonid='$lessonid' and ognoo BETWEEN '$sdate' and '$ldate' ORDER BY ognoo",
                     $classid,
                     $lessonid,
                     $sedev,
-                    $ognoo
+                    $ognoo,
+                    $attid
                 ); 
                 if($tmp_sum > 0){
-                    echo "<tr style='background-color: #fff000'>
+                    echo "<tr style='background-color: #aee1f1'>
                     <td colspan='5' class='fw-bold' style='text-align: center'>Нийт</td>
-                    <td colspan='5' class='fw-bold'>$tmp_sum</td>
+                    <td colspan='5' class='fw-bold' style='text-align: center'>$tmp_sum</td>
                     </tr>";
                     $tmp_sum = 0;
                 }
@@ -255,22 +281,32 @@ if (isset($_SESSION['user_id'])) {
                         <?php
                         if ($dd == 1) {
                         ?>
-                            <td rowspan="<?= $icount ?>" style="vertical-align: middle;"><?= $sname ?></td>
+                            <td rowspan="<?= $icount ?>" style="vertical-align: middle;"><?= $sname ?>-р анги<br><span style="font-size: 10px"><?=$class_name?></span></td>
                             <td rowspan="<?= $icount ?>" style="vertical-align: middle;"><?= $lessonName ?></td>
                         <?php
                         }
                         ?>
-                        <td><?= $sedev ?></td>
-                        <td><?= $ognoo ?></td>
-                        <td>2</td>
+                        <td><div class='editcell' onblur='updateSedev(this, <?=$attid?>)' contenteditable=''><?= $sedev ?></div></td>
+                        <td style='text-align: center' style='text-align: center'><?= str_replace("-", ".", $ognoo) ?></td>
+                        <td style='text-align: center' style='text-align: center'>2</td>
                     </tr>
 
     <?php
                 }
+                $dun += $tmp_sum;
             }
-            echo "<tr style='background-color: #fff000'>
-            <td colspan='5' class='fw-bold' style='text-align: center'>Нийт</td>
-            <td colspan='5' class='fw-bold'>$tmp_sum</td>
-            </tr></table>";
-        }
+            ?>
+            <tr style='background-color: #aee1f1'>
+                <td colspan='5' class='fw-bold' style='text-align: center'>Нийт</td>
+                <td colspan='5' class='fw-bold' style='text-align: center'><?=$tmp_sum?></td>
+            </tr>
+            <tr style='background-color: #fff000'>
+                <td colspan='5' class='fw-bold' style='text-align: center'>ДҮН</td>
+                <td colspan='5' class='fw-bold' style='text-align: center'><?=$dun?></td>
+            </tr>
+            </table>"
+            <p style='text-align: center;'>Цагийн тооцоо хийсэн .......................... <?php echo substr($_SESSION['user_fname'], 0, 2).".".$_SESSION['user_lname']; ?></p>
+            <p style='text-align: center;'>Цагийн тооцоо тулсан .......................... /&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;/</p>
+            <p style='text-align: center;'>Цагийн тооцоо хянасан ........................../&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;/</p>
+     <?php   }
     }

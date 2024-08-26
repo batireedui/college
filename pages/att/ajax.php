@@ -9,27 +9,37 @@ if (isset($_SESSION['user_id'])) {
     function check($date, $class, $cag, $attid = null)
     {
         $id = '0';
+        $year = date("Y",strtotime($date));
+        $sar = date("n",strtotime($date));
         _selectRowNoParam(
-            "SELECT att.id, fname, lname FROM att 
-                INNER JOIN teacher ON att.tid = teacher.id 
-                    WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid != '" . $_SESSION['user_id'] . "'",
-            $cid,
-            $fname,
-            $lname
+            "SELECT id FROM batal WHERE class='$class' and year='$year' and sar='$sar'",
+            $batal
         );
-        if (!empty($cid))
-            $id = "<div  class='alert alert-success' role='alert'>Таны сонгосон цагт \"$fname $lname\" багш ирц бүртгэсэн байна!</div>";
-        else {
+        if(!empty($batal)) {
+            $id = "<div  class='alert alert-success' role='alert'>Тус ангийн $year оны $sar-р сарын ирц бүртгэл хаагдсан байна! Зайлшгүй шаардлагатай тохиолдолд сургалтын албаар дамжуулан бүртгэл хийнэ үү!</div>";
+        } else {
             _selectRowNoParam(
-                "SELECT att.id, class.name, class.sname FROM att 
-                    INNER JOIN class ON att.classid = class.id 
-                        WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
-                $aid,
-                $cname,
-                $sname
+                "SELECT att.id, fname, lname FROM att 
+                    INNER JOIN teacher ON att.tid = teacher.id 
+                        WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid != '" . $_SESSION['user_id'] . "'",
+                $cid,
+                $fname,
+                $lname
             );
-            if (!empty($aid))
-                $id = "<div  class='alert alert-success' role='alert'>Та энэ цаг дээр \"$sname $cname\" ангид ирц бүртгэсэн байна!</div>";
+            if (!empty($cid))
+                $id = "<div  class='alert alert-success' role='alert'>Таны сонгосон цагт \"$fname $lname\" багш ирц бүртгэсэн байна!</div>";
+            else {
+                _selectRowNoParam(
+                    "SELECT att.id, class.name, class.sname FROM att 
+                        INNER JOIN class ON att.classid = class.id 
+                            WHERE ognoo = '$date' and cagid = '$cag' and classid != '$class' and tid = '" . $_SESSION['user_id'] . "'",
+                    $aid,
+                    $cname,
+                    $sname
+                );
+                if (!empty($aid))
+                    $id = "<div  class='alert alert-success' role='alert'>Та энэ цаг дээр \"$sname $cname\" ангид ирц бүртгэсэн байна!</div>";
+            }
         }
         return $id;
     }
@@ -42,11 +52,12 @@ if (isset($_SESSION['user_id'])) {
             $oldsedev = "";
             $oldltype = 1;
             _selectRowNoParam(
-                "SELECT att.id, irc, sedev, ltype FROM att WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid = '" . $_SESSION['user_id'] . "'",
+                "SELECT att.id, irc, sedev, ltype, lessonid FROM att WHERE ognoo = '$date' and cagid = '$cag' and classid = '$class' and tid = '" . $_SESSION['user_id'] . "'",
                 $oldid,
                 $oldirc,
                 $oldsedev,
-                $oldltype
+                $oldltype,
+                $oldlessonid
             );
             _selectNoParam(
                 $ltypestmt,
@@ -76,18 +87,18 @@ if (isset($_SESSION['user_id'])) {
                 $stmt,
                 $count,
                 "SELECT students.id, students.fname, students.lname  
-                    FROM students WHERE students.tuluv=? and class = '$class'",
+                    FROM students WHERE students.tuluv=? and class = '$class' ORDER BY lname",
                 "i",
                 [1],
                 $id,
                 $fname,
                 $lname
             ); ?>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md">
                     <select class="form form-control mb-3" id="lesson">
                         <?php while (_fetch($lstmt)) : ?>
-                            <option value="<?= $l_id ?>"><?= $l_name ?> (<?= $l_cag ?>)</option>
+                            <option value="<?= $l_id ?>" <?php echo $l_id == $oldlessonid ? " selected" : "" ?>><?= $l_name ?> (<?= $l_cag ?>)</option>
                         <?php endwhile; ?>
                     </select>
                 </div>
@@ -111,6 +122,94 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
             <div>
+            <?php 
+            if(isset($_POST['mobile'])) { ?>
+            
+                        <table class="table table-bordered table-hover" id="datalist">
+                <thead class="table-light">
+                    <tr>
+                        <th>№</th>
+                        <th>Нэр</th>
+                    </tr>
+                </thead>
+                <?php if ($count > 0) : ?>
+                    <?php $too = 0;
+                    while (_fetch($stmt)) :
+                        $ircItem = new stdClass();
+                        $ircItem->id = $id;
+
+                        if ($editIrc) {
+                            foreach ($oldirc as $key => $el) {
+                                if ($el->id == $id) {
+                                    $ircItem->val = $el->val;
+                                    break;
+                                }
+                                $ircItem->val = 1;
+                            }
+                        } else {
+                            $ircItem->val = 1;
+                        }
+                        array_push($ircArr, $ircItem);
+                        $too++ ?>
+                        <tr>
+                            <td style="width: 3px;"><?= $too ?></td>
+                            <td id="f1-<?= $id ?>"><span style="text-transform: uppercase"><?= $lname ?></span> (<span style="font-size: 12px;"><?= $fname ?></span>)
+                                <br>
+                                <div class="btn-group text-center" role="group">
+                                    <input type="radio" class="btn-check" id="v1-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 1)" value="1" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 1)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    } else echo 'checked=""';
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-success" for="v1-<?= $id ?>">
+                                        Ирсэн
+                                    </label>
+                                    <input type="radio" class="btn-check" id="v3-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 3)" value="3" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 3)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-info" style="border-left-width: 0px;" for="v3-<?= $id ?>">
+                                        Чөл
+                                    </label>
+                                    <input type="radio" class="btn-check" id="v4-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 4)" value="4" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 4)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-danger" style="border-left-width: 0px; border-right-width: 0px;" for="v4-<?= $id ?>">
+                                        Тас
+                                    </label>
+                                    <input type="radio" class="btn-check" id="v2-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" <?php
+                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                        foreach ($oldirc as $key => $el) {
+                                                                                                                                                                            if ($el->id == $id && $el->val == 2)
+                                                                                                                                                                                echo 'checked=""';
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                    ?>>
+                                    <label class="btn btn-outline-warning" for="v2-<?= $id ?>">
+                                        Өвч
+                                    </label>
+
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            </table>
+            
+            <?php }
+            else { ?>
             <table class="table table-bordered table-hover" id="datalist">
                 <thead class="table-light">
                     <tr>
@@ -189,28 +288,28 @@ if (isset($_SESSION['user_id'])) {
                                     </label>
 
                                 </div>
-                                <!--
+                                
                                 <div class="btn-group" role="group">
-                                    <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e1-<?= $id ?>">
                                         <i class="fa-regular fa-face-smile fa-2xl"></i>
                                     </label>
-                                    <input type="radio" class="btn-check" id="e2-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <input type="radio" class="btn-check" id="e2-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e2-<?= $id ?>">
                                         <i class="fa-regular fa-face-meh fa-2xl"></i>
                                     </label>
-                                    <input type="radio" class="btn-check" id="e3-<?= $id ?>" name="emoj-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" />
+                                    <input type="radio" class="btn-check" id="e3-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e3-<?= $id ?>">
                                         <i class="fa-regular fa-face-frown fa-2xl"></i>
                                     </label>
-                                </div>-->
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php endif; ?>
             </table>
+            <?php } ?>
             </div>
-            <div class="action"></div>
             <div class="mb-5" id="saveBtn">
                 <button class="btn btn-success w-100" onclick="<?php echo $editIrc ? "save_change_att($oldid)" : "save_att()" ?>">ИРЦ ХАДГАЛ</button>
             </div>
@@ -227,6 +326,7 @@ if (isset($_SESSION['user_id'])) {
                 }
 
                 ircArr = <?php echo json_encode($ircArr) ?>;
+                tasArr = [];
                 niit = 0;
                 v1 = 0;
                 v2 = 0;
@@ -246,9 +346,9 @@ if (isset($_SESSION['user_id'])) {
                         else if (el.val == 3) v3++;
                         else if (el.val == 4) v4++;
                     });
-                    too = '<span class="badge badge-primary m-1">Нийт: ' + niit + '</span><span class="badge badge-success m-1">Ирсэн: ' + v1 + '</span><span class="badge badge-info m-1">Чөлөөтэй: ' + v3 + '</span><span class="badge badge-danger m-1">Тасалсан: ' + v4 + '</span><span class="badge badge-warning m-1">Өвчтэй: ' + v2 + '</span>';
+                    too = '<span class="badge badge-primary m-1">Нийт: ' + niit + '</span><span class="badge badge-success m-1">Ирсэн: ' + v1 + '</span><span class="badge badge-info m-1">Чөл: ' + v3 + '</span><span class="badge badge-danger m-1">Тас: ' + v4 + '</span><span class="badge badge-warning m-1">Өвч: ' + v2 + '</span>';
                     $("#info").html(too);
-                    console.log(niit + " v1-" + v1 + " v2-" + v2 + " v3-" + v3 + " v4-" + v4);
+                   // console.log(niit + " v1-" + v1 + " v2-" + v2 + " v3-" + v3 + " v4-" + v4);
                 }
                 tool();
 
@@ -256,9 +356,15 @@ if (isset($_SESSION['user_id'])) {
                     ircArr.map((el) => {
                         if (el.id == id) {
                             el.val = val;
+                            if(val == 4){
+                                tasArr.push(id);
+                            }
+                            else {
+                                tasArr = tasArr.filter(v => v !== id);
+                            }    
                         }
                     });
-                    console.log(id + "-" + val)
+                    console.log(tasArr)
                     tool();
                 }
 
@@ -270,7 +376,7 @@ if (isset($_SESSION['user_id'])) {
                         $("#action").html("");
                         console.log(ircArr)
                         $.ajax({
-                            url: "ajax",
+                            url: "/att/ajax",
                             type: "POST",
                             data: {
                                 mode: 2,
@@ -291,12 +397,14 @@ if (isset($_SESSION['user_id'])) {
                                 $('div.action').each(function() {
                                     $(this).html("Алдаа гарлаа");
                                 });
+                                $("#table").html("");
                             },
                             beforeSend: function() {
                                 $('#saveBtn').html('');
                                 $('div.action').each(function() {
                                     $(this).html("Түр хүлээнэ үү");
                                 });
+                                $("#table").html("");
                             },
                             success: function(data) {
                                 $('div.action').each(function() {
@@ -304,12 +412,36 @@ if (isset($_SESSION['user_id'])) {
                                     $('#saveBtn').html('');
                                     
                                 });
+                                $("#table").html("");
                                 $('#class').prop('disabled', false);
                                 $('#cag').prop('disabled', false);
                                 $('#date').prop('disabled', false);
                             },
                             async: true
                         });
+                        
+                        if(tasArr.length > 0){
+                            $.ajax({
+                                url: "/api/sendnoti",
+                                type: "POST",
+                                data: {
+                                    mode: 2,
+                                    date: $('#date').val(),
+                                    cag: $('#cag').val(),
+                                    tasArr: tasArr
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("Алдаа гарлаа");
+                                },
+                                beforeSend: function() {
+                                    console.log("Түр хүлээнэ үү");
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                async: true
+                            });
+                        }
                     }
                 }
 
@@ -321,7 +453,7 @@ if (isset($_SESSION['user_id'])) {
                         $("#action").html("");
                         console.log(ircArr)
                         $.ajax({
-                            url: "ajax",
+                            url: "/att/ajax",
                             type: "POST",
                             data: {
                                 mode: 3,
@@ -341,24 +473,49 @@ if (isset($_SESSION['user_id'])) {
                             },
                             error: function(xhr, textStatus, errorThrown) {
                                 $('div.action').each(function() {
-                                    $(this).html("");
+                                    $(this).html("Алдаа гарлаа");
                                 });
+                                 $("#table").html("");
                             },
                             beforeSend: function() {
                                 $('div.action').each(function() {
-                                    $(this).html("");
+                                    $(this).html("Түр хүлээнэ үү");
                                 });
+                                $("#table").html("");
                             },
                             success: function(data) {
                                 $('div.action').each(function() {
                                     $(this).html(data);
                                 });
+                                $("#table").html("");
                                 $('#class').prop('disabled', false);
                                 $('#cag').prop('disabled', false);
                                 $('#date').prop('disabled', false);
                             },
                             async: true
                         });
+                        if(tasArr.length > 0){
+                            $.ajax({
+                                url: "/api/sendnoti",
+                                type: "POST",
+                                data: {
+                                    mode: 2,
+                                    date: $('#date').val(),
+                                    cag: $('#cag').val(),
+                                    tasArr: tasArr
+                                },
+                                error: function(xhr, textStatus, errorThrown) {
+                                    console.log("Алдаа гарлаа");
+                                },
+                                beforeSend: function() {
+                                    console.log("Түр хүлээнэ үү");
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                async: true
+                            });
+                        }
                     }
                 }
             </script>
@@ -379,9 +536,9 @@ if (isset($_SESSION['user_id'])) {
         $checkid = check($date, $class, $cag);
         if ($checkid == '0') {
             $success = _exec(
-                "INSERT INTO att (classid, tid, lessonid, ognoo, cagid, irc, emoj, bich, sedev, niit, v1, v2, v3, v4, ltype) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                'iiisissssiiiiii',
-                [$class, $_SESSION['user_id'], $lesson, $date, $cag, $ircpost, null, ognoo(), $sedev, $niit, $v1, $v2, $v3, $v4, $ltype],
+                "INSERT INTO att (classid, tid, lessonid, ognoo, cagid, irc, emoj, bich, sedev, niit, v1, v2, v3, v4, ltype, this_on) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                'iiisissssiiiiiis',
+                [$class, $_SESSION['user_id'], $lesson, $date, $cag, $ircpost, null, ognoo(), $sedev, $niit, $v1, $v2, $v3, $v4, $ltype, $this_on],
                 $count
             );
 

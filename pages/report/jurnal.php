@@ -64,8 +64,12 @@ if ($_SESSION['user_role'] < 3) {
             <input type="date" class="form form-control mb-3" name="ldate" value="<?= $edate ?>" autocompleted />
         </div>
         <div class="col-md-1">
-            <button class="btn btn-warning w-100" onclick="jurnal()">ХАРАХ</button>
+            <button class="btn btn-warning w-100" onclick="jurnal()" id="showBtn">ХАРАХ</button>
         </div>
+    </div>
+    <div style="text-align: end" class="mb-3">
+        <a href="#" onclick="exportToExcel('table')" role="button" class="btn btn-success" style="">Excel</a>
+        <a href="#" onclick="print()" role="button" class="btn btn-primary" style="">Хэвлэх</a>
     </div>
     <div id="table">
 
@@ -75,6 +79,21 @@ if ($_SESSION['user_role'] < 3) {
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <?php require ROOT . "/pages/footer.php"; ?>
 <script>
+    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
+        	let tableData = document.getElementById(tableId).outerHTML;
+        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+        
+        	let a = document.createElement('a');
+        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        	a.download = $('#classList option:selected').text() + ', ЖУРНАЛ' + '.xls'
+        	a.click()
+    }
+    function print(){
+        $('#table').printElement({
+        });
+    }
+    
     var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
     triggerTabList.forEach(function(triggerEl) {
         var tabTrigger = new bootstrap.Tab(triggerEl)
@@ -95,9 +114,11 @@ if ($_SESSION['user_role'] < 3) {
             },
             error: function(xhr, textStatus, errorThrown) {
                 $('#classList').html("<option>Алдаа</option>");
+                document.getElementById("showBtn").disabled = false;
             },
             beforeSend: function() {
                 $('#classList').html("<option>Түр хүлээнэ үү</option>");
+                document.getElementById("showBtn").disabled = true;
             },
             success: function(data) {
                 $('#classList').html(data);
@@ -121,12 +142,15 @@ if ($_SESSION['user_role'] < 3) {
             },
             error: function(xhr, textStatus, errorThrown) {
                 $('#lessonList').html("<option>Алдаа</option>");
+                document.getElementById("showBtn").disabled = false;
             },
             beforeSend: function() {
                 $('#lessonList').html("<option>Түр хүлээнэ үү</option>");
+                document.getElementById("showBtn").disabled = true;
             },
             success: function(data) {
                 $('#lessonList').html(data);
+                document.getElementById("showBtn").disabled = false;
             },
             async: true
         });

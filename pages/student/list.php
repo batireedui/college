@@ -72,6 +72,7 @@ $columnNumber = 7;
                     <th>Утас</th>
                     <th>Хүйс</th>
                     <th>РД</th>
+                    <th>Асран хамгаалагч</th>
                     <th>Анги</th>
                     <th></th>
                 </tr>
@@ -79,7 +80,17 @@ $columnNumber = 7;
             <?php if ($count > 0) : ?>
                 <?php $too = 0;
                 while (_fetch($stmt)) :
-                    $too++ ?>
+                    $too++;
+                    _selectNoParam(
+                        $pstmt,
+                        $pcount,
+                        "SELECT tax_pareant.id, fname, lname, phone FROM parent INNER JOIN tax_pareant ON parent.id = tax_pareant.parent_id  WHERE student_id = $id",
+                        $pid,
+                        $pfname,
+                        $plname,
+                        $pphone
+                    );
+                    ?>
                     <tr>
                         <td><?= $too ?></td>
                         <td id="f1-<?= $id ?>"><?= $fname ?></td>
@@ -87,6 +98,13 @@ $columnNumber = 7;
                         <td id="f3-<?= $id ?>"><?= $phone ?></td>
                         <td id="f4-<?= $id ?>"><?= $gender ?></td>
                         <td id="f5-<?= $id ?>"><?= $code ?></td>
+                        <td id="f7-<?= $id ?>"><span onclick="getParent(<?= $id ?>)" class="badge badge-success" type="button" data-mdb-toggle="modal" data-mdb-target="#parentModal"><?php
+                            if($pcount > 0){
+                                while (_fetch($pstmt)){
+                                    echo substr($pfname, 0, 2) . ".$plname ($pphone)";
+                                }
+                            } else echo "Бүртгэгдээгүй";
+                        ?></span></span></td>
                         <td id="f6-<?= $id ?>" style="font-size: 12px;"><?= $sname ?> <?= $cname ?></td>
                         <td>
                             <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
@@ -275,31 +293,94 @@ $columnNumber = 7;
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="parentModal" tabindex="-1" aria-labelledby="parentLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="parentLabel">Асран хамгаалагч</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <input type="text" id="add_parent" readonly style="display: none;" />
+                        <div class="col" id="parentbody">
+                        
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-outline mb-3">
+                                <input type="text" value="" id="pphone" class="form form-control mb-3" autocomplete="FALSE" />
+                                <label class="form-label" for="pphone">Утасны дугаар*</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-secondary" onclick="findParent()">ХАЙХ</button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col" id="parentAdd">
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
-    function get() {
+    function findParent() {
+        let findPhone = $('#pphone').val();
+        if(findPhone.length == 8){
+            $.ajax({
+                url: "parent_control",
+                type: "POST",
+                data: {
+                    mode: 2,
+                    phone: findPhone
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    $("#parentAdd").html("Алдаа гарлаа !");
+                },
+                beforeSend: function() {
+                    $("#parentAdd").html("Түр хүлээнэ үү ...");
+                },
+                success: function(data) {
+                    $("#parentAdd").html(data);
+                },
+                async: true
+            });
+        }
+        else $("#parentAdd").html("Утасны дугаар зөв оруулна уу!");
+    }
+    
+    function getParent(id) {
+        $('#add_parent').val(id);
         $.ajax({
-            url: "ajax-list",
+            url: "parent_control",
             type: "POST",
             data: {
-                angi_id: $('#angi_id').val(),
-                teacher_id: $('#teacherList').val()
+                mode: 1,
+                id: id
             },
             error: function(xhr, textStatus, errorThrown) {
-                $("#table").html("Алдаа гарлаа !");
+                $("#parentbody").html("Алдаа гарлаа !");
             },
             beforeSend: function() {
-                $("#table").html("Түр хүлээнэ үү ...");
+                $("#parentbody").html("Түр хүлээнэ үү ...");
             },
             success: function(data) {
-                $("#table").html(data);
+                $("#parentbody").html(data);
             },
             async: true
         });
     }
-    //get();
 
     function deleteStudent() {
         $.ajax({

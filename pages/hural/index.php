@@ -24,13 +24,13 @@
             ӨВӨРХАНГАЙ АЙМАГ ДАХЬ ПОЛИТЕХНИК КОЛЛЕЖ
         </h5>
         <h5 style="text-align: center; color: #032c94">
-            БАГШ НАРЫН БАГА ХУРАЛ (2023.09.14)
+           “Чанартай боловсрол-Нээлттэй түншлэл VI” аймгийн зөвлөгөөн (2024.05.22)
         </h5>
         <?php
         _selectNoParam(
             $stmt,
             $count,
-            "SELECT teacher.id, fname, lname FROM `teacher` INNER JOIN hural ON teacher.id = hural.teacherid",
+            "SELECT huralusers.id, fname, lname FROM `huralusers` INNER JOIN hural ON huralusers.id = hural.teacherid",
             $id,
             $fname,
             $lname

@@ -206,6 +206,7 @@ require ROOT . "/pages/footer.php"; ?>
                 },
                 success: function(data) {
                     get();
+                    $('#addinfo').html("");
                     $('#add').modal('hide');
                 },
                 async: true

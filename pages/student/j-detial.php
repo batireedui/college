@@ -5,7 +5,7 @@ require ROOT . "/pages/header.php";
 _select(
     $tstmt,
     $tcount,
-    "SELECT class.name, id, sname FROM class WHERE class.teacherid = ?",
+    "SELECT class.name, id, sname FROM class WHERE tuluv=1 and class.teacherid = ?",
     "i",
     [$user_id],
     $class_name,
