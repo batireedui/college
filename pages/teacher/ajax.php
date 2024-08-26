@@ -15,22 +15,22 @@ if (isset($_SESSION['user_id'])) {
         $id = $_POST['id'];
         $office = @$_POST['office'];
         $department = @$_POST['department'];
-        
+
         $success = _exec(
-            "UPDATE teacher SET fname=?, lname=?, phone=?, email=?, at=?, pass=?, user_role=?, tuluv=?, office_id=?, department_id=? WHERE id = ?",
-            'ssssssiiiii',
-            [$fname, $lname, $phone, $email, $at, $pass, $user_role, $tuluv, $office, $department, $id],
+            "UPDATE teacher SET fname=?, lname=?, phone=?, email=?, at=?, user_role=?, tuluv=?, office_id=?, department_id=? WHERE id = ?",
+            'sssssiiiii',
+            [$fname, $lname, $phone, $email, $at, $user_role, $tuluv, $office, $department, $id],
             $count
         );
         echo "Амжилттай!";
     } elseif ($mode == 2) {
         $office = @$_POST['aoffice'];
         $department = @$_POST['adepartment'];
-        
+
         $success = _exec(
             "INSERT INTO teacher (fname, lname, phone, email, at, pass, user_role, tuluv, office_id, department_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             'ssssssiiii',
-            [$fname, $lname, $phone, $email, $at, $pass, $user_role, $tuluv, $office, $department],
+            [$fname, $lname, $phone, $email, $at, $password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $user_role, $tuluv, $office, $department],
             $count
         );
         echo "Амжилттай!";
@@ -48,11 +48,10 @@ if (isset($_SESSION['user_id'])) {
                 "SELECT COUNT(id) FROM `att` WHERE tid = $id",
                 $atoo
             );
-    
+
             if ($atoo > 0) {
                 echo "Багш ирц бүртгэсэн тул устгах боломжгүй!";
-            }
-            else {
+            } else {
                 _selectRowNoParam(
                     "SELECT COUNT(id) FROM `att_work` WHERE userid = $id",
                     $awtoo
@@ -69,7 +68,7 @@ if (isset($_SESSION['user_id'])) {
                     echo "Амжилттай!";
                 }
             }
-        } 
+        }
     }
 ?>
 <?php
