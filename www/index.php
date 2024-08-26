@@ -24,19 +24,25 @@ $tuluvIrc = [1 => "Ирсэн", 2 => "Өвчтэй", 3 => "Чөлөөтэй", 4 
 $tuluvIrcShort = [1 => "И", 2 => "Ө", 3 => "Ч", 4 => "Т"];
 $tuluvColor= [1 => "success", 2 => "warning", 3 => "primary", 4 => "danger"];
 
+<<<<<<< HEAD
 $tuluv_Teacher= [1 => "Идэвхтэй", 2 => "Гарсан"];
 $tuluv_Main= [0 => "Идэвхгүй", 1 => "Идэвхтэй"];
 
+=======
+>>>>>>> caba9c45dfc8fd2c3da27e96bfc85b3f6bdc4484
 $school_name = "Өвөрхангай аймаг дахь Политехник коллеж";
 
 $starton = 2023;
 $thison = date("Y");
 
+<<<<<<< HEAD
 _selectRowNoParam(
      "select this_on from jil",
      $this_on
     );
 
+=======
+>>>>>>> caba9c45dfc8fd2c3da27e96bfc85b3f6bdc4484
 if (empty($page)) {
     require ROOT . '/pages/home.php';
 } else {

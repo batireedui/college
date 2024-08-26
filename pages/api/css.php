@@ -63,7 +63,7 @@
       border-radius: 10px;
     }
     .hovercell td:hover {
-        background-color: azure; !important;
+        background-color: azure !important;
     }
   </style>
 </head>
