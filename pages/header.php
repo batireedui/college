@@ -56,7 +56,6 @@ _selectRowNoParam(
             <?php
             if ($user_role == 3) {
             ?>
-<<<<<<< HEAD
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="#" id="recordm" role="button" data-mdb-toggle="dropdown" aria-expanded="false">БҮРТГЭЛ</a>
                 <ul class="dropdown-menu" aria-labelledby="recordm">
@@ -70,13 +69,6 @@ _selectRowNoParam(
                     <a class="dropdown-item <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ, АЖИЛТАН</a>
                   </li>
                 </ul>
-=======
-              <li class="nav-item">
-                <a class="nav-link <?php echo strpos($page, "/class/list") > -1 ? 'active' : ''; ?>" href="/class/list">АНГИ</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ, АЖИЛТАН</a>
->>>>>>> caba9c45dfc8fd2c3da27e96bfc85b3f6bdc4484
               </li>
               
             <?php
@@ -96,7 +88,6 @@ _selectRowNoParam(
                 <a class="nav-link dropdown-toggle <?php echo strpos($page, "/report") > -1 ? 'active' : ''; ?>" href="#" id="remenu" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                   ТАЙЛАН
                 </a>
-<<<<<<< HEAD
                 <ul class="dropdown-menu" aria-labelledby="remenu">
                   <?php if ($myClass > 0) { ?>
                     <li>
@@ -105,16 +96,6 @@ _selectRowNoParam(
                     <li>
                       <a class="dropdown-item" href="/report/tetgeleg">ТЭТГЭЛЭГ</a>
                     </li>
-=======
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <?php  if($myClass > 0 ){ ?>
-                  <li>
-                    <a class="dropdown-item" href="/report/att">АНГИЙН ИРЦ</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/report/tetgeleg">ТЭТГЭЛЭГ</a>
-                  </li>
->>>>>>> caba9c45dfc8fd2c3da27e96bfc85b3f6bdc4484
                   <?php  } ?>
                   <li>
                     <a class="dropdown-item" href="/report/cag">ЦАГИЙН ТООЦОО</a>
@@ -152,7 +133,6 @@ _selectRowNoParam(
                   </li>
                   <li>
                     <a class="dropdown-item" href="/report/class-percent">АНГИЙН ИРЦ ГҮЙЦЭТГЭЛ</a>
-<<<<<<< HEAD
                   </li>
                 </ul>
               </li>
@@ -186,21 +166,6 @@ _selectRowNoParam(
                   </li>
                   <li class="nav-item">
                     <a class="dropdown-item <?php echo strpos($page, "/setting/jil") > -1 ? 'active' : ''; ?>" href="/setting/jil">ХИЧЭЭЛИЙН ЖИЛ</a>
-=======
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/noti") > -1 ? 'active' : ''; ?>" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                  ЗАР
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li>
-                    <a class="dropdown-item" href="/noti/send">ИЛГЭЭСЭН ЗАР</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/noti/new">ЗАР ИЛГЭЭХ</a>
->>>>>>> caba9c45dfc8fd2c3da27e96bfc85b3f6bdc4484
                   </li>
                 </ul>
               </li>
@@ -215,13 +180,8 @@ _selectRowNoParam(
           <div class="dropdown">
             <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="/noti/list" role="button">
               <i class="fas fa-bell"></i>
-<<<<<<< HEAD
               <?php if ($ntoo > 0) { ?>
                 <span class="badge rounded-pill badge-notification bg-danger"><?= $ntoo ?></span>
-=======
-              <?php if($ntoo > 0) {?>
-                <span class="badge rounded-pill badge-notification bg-danger"><?=$ntoo?></span>
->>>>>>> caba9c45dfc8fd2c3da27e96bfc85b3f6bdc4484
               <?php } ?>
             </a>
           </div>
