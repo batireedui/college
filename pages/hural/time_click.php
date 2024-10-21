@@ -15,24 +15,26 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
     <style>
-            .editcell {
-                  background-color: #dddddd;
-                  padding: 5px 10px 5px 10px;
-                  border-radius: 5px;
-                }
-                .table>:not(caption)>*>* {
-              padding: 0.3rem 0.8rem;
-            }
+        .editcell {
+            background-color: #dddddd;
+            padding: 5px 10px 5px 10px;
+            border-radius: 5px;
+        }
+
+        .table>:not(caption)>*>* {
+            padding: 0.3rem 0.8rem;
+        }
     </style>
     <?php
-    if(isset($_GET['t'])) {
-    $t = (int)$_GET['t'];
+    if (isset($_GET['t'])) {
+        $t = (int)$_GET['t'];
 
-   _selectRowNoParam(
-        "SELECT id, name, utga FROM strategy_time WHERE id=$t",
-        $id,
-        $name, $utga
-    );
+        _selectRowNoParam(
+            "SELECT id, name, utga FROM strategy_time WHERE id=$t",
+            $id,
+            $name,
+            $utga
+        );
     ?>
 </head>
 
@@ -45,15 +47,15 @@
         <h5 style="text-align: center; color: #032c94">
             Өвөрхангай аймаг дахь Политехник коллеж 2024.10.03
         </h5>
-        <div style="text-align: center;" class="mb-3" >
+        <div style="text-align: center;" class="mb-3">
             <a href="https://uvcollege.edu.mn/"><button class="btn btn-danger">НҮҮР ХУУДАС</button></a>
         </div>
         <div style="border: 3px solid #032c94;border-radius: 10px;padding: 10px;text-align: center;font-size: 24px;">
             <div style="font-weight: bold">
-                <?=$name?>
+                <?= $name ?>
             </div>
             <div style="font-size: 20px;">
-                <?=$utga?>
+                <?= $utga ?>
             </div>
         </div>
         <div id="too" style="text-align: center;font-size: 18px;font-weight: bold;color: #1c1166; margin: 10px">
@@ -64,12 +66,12 @@
             <h5>Ирсэн саналууд</h5>
             <?php
             _selectNoParam(
-                $st, 
+                $st,
                 $co,
                 "SELECT sanal FROM `strategy_time_sanal` WHERE time_id =$t",
                 $sanal
             );
-            while(_fetch($st)){
+            while (_fetch($st)) {
                 echo "<div> - $sanal</div>";
             }
             ?>
@@ -80,13 +82,13 @@
 <script>
     let x;
     var now = 60;
-    
+
     function clickSanal(sanal) {
         $.ajax({
             url: 'too',
             type: 'post',
             data: {
-                sanalClickid: <?=$_GET['t']?>,
+                sanalClickid: <?= $_GET['t'] ?>,
                 sanal: sanal
             },
             success: function(data) {
@@ -94,12 +96,12 @@
             }
         })
     }
+
     function ugui(sanalid) {
         let sanal = document.getElementById("ugui").value;
-        if(sanal == "") {
+        if (sanal == "") {
             alert('Та мэдээлэл бичиж илгээнэ үү');
-        }
-        else {
+        } else {
             $.ajax({
                 url: 'too',
                 type: 'post',
@@ -114,19 +116,19 @@
         }
     }
 </script>
+
 </html>
-<?php }
-else { ?>
-    
+<?php } else { ?>
+
     </head>
 
-<body>
-    <div class="container-md" style="margin-top: 30px;">
-        <a href="https://uvcollege.edu.mn/">БУРУУ ХҮСЭЛТ БАЙНА! БУЦАХ</a>
-    </div>
-</body>
+    <body>
+        <div class="container-md" style="margin-top: 30px;">
+            <a href="https://uvcollege.edu.mn/">БУРУУ ХҮСЭЛТ БАЙНА! БУЦАХ</a>
+        </div>
+    </body>
 
-</html>
-    
+    </html>
+
 <?php }
 ?>

@@ -11,7 +11,7 @@ require ROOT . "/pages/header.php";
 _selectNoParam(
     $st,
     $co,
-    "SELECT btime_ajil.id, btime_ajil.ajil, btime_ajil.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name FROM `btime_ajil` INNER JOIN `at` ON btime_ajil.at_id = at.id",
+    "SELECT btime_ajil.id, btime_ajil.ajil, btime_ajil.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name FROM `btime_ajil` INNER JOIN `at` ON btime_ajil.at_id = at.id WHERE btime_ajil.tuluv = '1'",
     $id,
     $ajil,
     $tailbar,
@@ -19,8 +19,15 @@ _selectNoParam(
     $at_id,
     $at_name
 );
-
+$columnNumber = 7;
 ?>
+<link rel="stylesheet" type="text/css" href="/css/dataTable.css">
+<style>
+    .dt-buttons {
+        text-align: end;
+        margin-bottom: 15px
+    }
+</style>
 
 <main id="main" class="main p-3">
     <section class="section">
@@ -34,15 +41,17 @@ _selectNoParam(
                     <div class="card-body">
                         <h5 class="card-title"></h5>
                         <div class="row mb-3">
-                            <table class="table table-bordered hover">
-                                <tr>
-                                    <th>№</th>
-                                    <th></th>
-                                    <th>Ажил үйлчилгээ</th>
-                                    <th>Гүйцэтгэлийн шалгуур</th>
-                                    <th>Кредит</th>
-                                    <th>Тооцох</th>
-                                </tr>
+                            <table class="table table-bordered table-hover" id="datalist">
+                                <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th></th>
+                                        <th>Ажил үйлчилгээ</th>
+                                        <th>Гүйцэтгэлийн шалгуур</th>
+                                        <th>Кредит</th>
+                                        <th>Тооцох</th>
+                                    </tr>
+                                </thead>
                                 <?php
                                 $dd = 1;
                                 while (_fetch($st)) { ?>
@@ -96,5 +105,6 @@ require ROOT . "/pages/footer.php"; ?>
     }
 </script>
 <?php
+require ROOT . "/pages/dataTablefooter.php";
 require ROOT . "/pages/end.php";
 ?>

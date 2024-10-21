@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id'])) {
         }
         echo $val;
     }
-    
+
     if ($_POST["type"] == "checkrdBagsh") {
         $pid = $_POST["rd"];
         _selectRowNoParam(
@@ -45,7 +45,10 @@ if (isset($_SESSION['user_id'])) {
             $lname,
             $gender,
             $school_id,
-            $phone, $email, $mergejil, $jil,
+            $phone,
+            $email,
+            $mergejil,
+            $jil,
             $tuluv
         );
         $school_name = "Өөр сургуульд бүртгэлтэй байна.";

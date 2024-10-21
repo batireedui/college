@@ -15,14 +15,15 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
     <style>
-            .editcell {
-                  background-color: #dddddd;
-                  padding: 5px 10px 5px 10px;
-                  border-radius: 5px;
-                }
-                .table>:not(caption)>*>* {
-              padding: 0.3rem 0.8rem;
-            }
+        .editcell {
+            background-color: #dddddd;
+            padding: 5px 10px 5px 10px;
+            border-radius: 5px;
+        }
+
+        .table>:not(caption)>*>* {
+            padding: 0.3rem 0.8rem;
+        }
     </style>
 </head>
 
@@ -51,9 +52,10 @@
         })
     }
     getSanal();
-    
+
     window.onload = function() {
         setInterval(getSanal, 15000);
     };
 </script>
+
 </html>

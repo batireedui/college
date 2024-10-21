@@ -15,24 +15,26 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
     <style>
-            .editcell {
-                  background-color: #dddddd;
-                  padding: 5px 10px 5px 10px;
-                  border-radius: 5px;
-                }
-                .table>:not(caption)>*>* {
-              padding: 0.3rem 0.8rem;
-            }
+        .editcell {
+            background-color: #dddddd;
+            padding: 5px 10px 5px 10px;
+            border-radius: 5px;
+        }
+
+        .table>:not(caption)>*>* {
+            padding: 0.3rem 0.8rem;
+        }
     </style>
     <?php
-    if(isset($_GET['t'])) {
-    $t = (int)$_GET['t'];
+    if (isset($_GET['t'])) {
+        $t = (int)$_GET['t'];
 
-   _selectRowNoParam(
-        "SELECT id, name, utga FROM strategy_time WHERE id=$t",
-        $id,
-        $name, $utga
-    );
+        _selectRowNoParam(
+            "SELECT id, name, utga FROM strategy_time WHERE id=$t",
+            $id,
+            $name,
+            $utga
+        );
     ?>
 </head>
 
@@ -47,19 +49,19 @@
         </h5>
         <div style="border: 3px solid #032c94;border-radius: 10px;padding: 10px;text-align: center;font-size: 24px;">
             <div style="font-weight: bold">
-                <?=$name?>
+                <?= $name ?>
             </div>
             <div style="font-size: 20px;">
-                <?=$utga?>
+                <?= $utga ?>
             </div>
         </div>
         <span role="button" onclick="startTime()">START </span>
         <span role="button" onclick="stopTime()"> STOP</span>
         <div id="too" style="text-align: center;font-size: 44px;font-weight: bold;color: #1c1166;">
-            
+
         </div>
         <div>
-          <p id="demo" style="text-align: center;font-size: 80px;font-weight: bold;color: red;"></p>
+            <p id="demo" style="text-align: center;font-size: 80px;font-weight: bold;color: red;"></p>
         </div>
     </div>
 </body>
@@ -67,73 +69,73 @@
 <script>
     let x;
     var now = 60;
-    
+
     function getToo() {
         $.ajax({
             url: 'too',
             type: 'post',
             data: {
-                id: <?=$_GET['t']?>
+                id: <?= $_GET['t'] ?>
             },
             success: function(data) {
                 document.getElementById("too").innerHTML = data;
             }
         })
     }
-    
+
     function stopTime() {
         getToo();
         clearInterval(x);
         document.getElementById("demo").innerHTML = "";
-        
+
         $.ajax({
             url: 'too',
             type: 'post',
             data: {
-                startid: <?=$_GET['t']?>
+                startid: <?= $_GET['t'] ?>
             },
             success: function(data) {
-                
+
             }
         })
     }
-    
+
     function startTime() {
         startInterval();
     }
-    
+
     function startInterval() {
-        x = setInterval(function () {
-                now = now - 1;
-                var minutes = Math.floor(now / 60);
-                var seconds = now % 60;
-                if (minutes < 10) minutes = "0" + minutes;
-                if (seconds < 10) seconds = "0" + seconds;
-        
-                document.getElementById("demo").innerHTML = minutes + " : " + seconds;
-        
-                if (now < 10) document.getElementById("demo").style.color = "red";
-                if (now < 0) {
-                  clearInterval(x);
-                  getToo();
-                  document.getElementById("demo").innerHTML = "";
-                }
+        x = setInterval(function() {
+            now = now - 1;
+            var minutes = Math.floor(now / 60);
+            var seconds = now % 60;
+            if (minutes < 10) minutes = "0" + minutes;
+            if (seconds < 10) seconds = "0" + seconds;
+
+            document.getElementById("demo").innerHTML = minutes + " : " + seconds;
+
+            if (now < 10) document.getElementById("demo").style.color = "red";
+            if (now < 0) {
+                clearInterval(x);
+                getToo();
+                document.getElementById("demo").innerHTML = "";
+            }
         }, 1000);
     }
 </script>
+
 </html>
-<?php }
-else { ?>
-    
+<?php } else { ?>
+
     </head>
 
-<body>
-    <div class="container-md" style="margin-top: 30px;">
-        <a href="https://uvcollege.edu.mn/">БУРУУ ХҮСЭЛТ БАЙНА! БУЦАХ</a>
-    </div>
-</body>
+    <body>
+        <div class="container-md" style="margin-top: 30px;">
+            <a href="https://uvcollege.edu.mn/">БУРУУ ХҮСЭЛТ БАЙНА! БУЦАХ</a>
+        </div>
+    </body>
 
-</html>
-    
+    </html>
+
 <?php }
 ?>

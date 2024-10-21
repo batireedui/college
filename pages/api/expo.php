@@ -5,10 +5,9 @@ $expo = trim($obj["expo"]);
 
 if (!empty($expo)) {
     $success = _exec(
-            "INSERT INTO expo (token) VALUES (?)",
-            's',
-            [$expo],
-            $count
-        );
+        "INSERT INTO expo (token) VALUES (?)",
+        's',
+        [$expo],
+        $count
+    );
 }
-

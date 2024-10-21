@@ -16,25 +16,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
     <style>
         .blink {
-            background-color: #0778db !important; 
-            min-width: 80%  !important;
-            font-size: medium  !important;
+            background-color: #0778db !important;
+            min-width: 80% !important;
+            font-size: medium !important;
         }
     </style>
-    
+
     <?php
-    if(isset($_GET['t'])) {
-    $t = (int)$_GET['t'];
-    if($t == 1){
-        $sql = "SELECT id, name, utga FROM strategy_time WHERE id<5";
-    }
-    else $sql = "SELECT id, name, utga FROM strategy_time WHERE id>4";
-    _selectNoParam(
-        $st, $c,
-        $sql,
-        $id,
-        $name, $utga
-    );
+    if (isset($_GET['t'])) {
+        $t = (int)$_GET['t'];
+        if ($t == 1) {
+            $sql = "SELECT id, name, utga FROM strategy_time WHERE id<5";
+        } else $sql = "SELECT id, name, utga FROM strategy_time WHERE id>4";
+        _selectNoParam(
+            $st,
+            $c,
+            $sql,
+            $id,
+            $name,
+            $utga
+        );
     ?>
 </head>
 
@@ -47,36 +48,36 @@
         <h5 style="text-align: center; color: #032c94">
             Өвөрхангай аймаг дахь Политехник коллеж 2024.10.03
         </h5>
-        <div style="text-align: center;" class="mb-3" >
+        <div style="text-align: center;" class="mb-3">
             <a href="https://uvcollege.edu.mn/"><button class="btn btn-danger">НҮҮР ХУУДАС</button></a>
         </div>
         <div style="color: #006e2e; margin: auto; padding: 10px;" class="text-center">
             <?php
-            while(_fetch($st)) {
+            while (_fetch($st)) {
             ?>
-            <div class="mb-3">
-                <a class="blink btn text-white" data-mdb-ripple-init style="" href="https://surgalt.uvcollege.edu.mn/hural/time_click?t=<?=$id?>" role="button">
-                  <i class="fas fa-check me-2"></i>
-                  <?=$name?>
-                </a>
-            </div>
+                <div class="mb-3">
+                    <a class="blink btn text-white" data-mdb-ripple-init style="" href="https://surgalt.uvcollege.edu.mn/hural/time_click?t=<?= $id ?>" role="button">
+                        <i class="fas fa-check me-2"></i>
+                        <?= $name ?>
+                    </a>
+                </div>
             <?php } ?>
         </div>
     </div>
 </body>
+
 </html>
-<?php }
-else { ?>
-    
+<?php } else { ?>
+
     </head>
 
-<body>
-    <div class="container-md" style="margin-top: 30px;">
-        <a href="https://uvcollege.edu.mn/">БУРУУ ХҮСЭЛТ БАЙНА! БУЦАХ</a>
-    </div>
-</body>
+    <body>
+        <div class="container-md" style="margin-top: 30px;">
+            <a href="https://uvcollege.edu.mn/">БУРУУ ХҮСЭЛТ БАЙНА! БУЦАХ</a>
+        </div>
+    </body>
 
-</html>
-    
+    </html>
+
 <?php }
 ?>

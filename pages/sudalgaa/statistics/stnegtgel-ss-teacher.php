@@ -34,7 +34,8 @@ while (_fetch($stmt)) {
                 $sh_id,
                 $val_too
             );
-            while (_fetch($st)) { $d++;?>
+            while (_fetch($st)) {
+                $d++; ?>
                 <tr>
                     <td style="text-align: left;"><?= $d ?>) <?= $shalguur ?></td>
                     <td><button class="btn btn-danger"><?= $val_too ?></button></td>

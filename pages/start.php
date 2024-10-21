@@ -50,7 +50,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_fname'])) {
     }
 
     .active_row {
-      background-color: #d1b2f7;
+      background-color: #d1b2f7 !important;
     }
 
     .editcell {

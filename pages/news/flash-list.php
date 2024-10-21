@@ -1,5 +1,5 @@
 <?php
-require ROOT . "/pages/adminpanel/start.php"; 
+require ROOT . "/pages/adminpanel/start.php";
 
 _selectNoParam(
     $st,
@@ -49,21 +49,22 @@ $file = date("YmdHis");
                                     <th>ID</th>
                                     <th></th>
                                 </tr>
-                            <?php
-                            $dd = 1;
-                            while(_fetch($st)) { ?>
-                                <tr>
-                                    <td><?=$dd?></td>
-                                    <td><img src="/images/app_flash/<?=$image?>.jpg" style="width: 100px"/></td>
-                                    <td><?=$title?></td>
-                                    <td><?=$ognoo?></td>
-                                    <td>
-                                        <a href="/news/edit?id=<?=$id?>"/><span class="badge bg-success" role="button">Засах</span></a>
-                                        <span class="badge bg-danger" role="button" onclick="del(<?=$id?>, '<?=$title?>', <?=$image?>)">Устгах</a>
-                                    </td>
-                                </tr>
-                            <?php $dd++; }
-                            ?>
+                                <?php
+                                $dd = 1;
+                                while (_fetch($st)) { ?>
+                                    <tr>
+                                        <td><?= $dd ?></td>
+                                        <td><img src="/images/app_flash/<?= $image ?>.jpg" style="width: 100px" /></td>
+                                        <td><?= $title ?></td>
+                                        <td><?= $ognoo ?></td>
+                                        <td>
+                                            <a href="/news/edit?id=<?= $id ?>" /><span class="badge bg-success" role="button">Засах</span></a>
+                                            <span class="badge bg-danger" role="button" onclick="del(<?= $id ?>, '<?= $title ?>', <?= $image ?>)">Устгах</a>
+                                        </td>
+                                    </tr>
+                                <?php $dd++;
+                                }
+                                ?>
                             </table>
                         </div>
                     </div>
@@ -79,50 +80,53 @@ require ROOT . "/pages/adminpanel/footer.php"; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
     var quill = new Quill('#body', {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          ['image', 'code-block']
-        ]
-      },
-      placeholder: 'Compose an epic...',
-      theme: 'snow'  // or 'bubble'
+        modules: {
+            toolbar: [
+                [{
+                    header: [1, 2, false]
+                }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow' // or 'bubble'
     });
-    
+
     const now = new Date();
     const fname = '<?= $file ?>';
 
-    function del(id, title, image){
+    function del(id, title, image) {
         var r = confirm(title + " мэдээг устгахдаа итгэлтэй байна уу!")
-        if(r){
-        $.ajax({
+        if (r) {
+            $.ajax({
                 url: "ajax",
                 type: "POST",
                 data: {
-                mode: 6,
-                                    id: id,
-                                    image: image
-                                },
-                                error: function(xhr, textStatus, errorThrown) {
-                                    //console.log("Алдаа гарлаа");
-                                },
-                                beforeSend: function() {
-                                    //console.log("Түр хүлээнэ үү");
-                                },
-                                success: function(data) {
-                                    window.location.reload();
-                                },
-                                async: true
-                            });
+                    mode: 6,
+                    id: id,
+                    image: image
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    //console.log("Алдаа гарлаа");
+                },
+                beforeSend: function() {
+                    //console.log("Түр хүлээнэ үү");
+                },
+                success: function(data) {
+                    window.location.reload();
+                },
+                async: true
+            });
         }
     }
+
     function save() {
         let title = $('#title').val().trim();
         let body = quill.root.innerHTML;
 
         console.log(body);
-        
+
         if (title === "") {
             alert("Гарчиг оруулаагүй байна!");
         } else {
@@ -145,24 +149,24 @@ require ROOT . "/pages/adminpanel/footer.php"; ?>
                 success: function(data) {
                     $("#infotext").html(data);
                     $.ajax({
-                                url: "/sendnoti",
-                                type: "POST",
-                                data: {
-                                    newsAdd: 1,
-                                    title: title,
-                                    body: body
-                                },
-                                error: function(xhr, textStatus, errorThrown) {
-                                    //console.log("Алдаа гарлаа");
-                                },
-                                beforeSend: function() {
-                                    //console.log("Түр хүлээнэ үү");
-                                },
-                                success: function(data) {
-                                    //console.log(data);
-                                },
-                                async: true
-                            });
+                        url: "/sendnoti",
+                        type: "POST",
+                        data: {
+                            newsAdd: 1,
+                            title: title,
+                            body: body
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            //console.log("Алдаа гарлаа");
+                        },
+                        beforeSend: function() {
+                            //console.log("Түр хүлээнэ үү");
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                        },
+                        async: true
+                    });
                 },
                 async: true
             });

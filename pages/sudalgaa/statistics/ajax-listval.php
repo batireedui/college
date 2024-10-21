@@ -5,7 +5,7 @@ $jil = $_POST['jil'];
 
 $table = "s_sudalgaas";
 
-if($jil != $h_jil){
+if ($jil != $h_jil) {
     $table = $table . substr($jil, 0, 4);
 }
 
@@ -33,7 +33,7 @@ if ($_POST["type"] == "valget") {
         //array_push($val, [$too, $yes, $no]);
         $val .= "<div class='btn btn-outline-secondary' style='margin: 10px'>Судалгаа бөглөсөн: $too</div><div class='btn btn-outline-danger' style='margin: 10px' onclick='itemGet($pid, 1)'>Тийм: $yes</div>";
     }
-    
+
     _selectNoParam(
         $sstmts,
         $scounts,
@@ -43,13 +43,13 @@ if ($_POST["type"] == "valget") {
         $sname
     );
     $sstoo = [];
-    $ssname= [];
+    $ssname = [];
     while (_fetch($sstmts)) {
         //$sstoo[] = array("stoo"=>$stoo,"sid"=>$sid,"sname"=>$sname);
         array_push($sstoo, $stoo);
         array_push($ssname, $sname);
     }
-    
+
     $myObj->val = $val;
     $myObj->sstoo = $sstoo;
     $myObj->ssname = $ssname;
@@ -79,16 +79,16 @@ if ($_POST["type"] == "itemvalget") {
     $tempName = "";
     while (_fetch($sstmt)) {
         if ($tempName == $shalguur_id) {
-                $val .= "<a href='/sudalgaa/statistics/stcompare-list?id=$shalguur_id&ids=$pid&name=$name&jil=$jil'><button class='btn btn-outline-danger' style='margin: 10px'>Тийм: $too</button></a><br>";
+            $val .= "<a href='/sudalgaa/statistics/stcompare-list?id=$shalguur_id&ids=$pid&name=$name&jil=$jil'><button class='btn btn-outline-danger' style='margin: 10px'>Тийм: $too</button></a><br>";
         } else {
             /*if ($value == "0") {
                 $val .= "<div>Шалгуур: <span style='font-weight: bold'>$name</span></div><button class='btn btn-outline-primary' style='margin: 10px'>Үгүй: $too</button>";
             } else {*/
-                $val .= "<tr><td><div>Шалгуур: <span style='font-weight: bold'>$name</span></div></td><td><a href='/sudalgaa/statistics/stcompare-list?id=$shalguur_id&ids=$pid&name=$name&name1=$name1&jil=$jil'><button class='btn btn-outline-danger' style='margin: 10px'>Тийм: $too</button></a></td></tr>";
+            $val .= "<tr><td><div>Шалгуур: <span style='font-weight: bold'>$name</span></div></td><td><a href='/sudalgaa/statistics/stcompare-list?id=$shalguur_id&ids=$pid&name=$name&name1=$name1&jil=$jil'><button class='btn btn-outline-danger' style='margin: 10px'>Тийм: $too</button></a></td></tr>";
             //}
         }
         $tempName = $shalguur_id;
     }
-    echo "<table class='table'>" . $val ."</table>";
+    echo "<table class='table'>" . $val . "</table>";
     //echo json_encode($val);
 }

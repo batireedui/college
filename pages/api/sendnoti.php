@@ -2,17 +2,16 @@
 $json = file_get_contents('php://input');
 $obj = json_decode($json, true);
 
-if (isset($_POST['tasArr']))
-{
-    
+if (isset($_POST['tasArr'])) {
+
     $titleT = 'Ирцийн мэдээлэл';
     $udur = $_POST['date'];
     $cag = $_POST['cag'];
-    
+
     $msgT = "Суралцагч $udur-нд $cag-р цагт тасалсан байна.";
-    
-    $str = implode (", ", $_POST['tasArr']);
-    if(strlen($str) > 0){
+
+    $str = implode(", ", $_POST['tasArr']);
+    if (strlen($str) > 0) {
         _selectRowNoParam(
             "SELECT count(id) FROM parent WHERE student_id in ($str)",
             $sum
@@ -20,10 +19,9 @@ if (isset($_POST['tasArr']))
 
         $last = intdiv($sum, 100);
         $mo = fmod($sum, 100);
-    
+
         if ($mo != 0) $last++;
-        for ($f = 1;$f <= $last; $f++)
-        {
+        for ($f = 1; $f <= $last; $f++) {
             $fn = ($f - 1) * 100;
 
             _selectNoParam(
@@ -35,19 +33,17 @@ if (isset($_POST['tasArr']))
 
             $strto = "";
             $too = 0;
-            if ($ccount > 0)
-            {
-                while (_fetch($cstmt))
-                {
+            if ($ccount > 0) {
+                while (_fetch($cstmt)) {
                     $too++;
                     if ($too > 1) $strto = $strto . ", ";
                     $strto = $strto . '"' . $expoToken . '"';
                 }
                 $strto = "[" . $strto . "]";
-                $pf = '{"to": '.$strto.', "title": "'.trim($titleT).'","body": "'.trim($msgT).'", "sound": "default" }';
+                $pf = '{"to": ' . $strto . ', "title": "' . trim($titleT) . '","body": "' . trim($msgT) . '", "sound": "default" }';
 
                 $curl = curl_init();
-    
+
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => 'https://exp.host/--/api/v2/push/send',
                     CURLOPT_RETURNTRANSFER => true,
@@ -64,43 +60,41 @@ if (isset($_POST['tasArr']))
                         'Content-Type:  application/json'
                     )
                 ));
-    
-                $response =curl_exec($curl);
+
+                $response = curl_exec($curl);
                 $err = curl_error($curl);
                 curl_close($curl);
                 echo $response;
                 echo $err;
             }
-    
         }
     }
 }
 
-if (isset($_POST['noti_teachers']))
-{
+if (isset($_POST['noti_teachers'])) {
     $titleT = 'ӨВПК';
     $msgT = 'Мэдэгдэл ирлээ';
     $titleT = @$_POST['title'];
     $msgT = @$_POST['body'];
-    
-    $msgT = str_replace( "'", '', $msgT );
-                
-    $msgT = str_replace( '"', '', $msgT );
-                
+
+    $msgT = str_replace("'", '', $msgT);
+
+    $msgT = str_replace('"', '', $msgT);
+
     $msgT = substr($msgT, 0, 200);
-                
-    $titleT = str_replace( "'", '', $titleT );
-                
-    $titleT = str_replace( '"', '', $titleT );
-                
+
+    $titleT = str_replace("'", '', $titleT);
+
+    $titleT = str_replace('"', '', $titleT);
+
     $titleT = substr($titleT, 0, 60);
-    
+
     $users = array();
-    
+
     $users = $_POST['users'];
-    
-    $str = implode (", ", $users);
-    if(strlen($str) > 0){
+
+    $str = implode(", ", $users);
+    if (strlen($str) > 0) {
         _selectRowNoParam(
             "SELECT count(id) FROM teacher WHERE id in ($str)",
             $sum
@@ -108,10 +102,9 @@ if (isset($_POST['noti_teachers']))
 
         $last = intdiv($sum, 100);
         $mo = fmod($sum, 100);
-    
+
         if ($mo != 0) $last++;
-        for ($f = 1;$f <= $last; $f++)
-        {
+        for ($f = 1; $f <= $last; $f++) {
             $fn = ($f - 1) * 100;
 
             _selectNoParam(
@@ -123,19 +116,17 @@ if (isset($_POST['noti_teachers']))
 
             $strto = "";
             $too = 0;
-            if ($ccount > 0)
-            {
-                while (_fetch($cstmt))
-                {
+            if ($ccount > 0) {
+                while (_fetch($cstmt)) {
                     $too++;
                     if ($too > 1) $strto = $strto . ", ";
                     $strto = $strto . '"' . $expoToken . '"';
                 }
                 $strto = "[" . $strto . "]";
-                $pf = '{"to": '.$strto.', "title": "'.trim($titleT).'","body": "'.trim($msgT).'", "sound": "default" }';
+                $pf = '{"to": ' . $strto . ', "title": "' . trim($titleT) . '","body": "' . trim($msgT) . '", "sound": "default" }';
 
                 $curl = curl_init();
-    
+
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => 'https://exp.host/--/api/v2/push/send',
                     CURLOPT_RETURNTRANSFER => true,
@@ -152,14 +143,13 @@ if (isset($_POST['noti_teachers']))
                         'Content-Type:  application/json'
                     )
                 ));
-    
-                $response =curl_exec($curl);
+
+                $response = curl_exec($curl);
                 $err = curl_error($curl);
                 curl_close($curl);
                 echo $response;
                 echo $err;
             }
-    
         }
     }
 }

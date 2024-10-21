@@ -68,7 +68,7 @@ _selectRowNoParam(
             <?php }
             if (checkErh(12, $user_role, $user_id)) { ?>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/btime") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/btime/teacher") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                   <i class="fas fa-business-time m-1"></i>
                   "Б" ЦАГ
                 </a>
@@ -84,20 +84,20 @@ _selectRowNoParam(
             <?php }
             if (checkErh(11, $user_role, $user_id)) { ?>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/btime") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/btime/work") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                   <i class="fas fa-business-time m-1"></i>
                   "Б" ЦАГ ТООЦОХ
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="mcl">
                   <li>
-                    <a class="dropdown-item" href="/btime/teacher/list">"Б" цаг тооцох</a>
+                    <a class="dropdown-item" href="/btime/work/bodoh">"Б" цаг тооцох</a>
                   </li>
-                  <?php if ($user_role > 1 && $user_role < 5) { ?>
+                  <?php if ($user_role > 1 && $user_role < 5 || checkErh(0, $user_role, $user_id)) { ?>
                     <li>
                       <a class="dropdown-item" href="/btime/work/add">Ажил үйлчилгээ нэмэх</a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/btime/teacher/list">Нэгтгэл хэвлэх</a>
+                      <a class="dropdown-item" href="/btime/work/list">Нэгтгэл хэвлэх</a>
                     </li>
                   <?php } ?>
                 </ul>
@@ -131,11 +131,7 @@ _selectRowNoParam(
                   <i class="fa fa-file m-1" aria-hidden="true"></i>
                   ТАЙЛАН
                 </a>
-<<<<<<< HEAD
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-=======
                 <ul class="dropdown-menu" aria-labelledby="remenu">
->>>>>>> 49ebac96be8ab6e1d4667b22c1d72f1f2d2a9b14
                   <?php if ($myClass > 0) { ?>
                     <li>
                       <a class="dropdown-item" href="/report/att">АНГИЙН ИРЦ</a>
@@ -186,8 +182,6 @@ _selectRowNoParam(
               </li>
             <?php
             }
-
-            //Эндээс эрх шалгаж харуулна
             if (checkErh(1, $user_role, $user_id) == true || checkErh(2, $user_role, $user_id)) {
             ?>
               <li class="nav-item dropdown">

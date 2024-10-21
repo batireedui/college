@@ -15,7 +15,7 @@ function msg($success, $status, $message, $extra = [])
 }
 
 
-if($userType == "1") $table = "teacher";
+if ($userType == "1") $table = "teacher";
 else $table = "parent";
 _selectRow(
     "select id, pass from $table where phone=?",
@@ -28,23 +28,21 @@ if (!empty($user_id)) {
     if (password_verify($password, $user_pass)) {
         $tok = tokenGen();
         $success = _exec(
-                "UPDATE $table SET token = ? WHERE id=?",
-                'si',
-                [$tok, $user_id],
-                $count
-            );
+            "UPDATE $table SET token = ? WHERE id=?",
+            'si',
+            [$tok, $user_id],
+            $count
+        );
         $returnData = [
             'success' => 1,
             'message' => 'Амжилттай нэвтэрлээ.',
             'token' => $tok,
             'user'
         ];
-    }
-    else {
+    } else {
         $returnData = msg(0, 422, 'Нууц үг буруу байна!');
     }
 } else {
     $returnData = msg(0, 422, 'Нууц үг буруу байна!');
 }
 echo json_encode($returnData);
-

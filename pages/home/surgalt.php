@@ -1,5 +1,5 @@
 <?php
-if (checkErh(9, $user_role, $user_id) || checkErh(10, $user_role, $user_id))  {
+if (checkErh(9, $user_role, $user_id) || checkErh(10, $user_role, $user_id)) {
     $date = date('Y-m-d');
 ?>
 

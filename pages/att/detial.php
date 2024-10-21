@@ -71,7 +71,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php $too = 0;
                 while (_fetch($stmt)) :
                     $sval = 0;
-                    if($irc !== null) {
+                    if ($irc !== null) {
                         foreach ($irc as $key => $el) {
                             if ($el->id == $sid) {
                                 $sval = $el->val;
@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id'])) {
                         <td><?= $too ?></td>
                         <td id="tf1-<?= $sid ?>"><?= $sfname ?></td>
                         <td id="tf2-<?= $sid ?>"><?= $slname ?></td>
-                        <td id="tf3-<?= $sid ?>"><span class="badge badge-<?= @$tuluvColor[$sval]?>"><?= @$tuluvIrc[$sval] ?></span></td>
+                        <td id="tf3-<?= $sid ?>"><span class="badge badge-<?= @$tuluvColor[$sval] ?>"><?= @$tuluvIrc[$sval] ?></span></td>
                     </tr>
                 <?php endwhile; ?>
             <?php endif; ?>

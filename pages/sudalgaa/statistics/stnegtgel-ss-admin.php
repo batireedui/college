@@ -5,7 +5,7 @@ $jil = $_POST['jil'];
 
 $table = "s_sudalgaas";
 
-if($jil != $h_jil){
+if ($jil != $h_jil) {
     $table = $table . substr($jil, 0, 4);
 }
 
@@ -27,16 +27,16 @@ while (_fetch($stmt)) {
 }
 
 $schools = array();
-    _selectNoParam(
-        $stmts,
-        $counst,
-        "SELECT id, sname FROM `class` WHERE class.tuluv=1 ORDER BY sname",
-        $s_id,
-        $s_name
-    );
-    while (_fetch($stmts)) {
-        array_push($schools, [$s_id, $s_name]);
-    }
+_selectNoParam(
+    $stmts,
+    $counst,
+    "SELECT id, sname FROM `class` WHERE class.tuluv=1 ORDER BY sname",
+    $s_id,
+    $s_name
+);
+while (_fetch($stmts)) {
+    array_push($schools, [$s_id, $s_name]);
+}
 
 ?>
 
@@ -76,23 +76,23 @@ $schools = array();
             </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-            <?php 
-                foreach ($schools as $skey => $sval) {
-                ?>
-                    <tr>
-                        <td><?= $sval[1] ?></td>
-                        <?php
-                        foreach ($shalguurs as $key => $val) :
-                            _selectRowNoParam(
-                                "SELECT COUNT(DISTINCT $table.student_id) FROM `$table` INNER JOIN students ON $table.student_id = students.id WHERE $table.value = '1' and $table.shalguur_id = $val[0] and students.class = $sval[0]",
-                                $val_too
-                            );
-                            echo "<td colspan='2'>$val_too</td>";
-                        ?>
-                        <?php endforeach ?>
-                    </tr>
+            <?php
+            foreach ($schools as $skey => $sval) {
+            ?>
+                <tr>
+                    <td><?= $sval[1] ?></td>
+                    <?php
+                    foreach ($shalguurs as $key => $val) :
+                        _selectRowNoParam(
+                            "SELECT COUNT(DISTINCT $table.student_id) FROM `$table` INNER JOIN students ON $table.student_id = students.id WHERE $table.value = '1' and $table.shalguur_id = $val[0] and students.class = $sval[0]",
+                            $val_too
+                        );
+                        echo "<td colspan='2'>$val_too</td>";
+                    ?>
+                    <?php endforeach ?>
+                </tr>
             <?php }
-         ?>
+            ?>
         </tbody>
     </table>
 </div>

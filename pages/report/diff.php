@@ -105,20 +105,21 @@ $columnNumber = 7;
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
-    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
-        	let tableData = document.getElementById(tableId).outerHTML;
-        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
-            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
-        
-        	let a = document.createElement('a');
-        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
-        	a.download = $('#class_id option:selected').text() + ', ' + $('#sdate').val() + '-' + $('#ldate').val() + '.xls'
-        	a.click()
+    function exportToExcel(tableId, name = "ИРЦ БҮРТГЭЛИЙН ПРОГРАМ") {
+        let tableData = document.getElementById(tableId).outerHTML;
+        tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+        tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+
+        let a = document.createElement('a');
+        a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        a.download = $('#class_id option:selected').text() + ', ' + $('#sdate').val() + '-' + $('#ldate').val() + '.xls'
+        a.click()
     }
-    function print(){
-        $('#table').printElement({
-        });
+
+    function print() {
+        $('#table').printElement({});
     }
+
     function check() {
         $('div.action').each(function() {
             $(this).html("");

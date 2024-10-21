@@ -24,17 +24,16 @@ if (isset($_SESSION['user_id'])) {
         _selectRowNoParam(
             "SELECT count(id) FROM att WHERE lessonid = '$lesson_id'",
             $too
-            );
-        if($too > 0){
-            echo "Устгах боломжгүй байна. Энэ хичээлийг сонгож ирц бүртгэсэн байна.";
-        }
-        else {
-                    $success = _exec(
-            "DELETE FROM tlesson WHERE id = ?",
-            'i',
-            [$lesson_id],
-            $count
         );
+        if ($too > 0) {
+            echo "Устгах боломжгүй байна. Энэ хичээлийг сонгож ирц бүртгэсэн байна.";
+        } else {
+            $success = _exec(
+                "DELETE FROM tlesson WHERE id = ?",
+                'i',
+                [$lesson_id],
+                $count
+            );
         }
     } elseif ($mode == 4) {
         $lesson_id = $_POST['lesson_id'];

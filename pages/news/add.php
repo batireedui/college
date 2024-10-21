@@ -5,8 +5,8 @@ require ROOT . "/pages/start.php"; ?>
         display: none;
     }
 </style>
-  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
 <?php
 require ROOT . "/pages/header.php";
 $file = date("YmdHis");
@@ -37,13 +37,13 @@ $file = date("YmdHis");
                             </div>
                             <div class="col-sm-2">
                                 <label for="inputText" class="col-sm-12 col-form-label">Хэзээ</label>
-                                <input type="date" class="form-control" id="ognoo" value=<?=date('Y-m-d')?>>
+                                <input type="date" class="form-control" id="ognoo" value=<?= date('Y-m-d') ?>>
                             </div>
                             <div class="col-sm-2">
                                 <label for="inputText" class="col-sm-12 col-form-label">Мэдэгдэл илгээх</label>
                                 <div class="form-check form-switch">
-                                  <input class="form-check-input" type="checkbox" role="switch" id="notisend" checked>
-                                  <label class="form-check-label" for="notisend">ТИЙМ</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="notisend" checked>
+                                    <label class="form-check-label" for="notisend">ТИЙМ</label>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@ $file = date("YmdHis");
                                 <p id="progress_status"></p>
                                 <label for="upload_file" class="custom-file-upload btn btn-primary" style="margin-top: 10px;"> Зураг сонгох</label>
                                 <input class="margin" type="file" formnovalidate id="upload_file" name="file" accept=".jpg, .png, .jpeg" onchange="imageSave(event)">
-                                
+
                                 <p>300х200 харьцаатай зүураг оруулна уу!</p>
                             </div>
                         </div>
@@ -92,17 +92,19 @@ require ROOT . "/pages/footer.php"; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
     var quill = new Quill('#body', {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          ['image', 'code-block']
-        ]
-      },
-      placeholder: 'Compose an epic...',
-      theme: 'snow'  // or 'bubble'
+        modules: {
+            toolbar: [
+                [{
+                    header: [1, 2, false]
+                }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow' // or 'bubble'
     });
-    
+
     const now = new Date();
     const fname = '<?= $file ?>';
 
@@ -113,7 +115,7 @@ require ROOT . "/pages/footer.php"; ?>
         let body = quill.root.innerHTML;
 
         console.log(notisend);
-        
+
         if (title === "") {
             alert("Гарчиг оруулаагүй байна!");
         } else {
@@ -136,26 +138,26 @@ require ROOT . "/pages/footer.php"; ?>
                 },
                 success: function(data) {
                     $("#infotext").html(data);
-                    if(notisend){
+                    if (notisend) {
                         $.ajax({
-                                url: "/sendnoti",
-                                type: "POST",
-                                data: {
-                                    newsAdd: 1,
-                                    title: title,
-                                    body: body
-                                },
-                                error: function(xhr, textStatus, errorThrown) {
-                                    //console.log("Алдаа гарлаа");
-                                },
-                                beforeSend: function() {
-                                    //console.log("Түр хүлээнэ үү");
-                                },
-                                success: function(data) {
-                                    //console.log(data);
-                                    
-                                },
-                                async: true
+                            url: "/sendnoti",
+                            type: "POST",
+                            data: {
+                                newsAdd: 1,
+                                title: title,
+                                body: body
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                //console.log("Алдаа гарлаа");
+                            },
+                            beforeSend: function() {
+                                //console.log("Түр хүлээнэ үү");
+                            },
+                            success: function(data) {
+                                //console.log(data);
+
+                            },
+                            async: true
                         });
                     }
                     window.location.href = 'list';

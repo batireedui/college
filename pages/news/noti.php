@@ -51,29 +51,29 @@ require ROOT . "/pages/footer.php"; ?>
         let body = $('#title').val().trim();
 
         console.log(body);
-        
+
         if (body === "") {
             alert("Гарчиг оруулаагүй байна!");
         } else {
             $.ajax({
-                                url: "/sendnoti",
-                                type: "POST",
-                                data: {
-                                    newsAdd: 1,
-                                    title: body,
-                                    body: body
-                                },
-                                error: function(xhr, textStatus, errorThrown) {
-                                    //console.log("Алдаа гарлаа");
-                                },
-                                beforeSend: function() {
-                                    //console.log("Түр хүлээнэ үү");
-                                },
-                                success: function(data) {
-                                    //console.log(data);
-                                },
-                                async: true
-                            });
+                url: "/sendnoti",
+                type: "POST",
+                data: {
+                    newsAdd: 1,
+                    title: body,
+                    body: body
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    //console.log("Алдаа гарлаа");
+                },
+                beforeSend: function() {
+                    //console.log("Түр хүлээнэ үү");
+                },
+                success: function(data) {
+                    //console.log(data);
+                },
+                async: true
+            });
         }
     }
 
@@ -81,8 +81,6 @@ require ROOT . "/pages/footer.php"; ?>
     const MAX_HEIGHT = 300;
     const MIME_TYPE = "image/jpg";
     const QUALITY = 1;
-
-
 </script>
 <?php
 require ROOT . "/pages/end.php";

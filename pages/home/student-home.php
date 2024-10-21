@@ -1,68 +1,69 @@
 <?php
 if (isset($_SESSION['user_id'])) {
-$date = date('Y-m-d');
-if (isset($_POST['date']))
- { $date = $_POST['date']; }
+    $date = date('Y-m-d');
+    if (isset($_POST['date'])) {
+        $date = $_POST['date'];
+    }
 
-_selectNoParam(
-    $cstmt,
-    $ccount,
-    "SELECT id, name, inter FROM cag WHERE tuluv=1",
-    $id,
-    $name,
-    $inter
-);
+    _selectNoParam(
+        $cstmt,
+        $ccount,
+        "SELECT id, name, inter FROM cag WHERE tuluv=1",
+        $id,
+        $name,
+        $inter
+    );
 
-$cagArr = [];
+    $cagArr = [];
 
-while (_fetch($cstmt)) {
-    $item = new stdClass();
-    $item->id = $id;
-    $item->name = $name;
-    $item->inter = $inter;
-    array_push($cagArr, $item);
-}
+    while (_fetch($cstmt)) {
+        $item = new stdClass();
+        $item->id = $id;
+        $item->name = $name;
+        $item->inter = $inter;
+        array_push($cagArr, $item);
+    }
 
-_selectNoParam(
-    $stmt,
-    $count,
-    "SELECT id, name, sname FROM class WHERE tuluv = 1 ORDER BY sname",
-    $cid,
-    $cname,
-    $sname
-);
+    _selectNoParam(
+        $stmt,
+        $count,
+        "SELECT id, name, sname FROM class WHERE tuluv = 1 ORDER BY sname",
+        $cid,
+        $cname,
+        $sname
+    );
 
-$classArr = [];
+    $classArr = [];
 
-while (_fetch($stmt)) {
-    $item = new stdClass();
-    $item->cid = $cid;
-    $item->cname = $cname;
-    $item->sname = $sname;
-    array_push($classArr, $item);
-}
+    while (_fetch($stmt)) {
+        $item = new stdClass();
+        $item->cid = $cid;
+        $item->cname = $cname;
+        $item->sname = $sname;
+        array_push($classArr, $item);
+    }
 
-_selectNoParam(
-    $attstmt,
-    $attcount,
+    _selectNoParam(
+        $attstmt,
+        $attcount,
         "SELECT id, niit, v1, classid, cagid FROM att WHERE this_on = '$this_on' and ognoo = '$date'",
-                            $check,
-                            $niit,
-                            $v1,
-                            $classid,
-                            $cagid
-                        );
-$attArr = [];
+        $check,
+        $niit,
+        $v1,
+        $classid,
+        $cagid
+    );
+    $attArr = [];
 
-while (_fetch($attstmt)) {
-    $item = new stdClass();
-    $item->check = $check;
-    $item->niit = $niit;
-    $item->v1 = $v1;
-    $item->classid = $classid;
-    $item->cagid = $cagid;
-    array_push($attArr, $item);
-}
+    while (_fetch($attstmt)) {
+        $item = new stdClass();
+        $item->check = $check;
+        $item->niit = $niit;
+        $item->v1 = $v1;
+        $item->classid = $classid;
+        $item->cagid = $cagid;
+        array_push($attArr, $item);
+    }
 ?>
     <div id="table">
         <table class="table table-bordered hovercell">
@@ -90,14 +91,14 @@ while (_fetch($attstmt)) {
                         $niit = 0;
                         $v1 = 0;
                         foreach ($attArr as $attel) {
-                            if($cel->cid == $attel->classid && $el->id == $attel->cagid){
+                            if ($cel->cid == $attel->classid && $el->id == $attel->cagid) {
                                 $check = $attel->check;
                                 $niit = $attel->niit;
                                 $v1 = $attel->v1;
                                 break;
                             }
                         }
-                        
+
                         if ($check > 0) {
                             $huvi = 0;
                             if ($v1 != 0 && $niit != 0)

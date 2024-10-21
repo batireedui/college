@@ -41,10 +41,11 @@ $columnNumber = 7;
             <label>Эхлэх он</label>
             <select class="form form-control mb-3" id="son">
                 <?php
-                $con = $thison;
-                while($con >= $starton){?>
-                    <option><?=$con?></option>
-                <?php $con--; } ?>
+                $currenton = $thison;
+                while ($currenton >= $starton) { ?>
+                    <option><?= $currenton ?></option>
+                <?php $currenton--;
+                } ?>
             </select>
         </div>
         <div class="col-md-1">
@@ -68,10 +69,11 @@ $columnNumber = 7;
             <label>Сүүлийн он</label>
             <select class="form form-control mb-3" id="lon">
                 <?php
-                $con = $thison;
-                while($con >= $starton){?>
-                    <option><?=$con?></option>
-                <?php $con--; } ?>
+                $cocurrentonn = $thison;
+                while ($currenton >= $starton) { ?>
+                    <option><?= $currenton ?></option>
+                <?php $currenton--;
+                } ?>
             </select>
         </div>
         <div class="col-md-1">
@@ -130,20 +132,21 @@ $columnNumber = 7;
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
-    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
-        	let tableData = document.getElementById(tableId).outerHTML;
-        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
-            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
-        
-        	let a = document.createElement('a');
-        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
-        	a.download = $('#class option:selected').text() + ', ИРЦИЙН НЭГТГЭЛ' + '.xls'
-        	a.click()
+    function exportToExcel(tableId, name = "ИРЦ БҮРТГЭЛИЙН ПРОГРАМ") {
+        let tableData = document.getElementById(tableId).outerHTML;
+        tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+        tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+
+        let a = document.createElement('a');
+        a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        a.download = $('#class option:selected').text() + ', ИРЦИЙН НЭГТГЭЛ' + '.xls'
+        a.click()
     }
-    function print(){
-        $('#table').printElement({
-        });
+
+    function print() {
+        $('#table').printElement({});
     }
+
     function check() {
         $('div.action').each(function() {
             $(this).html("");

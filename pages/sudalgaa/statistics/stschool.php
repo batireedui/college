@@ -10,7 +10,7 @@
 require ROOT . "/pages/header.php";
 $h_jil = $_SESSION['jil'];
 $sql = "";
-if($user_role == "najiltan"){
+if ($user_role == "najiltan") {
     $sql = " WHERE schools.id = $school_id";
 }
 _selectNoParam(
@@ -141,7 +141,7 @@ $no_too = $no_too - $yes_too;
                         opacity: 1
                     },
                     title: {
-                        text: "СУДАЛГАА БҮРТГЭСЭН БАЙДАЛ - (<?=$h_jil?>)",
+                        text: "СУДАЛГАА БҮРТГЭСЭН БАЙДАЛ - (<?= $h_jil ?>)",
                         align: 'center',
                         style: {
                             fontSize: '18px',

@@ -108,8 +108,7 @@ require ROOT . "/pages/footer.php"; ?>
         });
         if ($('#class').val() === null) {
             alert("Анги сонгогдоогүй байна!");
-        } 
-        else {
+        } else {
             $("#table").html("");
             $.ajax({
                 url: "ajax",

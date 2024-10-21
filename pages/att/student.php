@@ -24,7 +24,7 @@ if (isset($_SESSION['user_id'])) {
         INNER JOIN tlesson ON att.lessonid = tlesson.id 
         INNER JOIN teacher ON att.tid = teacher.id 
         INNER JOIN cag ON att.cagid = cag.id 
-        WHERE ognoo BETWEEN '$start' and '$last' and irc LIKE " . '\'%{"id":"' . $id . '",%\''. " ORDER BY ognoo, cag.name",
+        WHERE ognoo BETWEEN '$start' and '$last' and irc LIKE " . '\'%{"id":"' . $id . '",%\'' . " ORDER BY ognoo, cag.name",
         $ognoo,
         $cag,
         $irc,
@@ -50,13 +50,13 @@ if (isset($_SESSION['user_id'])) {
                 $too++ ?>
                 <tr>
                     <td><?= $too ?></td>
-                    <td id="tf1-<?= $sid ?>"><?= $ognoo ?> <span style='font-size: 12px'>( <?=$lessonName?>, <?= substr($fname, 0, 2)?>.<?=$lname?>)</span></td>
+                    <td id="tf1-<?= $sid ?>"><?= $ognoo ?> <span style='font-size: 12px'>( <?= $lessonName ?>, <?= substr($fname, 0, 2) ?>.<?= $lname ?>)</span></td>
                     <td id="tf2-<?= $sid ?>"><?= $cag ?></td>
                     <td id="tf3-<?= $sid ?>">
                         <?php
                         foreach ($irc as $key => $el) {
                             if ($el->id == $sid)
-                                echo "<span class='alert alert-" .$tuluvColor[$el->val] . "'>" . $tuluvIrc[$el->val] . "</span";
+                                echo "<span class='alert alert-" . $tuluvColor[$el->val] . "'>" . $tuluvIrc[$el->val] . "</span";
                         }
                         ?>
                     </td>

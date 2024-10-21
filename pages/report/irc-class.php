@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id'])) {
             "SELECT ognoo FROM att WHERE classid = '$class' and ognoo between '$sdate' and '$edate' GROUP BY ognoo ORDER BY ognoo, cagid",
             $ognoo
         );
-        
+
         _selectRowNoParam(
             "SELECT sname, name, fname, lname FROM class INNER JOIN teacher ON class.teacherid = teacher.id WHERE class.id='$class'",
             $sname,
@@ -41,15 +41,15 @@ if (isset($_SESSION['user_id'])) {
             $tlname
         );
 ?>
-<h5 style='text-align: center;'>АНГИЙН ИРЦИЙН БҮРТГЭЛ</h5>
-<p style='text-align: center;'><?php echo "$sname $class_name"; ?></p>
-<div style="display: flex;justify-content: space-between;">
-    <div>Хугацаа: <?=$sdate?> өдрөөс <?=$edate?>-н хүртэл</div>
-    <div>Хэвлэсэн: <?=date("Y.m.d H:i")?></div>
-</div>
+        <h5 style='text-align: center;'>АНГИЙН ИРЦИЙН БҮРТГЭЛ</h5>
+        <p style='text-align: center;'><?php echo "$sname $class_name"; ?></p>
+        <div style="display: flex;justify-content: space-between;">
+            <div>Хугацаа: <?= $sdate ?> өдрөөс <?= $edate ?>-н хүртэл</div>
+            <div>Хэвлэсэн: <?= date("Y.m.d H:i") ?></div>
+        </div>
         <div class="row">
-            <div class="col m-3 alert alert-success">Нийт хичээллэсэн өдөр: <?=$count?></div>
-            <div class="col m-3 alert alert-primary" id="sumcag">Нийт хичээллэсэн өдөр: <?=$count?></div>
+            <div class="col m-3 alert alert-success">Нийт хичээллэсэн өдөр: <?= $count ?></div>
+            <div class="col m-3 alert alert-primary" id="sumcag">Нийт хичээллэсэн өдөр: <?= $count ?></div>
         </div>
 
         <table class="table table-bordered">
@@ -89,8 +89,8 @@ if (isset($_SESSION['user_id'])) {
                             $echo = "<td style='text-align: center'  data-mdb-toggle='modal' data-mdb-target='#detial' role='button' onclick='detial($check)'><i class='fa-solid fa-circle-check text-success'></i> $huvi%</td>";
                         }
                     ?>
-                    <?= $echo ?>
-                        
+                        <?= $echo ?>
+
                     <?php
                     endforeach
                     ?>
@@ -99,11 +99,11 @@ if (isset($_SESSION['user_id'])) {
             endwhile
             ?>
         </table>
-        <p style='text-align: center;'>Анги удирдсан багш .......................... <?php echo substr($tfname, 0, 2). ".$tlname"; ?></p>
+        <p style='text-align: center;'>Анги удирдсан багш .......................... <?php echo substr($tfname, 0, 2) . ".$tlname"; ?></p>
         <script>
-            document.getElementById("sumcag").innerText="Нийт хичээллэсэн цаг: " + <?=$sumcag*2?>;
+            document.getElementById("sumcag").innerText = "Нийт хичээллэсэн цаг: " + <?= $sumcag * 2 ?>;
         </script>
-        
+
 <?php
     }
 }

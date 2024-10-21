@@ -41,10 +41,11 @@ $columnNumber = 7;
             <label>Он</label>
             <select class="form form-control mb-3" id="on">
                 <?php
-                $con = $thison;
-                while($con >= $starton){?>
-                    <option><?=$con?></option>
-                <?php $con--; } ?>
+                $currenton = $thison;
+                while ($currenton >= $starton) { ?>
+                    <option><?= $currenton ?></option>
+                <?php $currenton--;
+                } ?>
             </select>
         </div>
         <div class="col-md-1">
@@ -79,96 +80,98 @@ $columnNumber = 7;
     <div id="table">
 
     </div>
-        <div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detialLabel">ИРЦ БҮРТГЭЛ</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body">
+    <div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detialLabel">ИРЦ БҮРТГЭЛ</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body">
 
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="batal" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detialLabel">БАТАЛГААЖУУЛАЛТ</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body-batal">
+    </div>
+    <div class="modal fade" id="batal" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detialLabel">БАТАЛГААЖУУЛАЛТ</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body-batal">
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Болих</button>
-                        <button type="button" class="btn btn-danger" onclick="batal()" style="">БАТАЛГААЖУУЛ</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Болих</button>
+                    <button type="button" class="btn btn-danger" onclick="batal()" style="">БАТАЛГААЖУУЛ</button>
                 </div>
             </div>
         </div>
-                <div class="modal fade" id="cancel" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detialLabel">БАТАЛГААЖУУЛАЛТ ЦУЦЛАХ</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body-cancel">
+    </div>
+    <div class="modal fade" id="cancel" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detialLabel">БАТАЛГААЖУУЛАЛТ ЦУЦЛАХ</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body-cancel">
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Болих</button>
-                        <button type="button" class="btn btn-danger" onclick="cancel()" style="">ЦУЦЛАХ</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Болих</button>
+                    <button type="button" class="btn btn-danger" onclick="cancel()" style="">ЦУЦЛАХ</button>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
-    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
-        	let tableData = document.getElementById(tableId).outerHTML;
-        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
-            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
-        
-        	let a = document.createElement('a');
-        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
-        	a.download = $('#class option:selected').text() + ', ' + $('#on').val() + '-' + $('#sar').val() + '.xls'
-        	a.click()
+    function exportToExcel(tableId, name = "ИРЦ БҮРТГЭЛИЙН ПРОГРАМ") {
+        let tableData = document.getElementById(tableId).outerHTML;
+        tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+        tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+
+        let a = document.createElement('a');
+        a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        a.download = $('#class option:selected').text() + ', ' + $('#on').val() + '-' + $('#sar').val() + '.xls'
+        a.click()
     }
-    function print(){
-        $('#table').printElement({
+
+    function print() {
+        $('#table').printElement({});
+    }
+
+    function detial(id) {
+        row_click(id)
+        $.ajax({
+            url: "../att/student",
+            type: "POST",
+            data: {
+                mode: 1,
+                id: id,
+                son: $('#on').val(),
+                ssar: $('#sar').val(),
+                lon: $('#on').val(),
+                lsar: $('#sar').val()
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                $("#modal-body").html("Алдаа гарлаа !");
+            },
+            beforeSend: function() {
+                $('#modal-body').html("Түр хүлээнэ үү ...");
+            },
+            success: function(data) {
+                $('#modal-body').html(data);
+            },
+            async: true
         });
     }
-    function detial(id) {
-                row_click(id)
-                $.ajax({
-                    url: "../att/student",
-                    type: "POST",
-                    data: {
-                        mode: 1,
-                        id: id,
-                        son: $('#on').val(),
-                        ssar: $('#sar').val(),
-                        lon: $('#on').val(),
-                        lsar: $('#sar').val()
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        $("#modal-body").html("Алдаа гарлаа !");
-                    },
-                    beforeSend: function() {
-                        $('#modal-body').html("Түр хүлээнэ үү ...");
-                    },
-                    success: function(data) {
-                        $('#modal-body').html(data);
-                    },
-                    async: true
-                });
-    }
+
     function check() {
         $('div.action').each(function() {
             $(this).html("");
@@ -198,10 +201,12 @@ require ROOT . "/pages/footer.php"; ?>
             });
         }
     }
+
     function batalClick() {
         let val = $('#class_name').html() + " ангийн ирцийг баталгаажуулахдаа итгэлтэй байна уу! Баталгаажуулсан тохиолдолд тус ангид тухайн сард багш нар ирц оруулах, засварлах боломжгүй болно.";
         $("#modal-body-batal").html(val);
     }
+
     function batal() {
         if ($('#class').val() === null) {
             alert("Анги сонгогдоогүй байна!");
@@ -228,10 +233,12 @@ require ROOT . "/pages/footer.php"; ?>
             });
         }
     }
+
     function cancelClick() {
         let val = $('#class_name').html() + " ангийн ирцийн баталгаажуулалт цуцлахдаа итгэлтэй байна уу! Цуцалсан тохиолдолд тус ангид тухайн сард багш нар ирц оруулах, засварлах боломжтой болно.";
         $("#modal-body-cancel").html(val);
     }
+
     function cancel() {
         if ($('#class').val() === null) {
             alert("Анги сонгогдоогүй байна!");

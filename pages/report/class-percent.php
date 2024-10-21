@@ -44,60 +44,61 @@ $columnNumber = 7;
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="modal-body-main">
-    
+
                 </div>
             </div>
         </div>
     </div>
-<?php
-require ROOT . "/pages/footer.php"; ?>
-<script>
-    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
-        	let tableData = document.getElementById(tableId).outerHTML;
-        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+    <?php
+    require ROOT . "/pages/footer.php"; ?>
+    <script>
+        function exportToExcel(tableId, name = "ИРЦ БҮРТГЭЛИЙН ПРОГРАМ") {
+            let tableData = document.getElementById(tableId).outerHTML;
+            tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
             tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
-        
-        	let a = document.createElement('a');
-        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
-        	a.download = 'Ангийн ирцийн гүйцэтгэл' + ', ' + $('#sdate').val() + '-' + $('#ldate').val() + '.xls'
-        	a.click()
-    }
-    function print(){
-        $('#table').printElement({
-        });
-    }
-    function check() {
-        $('div.action').each(function() {
-            $(this).html("");
-        });
-        if ($('#class_id').val() === null) {
-            alert("Анги сонгогдоогүй байна!");
-        } else {
-            $("#table").html("");
-            $.ajax({
-                url: "class-percent-ss",
-                type: "POST",
-                data: {
-                    sdate: $('#sdate').val(),
-                    ldate: $('#ldate').val()
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    $("#table").html("Алдаа гарлаа !");
-                },
-                beforeSend: function() {
-                    $("#table").html("Түр хүлээнэ үү ...");
-                },
-                success: function(data) {
-                    $("#table").html(data);
-                },
-                async: true
-            });
-        }
-    }
 
-    function detial(id) {
-        row_click(id)
-         $.ajax({
+            let a = document.createElement('a');
+            a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+            a.download = 'Ангийн ирцийн гүйцэтгэл' + ', ' + $('#sdate').val() + '-' + $('#ldate').val() + '.xls'
+            a.click()
+        }
+
+        function print() {
+            $('#table').printElement({});
+        }
+
+        function check() {
+            $('div.action').each(function() {
+                $(this).html("");
+            });
+            if ($('#class_id').val() === null) {
+                alert("Анги сонгогдоогүй байна!");
+            } else {
+                $("#table").html("");
+                $.ajax({
+                    url: "class-percent-ss",
+                    type: "POST",
+                    data: {
+                        sdate: $('#sdate').val(),
+                        ldate: $('#ldate').val()
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        $("#table").html("Алдаа гарлаа !");
+                    },
+                    beforeSend: function() {
+                        $("#table").html("Түр хүлээнэ үү ...");
+                    },
+                    success: function(data) {
+                        $("#table").html(data);
+                    },
+                    async: true
+                });
+            }
+        }
+
+        function detial(id) {
+            row_click(id)
+            $.ajax({
                 url: "irc-class",
                 type: "POST",
                 data: {
@@ -117,8 +118,8 @@ require ROOT . "/pages/footer.php"; ?>
                 },
                 async: true
             });
-    }
-</script>
-<?php
-require ROOT . "/pages/end.php";
-?>
+        }
+    </script>
+    <?php
+    require ROOT . "/pages/end.php";
+    ?>

@@ -25,8 +25,8 @@ if (isset($_POST['student_id']) && isset($_SESSION['user_id'])) {
         }
         foreach ($posts as $key => $value) {
             $ch = $value;
-            if(is_array($value)) $ch = implode(" ",$value);
-            
+            if (is_array($value)) $ch = implode(" ", $value);
+
             if (@strpos($ch, "***") > -1) {
             } else {
                 if (strpos($key, "hariult") > -1) {

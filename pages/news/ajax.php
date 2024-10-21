@@ -20,7 +20,7 @@ if (isset($_SESSION['user_id'])) {
         $body = $_POST['body'];
         $fname = $_POST['fname'];
         $ognoo = $_POST['ognoo'];
-        
+
         $success = _exec(
             "INSERT INTO news (title,  image,  ognoo,  body,  status,  userid) VALUES(?, ?, ?, ?, ?, ?)",
             'ssssii',
@@ -29,14 +29,14 @@ if (isset($_SESSION['user_id'])) {
         );
         echo "Амжилттай!";
     }
-    
+
     if ($mode == 3) {
         $title = $_POST['title'];
         $body = $_POST['body'];
         $fname = $_POST['fname'];
         $ognoo = $_POST['ognoo'];
         $id = $_POST['id'];
-        
+
         $success = _exec(
             "UPDATE news SET title=?,  image=?,  ognoo=?,  body=?,  status=?,  userid=? WHERE id=?",
             'ssssiii',
@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
         $fname = $_POST['fname'];
         $ognoo = $_POST['ognoo'];
         $id = $_POST['id'];
-        
+
         $success = _exec(
             "UPDATE news SET title=?,  image=?,  ognoo=?,  body=?,  status=?,  userid=? WHERE id=?",
             'ssssiii',
@@ -69,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
             [$id],
             $count
         );
-        
+
         unlink("/images/image_news/<?=$image?>.jpg");
         echo "Амжилттай!";
     }
@@ -82,7 +82,7 @@ if (isset($_SESSION['user_id'])) {
             [$id],
             $count
         );
-        
+
         unlink("/images/app_flash/<?=$image?>.jpg");
         echo "Амжилттай!";
     }

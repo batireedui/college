@@ -27,6 +27,7 @@ $tuluv_Student = [1 => "Идэвхтэй", 2 => "Төгссөн", 3 => "Гарс
 
 $atID = [20000 => "Албаны менежер", 20001 => "Хэлтэс/Тэнхмийн дарга/эрхлэгч"];
 
+//erh дээр 0 гэж шалгавал админ байна
 $erh = [1 => "ЦАГ БҮРТГЭЛИЙН ТАЙЛАН ГАРГАХ", 2 => "ЦАГ БҮРТГҮҮЛЭХ ХҮСЭЛТ АВАХ", 3 => "ЗАР ИЛГЭЭХ", 4 => "ТОХИРГОО", 5 => "МЭДЭЭ", 6 => "НУУЦ ҮГ СЭРГЭЭХ", 8 => 'СУДАЛГАА', 9 => 'ИРЦИЙН ТАЙЛАН', 10 => 'ЦАГ БҮРТГЭЛ', 11 => 'Б ЦАГ ТООЦОХ', 12 => 'Б ЦАГ БИЧИХ', 13 => 'БҮРТГЭЛ'/*, 7 => "admin home"*/];
 
 $school_name = "Өвөрхангай аймаг дахь Политехник коллеж";
@@ -86,9 +87,10 @@ function cagtoRoma($cag)
     }
 }
 
-function amralt($ognoo){
+function amralt($ognoo)
+{
     $dayOfWeek = date('w', strtotime($ognoo));
-    if($dayOfWeek == 0 || $dayOfWeek == 6)
+    if ($dayOfWeek == 0 || $dayOfWeek == 6)
         return true;
     else return false;
 }
@@ -216,15 +218,15 @@ function ognooday()
     $dt->setTimestamp($timestamp);
     return $dt->format('Y/m/d');
 }
-function checkErh($erhtoo, $user_role, $user_id) {
+function checkErh($erhtoo, $user_role, $user_id)
+{
     _selectRowNoParam(
         "SELECT COUNT(id) FROM `admin` WHERE user_id = '$user_id'",
         $admin
     );
     if ($admin > 0) {
         return true;
-    }
-    else {
+    } else {
         $nemelt = " and at_id = $user_role";
         _selectRowNoParam(
             "SELECT COUNT(id) FROM `department` WHERE manager_id = '$user_id'",
@@ -234,7 +236,7 @@ function checkErh($erhtoo, $user_role, $user_id) {
             "SELECT COUNT(id) FROM `office` WHERE manager_id = '$user_id'",
             $omanager
         );
-    
+
         if ($omanager > 0) {
             $nemelt = " and (at_id = $user_role or at_id = 20000)";
         }
@@ -256,63 +258,64 @@ function checkErh($erhtoo, $user_role, $user_id) {
 }
 class cagBodoh
 {
-  public $utga;
-  public $cag;
-  public $udur;
+    public $utga;
+    public $cag;
+    public $udur;
 
-  public function __construct($utga, $cag, $udur)
-  {
-    $this->utga = $utga;
-    $this->cag = $cag;
-    $this->udur = $udur;
-  }
+    public function __construct($utga, $cag, $udur)
+    {
+        $this->utga = $utga;
+        $this->cag = $cag;
+        $this->udur = $udur;
+    }
 }
 
 function udurCag($cags, $dayof)
 {
-  $udur = 0;
-  if (count($cags) > 0) {
-    $udur = 1;
-  }
+    $udur = 0;
+    if (count($cags) > 0) {
+        $udur = 1;
+    }
 
-  if (count($cags) > 1) {
-    $index = count($cags);
+    if (count($cags) > 1) {
+        $index = count($cags);
 
-    $start = "$dayof $cags[0]";
-    $end = "$dayof " . $cags[$index - 1];
+        $start = "$dayof $cags[0]";
+        $end = "$dayof " . $cags[$index - 1];
 
-    $start = new DateTime("$start");
-    $end = new DateTime("$end");
+        $start = new DateTime("$start");
+        $end = new DateTime("$end");
 
-    $interval = $start->diff($end);
+        $interval = $start->diff($end);
 
-    $hours = $interval->h;
-    $minutes = $interval->i;
+        $hours = $interval->h;
+        $minutes = $interval->i;
 
-    return new cagBodoh("$hours ц $minutes мин", "$hours:$minutes", $udur);
-  } else return new cagBodoh("", "00:00", $udur);
+        return new cagBodoh("$hours ц $minutes мин", "$hours:$minutes", $udur);
+    } else return new cagBodoh("", "00:00", $udur);
 }
 
 function sumCag($times)
 {
-  $sum = "00:00";
-  if (count($times) > 0) {
-    $sum = new DateTime($times[0]);
+    $sum = "00:00";
+    if (count($times) > 0) {
+        $sum = new DateTime($times[0]);
 
-    foreach (array_slice($times, 1) as $time) {
-      // DateInterval-ийг үүсгэнэ
-      $interval = new DateInterval('PT' . str_replace(':', 'H', $time) . 'M');
-      $sum->add($interval);
+        foreach (array_slice($times, 1) as $time) {
+            // DateInterval-ийг үүсгэнэ
+            $interval = new DateInterval('PT' . str_replace(':', 'H', $time) . 'M');
+            $sum->add($interval);
+        }
     }
-  }
-  return $sum->format('H:i');
+    return $sum->format('H:i');
 }
 
-function hocrolt($expectedTime, $now){
+function hocrolt($expectedTime, $now)
+{
     // Хоцрогдлыг тооцоолно
     $now = DateTime::createFromFormat('H:i:s', $now);
     $expectedTime = DateTime::createFromFormat('H:i:s', $expectedTime);
-    
+
     $interval = $now->diff($expectedTime);
     if ($now > $expectedTime) {
         if ($interval->h > 0) {
@@ -320,22 +323,21 @@ function hocrolt($expectedTime, $now){
         } elseif ($interval->i > 0) {
             return $interval->i . " мин";
         }
-    }
-    else {
+    } else {
         return ""; //Хоцролт байхгүй
     }
 }
-function hocroltOne($expectedTime, $now){
+function hocroltOne($expectedTime, $now)
+{
     // Хоцрогдлыг тооцоолно
     $now = DateTime::createFromFormat('H:i:s', $now);
     $expectedTime = DateTime::createFromFormat('H:i:s', $expectedTime);
-    
+
     $interval = $now->diff($expectedTime);
-    
+
     if ($now > $expectedTime) {
         return ($interval->h * 60) + $interval->i;
-    }
-    else {
+    } else {
         return 0; //Хоцролт байхгүй
     }
 }

@@ -20,7 +20,7 @@
 _selectRowNoParam(
     "SELECT count(id) FROM hural",
     $too
-    )
+)
 ?>
 
 <body>
@@ -30,10 +30,10 @@ _selectRowNoParam(
             ӨВӨРХАНГАЙ АЙМАГ ДАХЬ ПОЛИТЕХНИК КОЛЛЕЖ
         </h5>
         <h5 style="text-align: center; color: #e00b0b">
-           Дэлхийн багш нарын 30, Монголын багш нарын 58 дахь өдрийн мэнд хүргэе!
+            Дэлхийн багш нарын 30, Монголын багш нарын 58 дахь өдрийн мэнд хүргэе!
         </h5>
         <h5 style="text-align: center; color: #e00b0b">
-           ИРЦИЙН ХУВЬ: <?=$too?> / 129 ( <?php echo round($too/129*100) ?>% )
+            ИРЦИЙН ХУВЬ: <?= $too ?> / 129 ( <?php echo round($too / 129 * 100) ?>% )
         </h5>
         <?php
         _selectNoParam(

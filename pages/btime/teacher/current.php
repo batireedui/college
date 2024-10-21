@@ -38,7 +38,7 @@ _selectNoParam(
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"></h5>
-                        <div class="m-3">
+                        <div class="m-3" style="text-align: right;">
                             <a class="btn btn-primary" href="/btime/teacher/add">"Б" цаг тооцуулах ажил үйлчилгээ</a>
                         </div>
                         <div class="row m-3">

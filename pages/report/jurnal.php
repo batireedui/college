@@ -79,21 +79,21 @@ if ($_SESSION['user_role'] < 2) {
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <?php require ROOT . "/pages/footer.php"; ?>
 <script>
-    function exportToExcel(tableId, name="ИРЦ БҮРТГЭЛИЙН ПРОГРАМ"){
-        	let tableData = document.getElementById(tableId).outerHTML;
-        	tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
-            tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
-        
-        	let a = document.createElement('a');
-        	a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
-        	a.download = $('#classList option:selected').text() + ', ЖУРНАЛ' + '.xls'
-        	a.click()
+    function exportToExcel(tableId, name = "ИРЦ БҮРТГЭЛИЙН ПРОГРАМ") {
+        let tableData = document.getElementById(tableId).outerHTML;
+        tableData = tableData.replace(/<A[^>]*>|<\/A>/g, ""); //remove if u want links in your table
+        tableData = tableData.replace(/<input[^>]*>|<\/input>/gi, ""); //remove input params
+
+        let a = document.createElement('a');
+        a.href = `data:application/vnd.ms-excel, ${encodeURIComponent(tableData)}`
+        a.download = $('#classList option:selected').text() + ', ЖУРНАЛ' + '.xls'
+        a.click()
     }
-    function print(){
-        $('#table').printElement({
-        });
+
+    function print() {
+        $('#table').printElement({});
     }
-    
+
     var triggerTabList = [].slice.call(document.querySelectorAll('#myTab a'))
     triggerTabList.forEach(function(triggerEl) {
         var tabTrigger = new bootstrap.Tab(triggerEl)

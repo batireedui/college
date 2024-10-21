@@ -1,5 +1,5 @@
 <?php
-require ROOT . "/pages/start.php"; 
+require ROOT . "/pages/start.php";
 
 _selectNoParam(
     $st,
@@ -49,21 +49,22 @@ $file = date("YmdHis");
                                     <th>ID</th>
                                     <th></th>
                                 </tr>
-                            <?php
-                            $dd = 1;
-                            while(_fetch($st)) { ?>
-                                <tr>
-                                    <td><?=$dd?></td>
-                                    <td><img src="/images/image_news/<?=$image?>.jpg" style="width: 100px"/></td>
-                                    <td><?=$title?></td>
-                                    <td><?=$ognoo?></td>
-                                    <td>
-                                        <a href="/news/edit?id=<?=$id?>"/><span class="badge bg-success" role="button">Засах</span></a>
-                                        <span class="badge bg-danger" role="button" onclick="del(<?=$id?>, '<?=$title?>', <?=$image?>)">Устгах</a>
-                                    </td>
-                                </tr>
-                            <?php $dd++; }
-                            ?>
+                                <?php
+                                $dd = 1;
+                                while (_fetch($st)) { ?>
+                                    <tr>
+                                        <td><?= $dd ?></td>
+                                        <td><img src="/images/image_news/<?= $image ?>.jpg" style="width: 100px" /></td>
+                                        <td><?= $title ?></td>
+                                        <td><?= $ognoo ?></td>
+                                        <td>
+                                            <a href="/news/edit?id=<?= $id ?>" /><span class="badge bg-success" role="button">Засах</span></a>
+                                            <span class="badge bg-danger" role="button" onclick="del(<?= $id ?>, '<?= $title ?>', <?= $image ?>)">Устгах</a>
+                                        </td>
+                                    </tr>
+                                <?php $dd++;
+                                }
+                                ?>
                             </table>
                         </div>
                     </div>

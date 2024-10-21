@@ -317,7 +317,7 @@ if (isset($_SESSION['user_id'])) {
                 [$_POST['jil']],
                 $count
             );
-            echo "Амжилттай"; 
+            echo "Амжилттай";
         } else if ($_POST["mode"] == "location_Delete") {
             $success = _exec(
                 "DELETE FROM location WHERE id=?",
@@ -325,8 +325,7 @@ if (isset($_SESSION['user_id'])) {
                 [$_POST['id']],
                 $count
             );
-            echo "Амжилттай"; 
+            echo "Амжилттай";
         }
     }
-}
-else "Холболт салсан байна. Дахин нэвтэрч орно уу!";
+} else "Холболт салсан байна. Дахин нэвтэрч орно уу!";

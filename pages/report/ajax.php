@@ -56,16 +56,16 @@ if (isset($_SESSION['user_id'])) {
         $dd = 0;
 
 ?>
-<h3 style='text-align: center;'>ИРЦИЙН НЭГТГЭЛ</h3>
-<p style='text-align: center;'><?php echo "$sname $class_name"; ?></p>
-<div style="display: flex;justify-content: space-between;">
-    <?php if($son == $lon && $ssar == $lsar){ ?>
-    <div>Хугацаа: <?=$lon?> оны <?=$lsar?>-р сар</div>
-    <?php } else {?>
-    <div>Хугацаа: <?=$son?> оны <?=$ssar?>-р сараас <?=$lon?> оны <?=$lsar?>-р сар</div>
-    <?php } ?>
-    <div>Хэвлэсэн: <?=date("Y.m.d H:i")?></div>
-</div>
+        <h3 style='text-align: center;'>ИРЦИЙН НЭГТГЭЛ</h3>
+        <p style='text-align: center;'><?php echo "$sname $class_name"; ?></p>
+        <div style="display: flex;justify-content: space-between;">
+            <?php if ($son == $lon && $ssar == $lsar) { ?>
+                <div>Хугацаа: <?= $lon ?> оны <?= $lsar ?>-р сар</div>
+            <?php } else { ?>
+                <div>Хугацаа: <?= $son ?> оны <?= $ssar ?>-р сараас <?= $lon ?> оны <?= $lsar ?>-р сар</div>
+            <?php } ?>
+            <div>Хэвлэсэн: <?= date("Y.m.d H:i") ?></div>
+        </div>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -121,7 +121,7 @@ if (isset($_SESSION['user_id'])) {
                             $v4 = 0;
                             while (_fetch($lstmt)) {
                                 $irc = json_decode($irc);
-                                if($irc != null) {
+                                if ($irc != null) {
                                     foreach ($irc as $key => $el) {
                                         if ($el->id == $sid) {
                                             //echo $el->val . " $sid, ";
@@ -171,7 +171,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php } ?>
             </tbody>
         </table>
-        <p style='text-align: center;'>Анги удирдсан багш .......................... <?php echo substr($tfname, 0, 2). ".$tlname"; ?></p>
+        <p style='text-align: center;'>Анги удирдсан багш .......................... <?php echo substr($tfname, 0, 2) . ".$tlname"; ?></p>
         <div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -231,13 +231,13 @@ if (isset($_SESSION['user_id'])) {
             $lessonName
         );
     ?>
-<h5 style='text-align: center;'>ЦАГИЙН ТООЦОО</h5>
-<p style='text-align: center; text-transform: uppercase;'><?php echo $school_name."ийн багш <br>" . $_SESSION['user_fname'] . " овогтой " . $_SESSION['user_lname']; ?></p>
+        <h5 style='text-align: center;'>ЦАГИЙН ТООЦОО</h5>
+        <p style='text-align: center; text-transform: uppercase;'><?php echo $school_name . "ийн багш <br>" . $_SESSION['user_fname'] . " овогтой " . $_SESSION['user_lname']; ?></p>
 
-<div style="display: flex;justify-content: space-between;">
-    <div>Хугацаа: <?=$sdate?> өдрөөс <?=$ldate?>-н хүртэл</div>
-    <div>Хэвлэсэн: <?=date("Y.m.d H:i")?></div>
-</div>
+        <div style="display: flex;justify-content: space-between;">
+            <div>Хугацаа: <?= $sdate ?> өдрөөс <?= $ldate ?>-н хүртэл</div>
+            <div>Хэвлэсэн: <?= date("Y.m.d H:i") ?></div>
+        </div>
         <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
@@ -263,52 +263,54 @@ if (isset($_SESSION['user_id'])) {
                     $sedev,
                     $ognoo,
                     $attid
-                ); 
-                if($tmp_sum > 0){
+                );
+                if ($tmp_sum > 0) {
                     echo "<tr style='background-color: #aee1f1'>
                     <td colspan='5' class='fw-bold' style='text-align: center'>Нийт</td>
                     <td colspan='5' class='fw-bold' style='text-align: center'>$tmp_sum</td>
                     </tr>";
                     $tmp_sum = 0;
                 }
-                ?>
+            ?>
                 <?php
                 $dd = 0;
                 while (_fetch($istmt)) {
                     $dd++;
-                    $tmp_sum = $icount*2;
+                    $tmp_sum = $icount * 2;
                 ?>
                     <tr>
                         <td><?= $dd ?></td>
                         <?php
                         if ($dd == 1) {
                         ?>
-                            <td rowspan="<?= $icount ?>" style="vertical-align: middle;"><?= $sname ?>-р анги<br><span style="font-size: 10px"><?=$class_name?></span></td>
+                            <td rowspan="<?= $icount ?>" style="vertical-align: middle;"><?= $sname ?>-р анги<br><span style="font-size: 10px"><?= $class_name ?></span></td>
                             <td rowspan="<?= $icount ?>" style="vertical-align: middle;"><?= $lessonName ?></td>
                         <?php
                         }
                         ?>
-                        <td><div class='editcell' onblur='updateSedev(this, <?=$attid?>)' contenteditable=''><?= $sedev ?></div></td>
+                        <td>
+                            <div class='editcell' onblur='updateSedev(this, <?= $attid ?>)' contenteditable=''><?= $sedev ?></div>
+                        </td>
                         <td style='text-align: center' style='text-align: center'><?= str_replace("-", ".", $ognoo) ?></td>
                         <td style='text-align: center' style='text-align: center'>2</td>
                     </tr>
 
-    <?php
+            <?php
                 }
                 $dun += $tmp_sum;
             }
             ?>
             <tr style='background-color: #aee1f1'>
                 <td colspan='5' class='fw-bold' style='text-align: center'>Нийт</td>
-                <td colspan='5' class='fw-bold' style='text-align: center'><?=$tmp_sum?></td>
+                <td colspan='5' class='fw-bold' style='text-align: center'><?= $tmp_sum ?></td>
             </tr>
             <tr style='background-color: #fff000'>
                 <td colspan='5' class='fw-bold' style='text-align: center'>ДҮН</td>
-                <td colspan='5' class='fw-bold' style='text-align: center'><?=$dun?></td>
+                <td colspan='5' class='fw-bold' style='text-align: center'><?= $dun ?></td>
             </tr>
-            </table>"
-            <p style='text-align: center;'>Цагийн тооцоо хийсэн .......................... <?php echo substr($_SESSION['user_fname'], 0, 2).".".$_SESSION['user_lname']; ?></p>
-            <p style='text-align: center;'>Цагийн тооцоо тулсан .......................... /&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;/</p>
-            <p style='text-align: center;'>Цагийн тооцоо хянасан ........................../&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;/</p>
-     <?php   }
-    }
+        </table>"
+        <p style='text-align: center;'>Цагийн тооцоо хийсэн .......................... <?php echo substr($_SESSION['user_fname'], 0, 2) . "." . $_SESSION['user_lname']; ?></p>
+        <p style='text-align: center;'>Цагийн тооцоо тулсан .......................... /&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;/</p>
+        <p style='text-align: center;'>Цагийн тооцоо хянасан ........................../&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;/</p>
+<?php   }
+}

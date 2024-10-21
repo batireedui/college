@@ -1,17 +1,6 @@
 <?php
 require ROOT . "/pages/start.php";
 require ROOT . "/pages/header.php";
-_selectNoParam(
-    $st,
-    $cc,
-    "SELECT id, name, money, anorm, bnorm, tuluv FROM tzereg",
-    $z_id,
-    $z_name,
-    $z_money,
-    $z_anorm,
-    $z_bnorm,
-    $z_tuluv
-);
 
 _selectNoParam(
     $ast,
@@ -219,7 +208,7 @@ while (_fetch($ast)) {
             console.log(tuluv.checked);
 
             $.ajax({
-                url: "/setting/ajax",
+                url: "ajax",
                 type: "POST",
                 data: {
                     mode: vmode,
@@ -256,10 +245,10 @@ while (_fetch($ast)) {
             let result = confirm("Та устгахдаа итгэлтэй байна уу?");
             if (result === true) {
                 $.ajax({
-                    url: "/setting/ajax",
+                    url: "ajax",
                     type: "POST",
                     data: {
-                        mode: "zereg_Delete",
+                        mode: "btimeajilDelete",
                         id: id
                     },
                     error: function(xhr, textStatus, errorThrown) {},

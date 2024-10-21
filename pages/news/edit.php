@@ -5,8 +5,8 @@ require ROOT . "/pages/start.php"; ?>
         display: none;
     }
 </style>
-  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
 <?php
 require ROOT . "/pages/header.php";
 $id = $_GET["id"];
@@ -41,29 +41,29 @@ _selectRowNoParam(
                         <div class="row mb-3">
                             <div class="col-sm-10">
                                 <label for="inputText" class="col-sm-12 col-form-label">Гарчиг</label>
-                                <input type="text" class="form-control" id="title" value='<?=$title?>'>
+                                <input type="text" class="form-control" id="title" value='<?= $title ?>'>
                             </div>
                             <div class="col-sm-2">
                                 <label for="inputText" class="col-sm-12 col-form-label">Хэзээ</label>
-                                <input type="date" class="form-control" id="ognoo" value=<?=$ognoo?>>
+                                <input type="date" class="form-control" id="ognoo" value=<?= $ognoo ?>>
                             </div>
                         </div>
                         <div class="mb-3">
                             <div class="col-sm-12">
                                 <div id="body">
-                                    <?=$body?>
+                                    <?= $body ?>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3 text-center">
                             <div class="col-sm-12">
-                                <img id="pro" src="/images/image_news/<?=$image?>.jpg" style="width: 300px;height: 200px;object-fit: cover;border: solid;margin: auto" />
+                                <img id="pro" src="/images/image_news/<?= $image ?>.jpg" style="width: 300px;height: 200px;object-fit: cover;border: solid;margin: auto" />
                                 <br>
                                 <progress id="progress_bar" value="0" max="100" style="width:300px;"></progress>
                                 <p id="progress_status"></p>
                                 <label for="upload_file" class="custom-file-upload btn btn-primary" style="margin-top: 10px;"> Зураг сонгох</label>
                                 <input class="margin" type="file" formnovalidate id="upload_file" name="file" accept=".jpg, .png, .jpeg" onchange="imageSave(event)">
-                                
+
                                 <p>300х200 харьцаатай зүураг оруулна уу!</p>
                             </div>
                         </div>
@@ -93,19 +93,21 @@ require ROOT . "/pages/footer.php"; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
     var quill = new Quill('#body', {
-      modules: {
-        toolbar: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          ['image', 'code-block']
-        ]
-      },
-      placeholder: 'Compose an epic...',
-      theme: 'snow'  // or 'bubble'
+        modules: {
+            toolbar: [
+                [{
+                    header: [1, 2, false]
+                }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow' // or 'bubble'
     });
-    
+
     const now = new Date();
-    const fname = '<?=$image?>';
+    const fname = '<?= $image ?>';
 
     function save() {
         let title = $('#title').val().trim();
@@ -113,7 +115,7 @@ require ROOT . "/pages/footer.php"; ?>
         let body = quill.root.innerHTML;
 
         console.log(body);
-        
+
         if (title === "") {
             alert("Гарчиг оруулаагүй байна!");
         } else {
@@ -127,7 +129,7 @@ require ROOT . "/pages/footer.php"; ?>
                     body: body,
                     fname: fname,
                     ognoo: ognoo,
-                    id: <?=$id?>
+                    id: <?= $id ?>
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     $("#infotext").html("Алдаа гарлаа !");

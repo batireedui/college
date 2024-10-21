@@ -21,69 +21,70 @@ _selectNoParam(
 </style>
 <div>
     <div class="alert alert-info m-3">
-       <?=$this_on ?> ХИЧЭЭЛИЙН ЖИЛ
+        <?= $this_on ?> ХИЧЭЭЛИЙН ЖИЛ
     </div>
-        <div class="row mb-3 p-3">
-            <div class="col-md">
-                <h3>ЦАГ БҮРТГЭЛИЙН ТАЙЛАН</h3>
-            </div>
+    <div class="row mb-3 p-3">
+        <div class="col-md">
+            <h3>ЦАГ БҮРТГЭЛИЙН ТАЙЛАН</h3>
         </div>
-        <div class="row mb-3">
-            <div class="col-md">
-                <label>Төрөл</label>
-                <select class="form form-control mb-3" id="turul">
-                    <option value="1">Сарын тайлан ажилтнаар</option>
-                    <option value="2">Цагийн мэдээ ажилтнаар</option>
-                    <option value="4">Хоцролтын тайлан</option>
-                </select>
-            </div>
-            <div class="col-md">
-                <label>Алба</label>
-                <select class="form form-control mb-3" id="alba" onchange="tenhim()">
-                    <option value="0">Бүгд</option>
-                    <?php
-                    while(_fetch($ostmt)){ ?>
-                        <option value="<?=$oid?>"><?=$oname?></option>
-                    <?php } ?>
-                </select>
-            </div>
-            <div class="col-md">
-                <label>Тэнхим/Хэлтэс</label>
-                <select class="form form-control mb-3" id="tenhim">
-                    <option value="0">Бүгд</option>
-                    <option value="2">Тайлан ажилтнаар</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label>Он</label>
-                <select class="form form-control mb-3" id="lon">
-                    <?php
-                    $con = $thison;
-                    while($con >= $starton){?>
-                        <option><?=$con?></option>
-                    <?php $con--; } ?>
-                </select>
-            </div>
-            <div class="col-md-1">
-                <label>Сар</label>
-                <select class="form form-control mb-3" id="lsar">
-                    <?php
-                    $month = 1;
-                    while($month < 13) {
-                        if($month == $monthNumber) echo "<option selected>$month</option>";
-                        else echo "<option>$month</option>";
-                        $month++;
-                    } ?>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label></label>
-                <button class="btn btn-warning w-100" onclick="check()" id="showBtn">Харах</button>
-            </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md">
+            <label>Төрөл</label>
+            <select class="form form-control mb-3" id="turul">
+                <option value="1">Сарын тайлан ажилтнаар</option>
+                <option value="2">Цагийн мэдээ ажилтнаар</option>
+                <option value="4">Хоцролтын тайлан</option>
+            </select>
         </div>
-        <div id="main">
-            
+        <div class="col-md">
+            <label>Алба</label>
+            <select class="form form-control mb-3" id="alba" onchange="tenhim()">
+                <option value="0">Бүгд</option>
+                <?php
+                while (_fetch($ostmt)) { ?>
+                    <option value="<?= $oid ?>"><?= $oname ?></option>
+                <?php } ?>
+            </select>
         </div>
+        <div class="col-md">
+            <label>Тэнхим/Хэлтэс</label>
+            <select class="form form-control mb-3" id="tenhim">
+                <option value="0">Бүгд</option>
+                <option value="2">Тайлан ажилтнаар</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label>Он</label>
+            <select class="form form-control mb-3" id="lon">
+                <?php
+                $currenton = $thison;
+                while ($currenton >= $starton) { ?>
+                    <option><?= $currenton ?></option>
+                <?php $currenton--;
+                } ?>
+            </select>
+        </div>
+        <div class="col-md-1">
+            <label>Сар</label>
+            <select class="form form-control mb-3" id="lsar">
+                <?php
+                $month = 1;
+                while ($month < 13) {
+                    if ($month == $monthNumber) echo "<option selected>$month</option>";
+                    else echo "<option>$month</option>";
+                    $month++;
+                } ?>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label></label>
+            <button class="btn btn-warning w-100" onclick="check()" id="showBtn">Харах</button>
+        </div>
+    </div>
+    <div id="main">
+
+    </div>
 </div>
 <div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -104,7 +105,7 @@ _selectNoParam(
     function get_student() {
         $("#show").attr("disabled", true);
         let url = "/home/student-home";
-        if($('#turul').val() == 1) {
+        if ($('#turul').val() == 1) {
             url = "/home/time-home";
         }
         $.ajax({
@@ -127,8 +128,8 @@ _selectNoParam(
             async: true
         });
     }
-    
-    function tenhim(){
+
+    function tenhim() {
         $.ajax({
             url: "ajax",
             type: "POST",
@@ -151,7 +152,7 @@ _selectNoParam(
             async: true
         });
     }
-    
+
     function check() {
         $.ajax({
             url: "ajax",
@@ -181,4 +182,4 @@ require ROOT . "/pages/dataTablefooter.php"; ?>
 <script>
     tenhim();
 </script>
-<?php require ROOT . "/pages/end.php";?>
+<?php require ROOT . "/pages/end.php"; ?>

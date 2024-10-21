@@ -15,14 +15,15 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
     <style>
-            .editcell {
-                  background-color: #dddddd;
-                  padding: 5px 10px 5px 10px;
-                  border-radius: 5px;
-                }
-                .table>:not(caption)>*>* {
-              padding: 0.3rem 0.8rem;
-            }
+        .editcell {
+            background-color: #dddddd;
+            padding: 5px 10px 5px 10px;
+            border-radius: 5px;
+        }
+
+        .table>:not(caption)>*>* {
+            padding: 0.3rem 0.8rem;
+        }
     </style>
 </head>
 
@@ -35,7 +36,7 @@
         <h5 style="text-align: center; color: #032c94">
             Өвөрхангай аймаг дахь Политехник коллеж 2024.10.03
         </h5>
-        <div style="text-align: center;" class="mb-3" >
+        <div style="text-align: center;" class="mb-3">
             <a href="https://uvcollege.edu.mn/"><button class="btn btn-danger">НҮҮР ХУУДАС</button></a>
         </div>
         <div class="m-3 text-center">
@@ -62,9 +63,10 @@
         })
     }
     getSanal();
-    
+
     window.onload = function() {
-            setInterval(getSanal, 15000);
+        setInterval(getSanal, 15000);
     };
 </script>
+
 </html>

@@ -13,9 +13,9 @@ $monthf = $_GET['month'] ?? $thismonth;
 _selectNoParam(
     $st,
     $co,
-    "SELECT btime_user.id, btime_ajil.ajil, btime_user.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name, btime_user.credit, btime_user.year, btime_user.month FROM `btime_ajil`
+    "SELECT btime_user.id, btime_ajil.ajil, btime_user.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name, btime_user.credit, btime_user.year, btime_user.month, btime_user.dun FROM `btime_ajil`
         INNER JOIN `at` ON btime_ajil.at_id = at.id
-            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id WHERE btime_user.year = '$yearf' and btime_user.month='$monthf'",
+            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id WHERE btime_user.year = '$yearf' and btime_user.month='$monthf' and btime_user.user_id='$user_id'",
     $id,
     $ajil,
     $tailbar,
@@ -24,33 +24,28 @@ _selectNoParam(
     $at_name,
     $tcredit,
     $year,
-    $month
-)
+    $month,
+    $dun
+);
+$sumdun = 0;
+$sumcredit = 0;
 ?>
 
 <main id="main" class="main p-3">
-
-    <div class="pagetitle">
-        <h3>"Б цаг" тайлан бичих</h3>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Эхлэл</a></li>
-                <li class="breadcrumb-item active">Б цаг / Нэмэх</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
-
     <section class="section">
         <?php include "head.php"; ?>
         <form method="get">
             <div class="row">
+                <div class="col">
+                    <h3>"Б цаг" тайлангийн түүх</h3>
+                </div>
                 <div class="col-md-2">
                     <select class="form form-control mb-3" name="year">
                         <?php
-                        $con = $thison;
-                        while ($con >= $starton) { ?>
-                            <option <?php echo $con == $yearf ? "selected" : "" ?>><?= $con ?></option>
-                        <?php $con--;
+                        $currenton = $thison;
+                        while ($currenton >= $starton) { ?>
+                            <option <?php echo $currenton == $yearf ? "selected" : "" ?>><?= $currenton ?></option>
+                        <?php $currenton--;
                         } ?>
                     </select>
                 </div>
@@ -100,6 +95,8 @@ _selectNoParam(
                                         <td><?= $at_name ?></td>
                                     </tr>
                                 <?php $dd++;
+                                    $sumdun += $dun;
+                                    $sumcredit += $tcredit;
                                 }
                                 ?>
                             </table>
@@ -115,6 +112,9 @@ _selectNoParam(
 require ROOT . "/pages/footer.php"; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
+    $('#sumKr').html('<?= $sumcredit ?>');
+    $('#sumTug').html('<?= $sumdun ?>');
+
     function del(id, title, image) {
         var r = confirm(title + " мэдээг устгахдаа итгэлтэй байна уу!")
         if (r) {
