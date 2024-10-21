@@ -3,15 +3,14 @@
 
 $ntoo = 0;
 _selectRowNoParam(
-    "SELECT count(id) FROM noti_user 
+  "SELECT count(id) FROM noti_user 
             WHERE noti_user.user_id = '$user_id' and see is null",
-    $ntoo
-    );
+  $ntoo
+);
 ?>
 
 <body>
   <div>
-
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <!-- Container wrapper -->
@@ -34,54 +33,50 @@ _selectRowNoParam(
             </li>
             <?php
             if ($user_role == 1) {
-                _selectRowNoParam(
-                    "SELECT COUNT(id) FROM `class` WHERE teacherid = '$user_id' and tuluv = 1",
-                    $myClass
-                );
-                if($myClass > 0 ){
+              _selectRowNoParam(
+                "SELECT COUNT(id) FROM `class` WHERE teacherid = '$user_id' and tuluv = 1",
+                $myClass
+              );
+              if ($myClass > 0) {
             ?>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">МАНАЙ АНГИ</a>
-                <ul class="dropdown-menu" aria-labelledby="mcl">
-                  <li>
-                    <a class="dropdown-item" href="/student/list">Суралцагчдын бүртгэл</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">МАНАЙ АНГИ</a>
+                  <ul class="dropdown-menu" aria-labelledby="mcl">
+                    <li>
+                      <a class="dropdown-item" href="/student/list">Суралцагчдын бүртгэл</a>
                     </li>
-                  <li>
-                    <a class="dropdown-item" href="/student/j-detial">Ирц бүртгэл</a>
-                  </li>
-                </ul>
-            </li>
-            <?php }}
-            else {?>
-            <li class="nav-item">
-              <a class="nav-link <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАЛЦАГЧИД</a>
-            </li>
-            <?php 
-            }
-            ?>
+                    <li>
+                      <a class="dropdown-item" href="/student/j-detial">Ирц бүртгэл</a>
+                    </li>
+                  </ul>
+                </li>
+
+            <?php }
+            } ?>
             <?php
-            if ($user_role < 3) {
-            ?>
-            <li class="nav-item">
-              <a class="nav-link <?php echo strpos($page, "/att/list") > -1 ? 'active' : ''; ?>" href="/att/list">ИРЦ</a>
-            </li>
-            <?php
-            }
             if ($user_role == 3) {
             ?>
-              <li class="nav-item">
-                <a class="nav-link <?php echo strpos($page, "/class/list") > -1 ? 'active' : ''; ?>" href="/class/list">АНГИ</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="#" id="mcl" role="button" data-mdb-toggle="dropdown" aria-expanded="false">БҮРТГЭЛ</a>
+                <ul class="dropdown-menu" aria-labelledby="mcl">
+                  <li>
+                    <a class="dropdown-item <?php echo strpos($page, "/student") > -1 ? 'active' : ''; ?>" href="/student/list">СУРАЛЦАГЧИД</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <?php echo strpos($page, "/class/list") > -1 ? 'active' : ''; ?>" href="/class/list">АНГИ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ, АЖИЛТАН</a>
+                  </li>
+                </ul>
               </li>
-              <li class="nav-item">
-                <a class="nav-link <?php echo strpos($page, "/teacher") > -1 ? 'active' : ''; ?>" href="/teacher/list">БАГШ, АЖИЛТАН</a>
-              </li>
-              
             <?php
             }
-            ?>
-            <?php
             if ($user_role < 3) {
             ?>
+              <li class="nav-item">
+                <a class="nav-link <?php echo strpos($page, "/att/list") > -1 ? 'active' : ''; ?>" href="/att/list">ИРЦ</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link <?php echo strpos($page, "/tclass") > -1 ? 'active' : ''; ?>" href="/tclass/list">АНГИ</a>
               </li>
@@ -93,13 +88,13 @@ _selectRowNoParam(
                   ТАЙЛАН
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <?php  if($myClass > 0 ){ ?>
-                  <li>
-                    <a class="dropdown-item" href="/report/att">АНГИЙН ИРЦ</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/report/tetgeleg">ТЭТГЭЛЭГ</a>
-                  </li>
+                  <?php if ($myClass > 0) { ?>
+                    <li>
+                      <a class="dropdown-item" href="/report/att">АНГИЙН ИРЦ</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/report/tetgeleg">ТЭТГЭЛЭГ</a>
+                    </li>
                   <?php  } ?>
                   <li>
                     <a class="dropdown-item" href="/report/cag">ЦАГИЙН ТООЦОО</a>
@@ -113,8 +108,7 @@ _selectRowNoParam(
                 </ul>
               </li>
             <?php
-            }
-            else {
+            } else {
             ?>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle <?php echo strpos($page, "/report") > -1 ? 'active' : ''; ?>" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
@@ -165,8 +159,8 @@ _selectRowNoParam(
           <div class="dropdown">
             <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="/noti/list" role="button">
               <i class="fas fa-bell"></i>
-              <?php if($ntoo > 0) {?>
-                <span class="badge rounded-pill badge-notification bg-danger"><?=$ntoo?></span>
+              <?php if ($ntoo > 0) { ?>
+                <span class="badge rounded-pill badge-notification bg-danger"><?= $ntoo ?></span>
               <?php } ?>
             </a>
           </div>
