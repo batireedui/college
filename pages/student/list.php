@@ -2,13 +2,13 @@
 require ROOT . "/pages/start.php";
 require ROOT . "/pages/header.php";
 $sql = "";
-if ($user_role < 3) {
+if ($user_role < 2) {
     $sql = "class.teacherid = '$user_id' and ";
 }
 _select(
     $stmt,
     $count,
-    "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.phone, students.class, students.pass, students.tuluv, class.name , class.sname
+    "SELECT students.id, students.code, students.fname, students.lname, students.gender, students.phone, students.class, students.pass, students.tuluv, class.name , class.sname, students.class
         FROM students INNER JOIN class ON students.class = class.id WHERE $sql students.tuluv=?",
     "i",
     [1],
@@ -22,7 +22,8 @@ _select(
     $pass,
     $tuluv,
     $cname,
-    $sname
+    $sname,
+    $classid
 );
 
 _select(
@@ -74,6 +75,7 @@ $columnNumber = 7;
                     <th>РД</th>
                     <th>Асран хамгаалагч</th>
                     <th>Анги</th>
+                    <th>Судалгаа</th>
                     <th></th>
                 </tr>
             </thead>
@@ -106,6 +108,7 @@ $columnNumber = 7;
                             } else echo "Бүртгэгдээгүй";
                         ?></span></span></td>
                         <td id="f6-<?= $id ?>" style="font-size: 12px;"><?= $sname ?> <?= $cname ?></td>
+                        <td><a href="/sudalgaa/insertsudalgaa?id=<?=$id?>&angi=<?=$classid?>&type=0"><div class="btn btn-warning">Судалгаа бөглөх</div></a></td>
                         <td>
                             <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
                             <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="editBtn(<?= $id ?>, <?= $class ?>, <?= $tuluv ?>)"></i>
@@ -167,8 +170,9 @@ $columnNumber = 7;
                             <div class="form mb-3">
                                 <label class="form-label" for="tuluv">Төлөв*</label>
                                 <select class="form form-control mb-3" id="tuluv">
-                                    <option value="1">Суралцаж байгаа</option>
-                                    <option value="2">Гарсан</option>
+                                <?php foreach ($tuluv_Student as $el=>$val) { ?>
+                                    <option value="<?= $el ?>"><?= $val ?></option>
+                                <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -245,8 +249,9 @@ $columnNumber = 7;
                             <div class="form mb-3">
                                 <label class="form-label" for="atuluv">Төлөв*</label>
                                 <select class="form form-control mb-3" id="atuluv">
-                                    <option value="1">Суралцаж байгаа</option>
-                                    <option value="2">Гарсан</option>
+                                <?php foreach ($tuluv_Student as $el=>$val) { ?>
+                                    <option value="<?= $el ?>"><?= $val ?></option>
+                                <?php } ?>
                                 </select>
                             </div>
                         </div>

@@ -20,55 +20,69 @@ _selectNoParam(
         pointer-events: none;
     }
 </style>
-<div>
-    <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        <h3>Зар илгээх <?php ?></h3>
+        <div class="p-3 bg-light d-flex justify-content-between align-items-center">
+            <h3>Зар илгээх <?php ?></h3>
+        </div>
+<div class="row">
+    <div class="col">
+        <div class="row mb-3">
+            <div class="">
+                <label>Гарчиг</label>
+                <input type="text" id="title" class="form form-control"/>
+            </div>
+            <div class="">
+                <label>Мэдээлэл</label>
+                <input type="text" id="body" class="form form-control"/>
+            </div>
+            <div class="">
+                <label></label>
+                <button class="btn btn-warning w-100" onclick="send()">ИЛГЭЭХ</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md">
+                <button class="btn btn-success w-100" onclick="selects()">БҮГДИЙГ СОНГОХ</button>
+            </div>
+            <div class="col-md">
+                <button class="btn btn-danger w-100" onclick="deSelect()">СОНГОЛТ ЦУЦЛАХ</button>
+            </div>
+        </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-md-2">
-            <label>Гарчиг</label>
-            <input type="text" id="title" class="form form-control"/>
-        </div>
-        <div class="col-md">
-            <label>Мэдээлэл</label>
-            <input type="text" id="body" class="form form-control"/>
-        </div>
-        <div class="col-md-1">
-            <label></label>
-            <button class="btn btn-warning w-100" onclick="send()">ИЛГЭЭХ</button>
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md">
-            <button class="btn btn-success w-100" onclick="selects()">БҮГДИЙГ СОНГОХ</button>
-        </div>
-        <div class="col-md">
-            <button class="btn btn-danger w-100" onclick="deSelect()">СОНГОЛТ ЦУЦЛАХ</button>
-        </div>
-    </div>
-    <div id="action">
-
-    </div>
-    <div class="row mb-3">
-        <?php
-        while(_fetch($st)){?>
-        <div class="col-md-2">
-            <input type="checkbox" class="btn-check" id="<?=$id?>" value="<?=$id?>" autocomplete="off">
-            <label class="btn btn-outline-primary m-1 w-100" for="<?=$id?>" style="text-align: left;">
-                <small><?=$lname?> (<?=$fname?>) </small>
-            </label>
-            
-        </div>
-        <?php }
-        ?>
-    </div>
-    <div id="table">
-
+    <div class="col">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>№</th>
+                    <th>Нэрс</th>
+                </tr>
+            </thead>
+            <?php
+            while(_fetch($st)){?>
+            <tr role="button">
+                <td>
+                    <input type="checkbox" class="btn-check" id="<?=$id?>" value="<?=$id?>" autocomplete="off">
+                    <label class="btn btn-outline-primary m-1" for="<?=$id?>">
+                    </label>
+                </td>
+                <td>
+                    <small><?=$lname?> (<?=$fname?>) </small>
+                </td>
+            </tr>
+            <?php }
+            ?>
+        </table>
     </div>
 </div>
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+        $(document).ready(function() {
+          $('#datalist tr').click(function(event) {
+            if (event.target.type !== 'checkbox') {
+              $(':checkbox', this).trigger('click');
+            }
+          });
+        });
         function selects(){  
                 var ele=document.getElementsByClassName('btn-check');  
                 for(var i=0; i<ele.length; i++){  
@@ -137,6 +151,7 @@ require ROOT . "/pages/footer.php"; ?>
                                     },
                                     success: function(data) {
                                         console.log(data);
+                                        alert('Амжилттай илгээгдлээ!');
                                     },
                                     async: true
                                 });
@@ -150,6 +165,6 @@ require ROOT . "/pages/footer.php"; ?>
             }
 </script>
 <?php
-
+require ROOT . "/pages/dataTablefooter.php";
 require ROOT . "/pages/end.php";
 ?>

@@ -10,23 +10,40 @@ if (isset($_SESSION['user_id'])) {
     $pass = @$_POST['phone'];
     $user_role = @$_POST['user_role'];
     $tuluv = @$_POST['tuluv'];
+
     if ($mode == 1) {
         $id = $_POST['id'];
+        $office = @$_POST['office'];
+        $department = @$_POST['department'];
+
         $success = _exec(
-            "UPDATE teacher SET fname=?, lname=?, phone=?, email=?, at=?, pass=?, user_role=?, tuluv=? WHERE id = ?",
-            'ssssssiii',
-            [$fname, $lname, $phone, $email, $at, $pass, $user_role, $tuluv, $id],
+            "UPDATE teacher SET fname=?, lname=?, phone=?, email=?, at=?, user_role=?, tuluv=?, office_id=?, department_id=? WHERE id = ?",
+            'sssssiiiii',
+            [$fname, $lname, $phone, $email, $at, $user_role, $tuluv, $office, $department, $id],
             $count
         );
         echo "Амжилттай!";
     } elseif ($mode == 2) {
-        $success = _exec(
-            "INSERT INTO teacher (fname, lname, phone, email, at, pass, user_role, tuluv) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-            'ssssssii',
-            [$fname, $lname, $phone, $email, $at, $pass, $user_role, $tuluv,],
-            $count
+        $office = @$_POST['aoffice'];
+        $department = @$_POST['adepartment'];
+        
+        _selectRowNoParam(
+            "SELECT count(id) FROM teacher WHERE phone=$phone",
+                $too
         );
-        echo "Амжилттай!";
+        
+        if($too > 0) {
+            echo "$phone утасны дугаар бүртгэлтэй байна!";
+        }
+        else {
+            $success = _exec(
+                "INSERT INTO teacher (fname, lname, phone, email, at, pass, user_role, tuluv, office_id, department_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                'ssssssiiii',
+                [$fname, $lname, $phone, $email, $at, password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $user_role, $tuluv, $office, $department],
+                $count
+            );
+        echo "Амжилттай";
+        }
     } elseif ($mode == 3) {
         $id = $_POST['id'];
         _selectRowNoParam(
@@ -34,24 +51,44 @@ if (isset($_SESSION['user_id'])) {
             $too
         );
 
-        _selectRowNoParam(
-            "SELECT COUNT(id) FROM `att` WHERE tid = $id",
-            $atoo
-        );
-
         if ($too > 0) {
-            echo "Багш даасан ангитай тул устгах боломжгүй!";
-        } else if ($atoo > 0) {
-            echo "Багш ирц бүртгэсэн тул устгах боломжгүй!";
+            echo "Багш даасан ангийн бүргэлтэй тул устгах боломжгүй!";
         } else {
-            $success = _exec(
-                "DELETE FROM teacher WHERE id = ?",
-                'i',
-                [$id],
-                $count
+            _selectRowNoParam(
+                "SELECT COUNT(id) FROM `att` WHERE tid = $id",
+                $atoo
             );
-            echo "Амжилттай!";
+
+            if ($atoo > 0) {
+                echo "Багш ирц бүртгэсэн тул устгах боломжгүй!";
+            } else {
+                _selectRowNoParam(
+                    "SELECT COUNT(id) FROM `att_work` WHERE userid = $id",
+                    $awtoo
+                );
+                if ($awtoo > 0) {
+                    echo "Багш ажлын цагийн бүртгэл хийлгэсэн тул устгах боломжгүй!!";
+                } else {
+                    $success = _exec(
+                        "DELETE FROM teacher WHERE id = ?",
+                        'i',
+                        [$id],
+                        $count
+                    );
+                    echo "Амжилттай!";
+                }
+            }
         }
+    } elseif ($mode == 4){
+        $pass = rand(1111,9999);
+
+        $success = _exec(
+            "UPDATE teacher SET pass = ? WHERE id = ?",
+            'ss',
+            [password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $_POST['id']],
+            $count
+        );
+        echo $pass;
     }
 ?>
 <?php

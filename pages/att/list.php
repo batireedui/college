@@ -9,7 +9,7 @@ if ($user_role < 3) {
 _select(
     $tstmt,
     $tcount,
-    "SELECT class.name, tclass.classid, sname FROM tclass INNER JOIN class ON tclass.classid = class.id WHERE tclass.tid = ?",
+    "SELECT class.name, tclass.classid, sname FROM tclass INNER JOIN class ON tclass.classid = class.id WHERE tuluv=1 and tclass.tid = ?",
     "i",
     [$user_id],
     $class_name,
@@ -20,7 +20,7 @@ _select(
 _selectNoParam(
     $cstmt,
     $ccount,
-    "SELECT id, name, inter FROM cag",
+    "SELECT id, name, inter FROM cag WHERE tuluv = 1",
     $cag_id,
     $cag_name,
     $cag_inter

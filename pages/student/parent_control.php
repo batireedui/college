@@ -190,10 +190,12 @@ if (isset($_SESSION['user_id'])) {
             $addfname = $_POST['addfname'];
             $addlname = $_POST['addlname'];
             $utas = $_POST['utas'];
+            $newpass = password_hash($utas, PASSWORD_BCRYPT, ["cost" => 8]);
+            
             $success = _exec(
                 "INSERT INTO parent (fname, lname, pass, phone) VALUES(?, ?, ?, ?)",
                 'ssss',
-                [$addfname, $addlname, $utas, $utas],
+                [$addfname, $addlname, $newpass, $utas],
                 $lastid
             );
 

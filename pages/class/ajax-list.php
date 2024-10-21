@@ -3,7 +3,7 @@ if (isset($_SESSION['user_id'])) {
     _select(
         $stmt,
         $count,
-        "SELECT id, sname, name, hugacaa, tuluv, teacherid FROM class WHERE class.tuluv=? ORDER BY sname",
+        "SELECT id, sname, name, hugacaa, tuluv, teacherid, last_on FROM class WHERE class.tuluv=? ORDER BY sname",
         "i",
         ['1'],
         $id,
@@ -11,10 +11,11 @@ if (isset($_SESSION['user_id'])) {
         $name,
         $hugacaa,
         $tuluv,
-        $teacherid
+        $teacherid,
+        $last_on
     );
 ?>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
                 <th>№</th>
@@ -56,6 +57,7 @@ if (isset($_SESSION['user_id'])) {
                     <th>
                         <i class="fas fa-trash m-1 fa-lg text-danger" type="button" data-mdb-toggle="modal" data-mdb-target="#delete" onclick="deleteBtn(<?= $id ?>)"></i>
                         <i class="fas fa-pen-to-square fa-lg text-primary" type="button" data-mdb-toggle="modal" data-mdb-target="#change" onclick="setTeacher(<?php echo  $t_id == 0 ? '0' : $t_id ?>, <?= $id ?>)"></i>
+                        <span class="alert alert-warning" role="button" onclick="grad(<?= $id ?>, '<?= $sname ?>, <?= $name ?>')">ТӨГСӨЛТ<?=$last_on?></span>
                     </th>
                 </tr>
             <?php endwhile; ?>

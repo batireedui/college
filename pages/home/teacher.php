@@ -1,4 +1,5 @@
 <?php
+if ($_SESSION['user_role'] == 1) {
 _selectNoParam(
     $stmt,
     $count,
@@ -6,7 +7,7 @@ _selectNoParam(
         INNER JOIN class ON att.classid = class.id 
             INNER JOIN tlesson ON att.lessonid = tlesson.id 
                 INNER JOIN cag ON att.cagid = cag.id 
-                    WHERE att.tid = '" . $_SESSION['user_id'] . "' ORDER BY ognoo DESC , cag.name DESC LIMIT 10",
+                    WHERE att.this_on = '" . $this_on . "' and att.tid = '" . $_SESSION['user_id'] . "' ORDER BY ognoo DESC , cag.name DESC LIMIT 10",
     $id,
     $class,
     $lesson,
@@ -40,7 +41,7 @@ $lessonNameArr = array();
 _selectNoParam(
     $gstmt,
     $gcount,
-    "SELECT lessonid, classid, sname FROM `att` INNER JOIN class ON att.classid = class.id WHERE tid = '" . $_SESSION['user_id'] . "'  GROUP BY classid, lessonid",
+    "SELECT lessonid, classid, sname FROM `att` INNER JOIN class ON att.classid = class.id WHERE att.this_on = '" . $this_on . "' and tid = '" . $_SESSION['user_id'] . "'  GROUP BY classid, lessonid",
     $glessonid,
     $gclassid,
     $sname
@@ -59,7 +60,7 @@ while (_fetch($gstmt)) {
 
     $gtoo = 0;
     _selectRowNoParam(
-        "SELECT COUNT(id) from att WHERE lessonid = '$glessonid,' and classid = '$gclassid' and tid = " . $_SESSION['user_id'],
+        "SELECT COUNT(id) from att WHERE att.this_on = '" . $this_on . "' and lessonid = '$glessonid,' and classid = '$gclassid' and tid = " . $_SESSION['user_id'],
         $gtoo
     );
     array_push($orson, $gtoo * 2);
@@ -79,8 +80,11 @@ array_push($lessonArr, $gra);
 ?>
 
 <div>
-    <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        СҮҮЛИЙН ХИЧЭЭЛ ОРОЛТУУД (10)
+    <div class="alert alert-info m-3">
+       <?=$this_on ?> ХИЧЭЭЛИЙН ЖИЛ
+    </div>
+    <div class="bg-light d-flex justify-content-between align-items-center m-2">
+       СҮҮЛИЙН ХИЧЭЭЛ ОРОЛТУУД (10)
     </div>
     <div id="table">
         <table class="table table-bordered table-hover">
@@ -268,3 +272,4 @@ array_push($lessonArr, $gra);
         chart.render();
     };
 </script>
+<?php } else echo "Хандах эрх хүрэлцэхгүй байна"; ?>

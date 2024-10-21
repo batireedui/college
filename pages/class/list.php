@@ -154,6 +154,33 @@ while (_fetch($tstmt)) {
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+    function grad(id, text) {
+        let result = confirm(text + " ангийг <?=$this_on?> хичээлийн жилд төгсөлтөөр бүртгэхдээ итгэлтэй байна уу? Нийт суралцагчид төгсөгчөөр бүртгэгдэх болно.");
+        if (result === true) {
+            $.ajax({
+                url: "ajax",
+                type: "POST",
+                data: {
+                    mode: "grad",
+                    angi_id: id
+                },
+                error: function(xhr, textStatus, errorThrown) {
+
+                },
+                beforeSend: function() {
+
+                },
+                success: function(data) {
+                    if (data === "Амжилттай!") {
+                        window.location.reload();
+                    }
+                    else alert(data);
+                },
+                async: true
+            });
+        }
+    }
+    
     function get() {
         $.ajax({
             url: "ajax-list",
@@ -260,6 +287,10 @@ require ROOT . "/pages/footer.php"; ?>
                 },
                 success: function(data) {
                     get();
+                    $('#addinfo').html("");
+                    $('#addinfo').hide();
+                    $('#add_angi_name').val("");
+                    $('#addangi').val("");
                     $('#add').modal('hide');
                 },
                 async: true

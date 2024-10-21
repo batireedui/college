@@ -2,7 +2,7 @@
 require ROOT . "/pages/start.php";
 require ROOT . "/pages/header.php";
 $sql = "";
-if ($user_role < 3) {
+if ($user_role < 2) {
     $sql = "class.teacherid = '$user_id' and ";
 }
 
