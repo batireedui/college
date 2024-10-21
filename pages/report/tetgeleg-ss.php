@@ -136,17 +136,19 @@ if (isset($_SESSION['user_id'])) {
                             foreach ($data as $el) {
                                 $eseh = 1;
                                 $oldirc = json_decode($el->irc);
-                                foreach ($oldirc as $key => $eli) {
-                                    if ($eli->id == $sid){
-                                        $eseh = $eli->val;
-                                        if ($eseh == 1)
-                                            $v1++;
-                                        if ($eseh == 2)
-                                            $v2++;
-                                        if ($eseh == 3)
-                                            $v3++;
-                                        if ($eseh == 4)
-                                            $v4++;
+                                if($oldirc != null) {
+                                    foreach ($oldirc as $key => $eli) {
+                                        if ($eli->id == $sid){
+                                            $eseh = $eli->val;
+                                            if ($eseh == 1)
+                                                $v1++;
+                                            if ($eseh == 2)
+                                                $v2++;
+                                            if ($eseh == 3)
+                                                $v3++;
+                                            if ($eseh == 4)
+                                                $v4++;
+                                        }
                                     }
                                 }
                                 

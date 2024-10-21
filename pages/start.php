@@ -59,6 +59,35 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_fname'])) {
       border-radius: 10px;
     }
     .hovercell td:hover {
-        background-color: azure; !important;
+        background-color: azure !important;
+    }
+    .nav-link{
+        color: #3b71ca;
+    }
+    .navbar-nav .nav-link.active, .navbar-nav .show>.nav-linkr {
+        --mdb-navbar-active-color: #0d6832;
+    }
+    /* HTML: <div class="loader"></div> */
+    .loader {
+      width: 50px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 8px solid lightblue;
+      border-right-color: orange;
+      animation: l2 1s infinite linear;
+    }
+    .loadText {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .cover {
+        object-fit: cover;
+    }
+    @keyframes l2 {to{transform: rotate(1turn)}}
+    .navbar-nav {
+        font-size: 15px;
     }
   </style>

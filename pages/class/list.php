@@ -287,6 +287,10 @@ require ROOT . "/pages/footer.php"; ?>
                 },
                 success: function(data) {
                     get();
+                    $('#addinfo').html("");
+                    $('#addinfo').hide();
+                    $('#add_angi_name').val("");
+                    $('#addangi').val("");
                     $('#add').modal('hide');
                 },
                 async: true

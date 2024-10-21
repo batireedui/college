@@ -46,6 +46,13 @@ if (isset($_SESSION['user_id'])) {
             [$this_on, $_POST['angi_id']],
             $count
         );
+        
+        $success = _exec(
+            "UPDATE students SET tuluv=2, last_on=? WHERE tuluv=1 and class = ?",
+            'si',
+            [$this_on, $_POST['angi_id']],
+            $count
+        );
         echo "Амжилттай!";
     }
 ?>

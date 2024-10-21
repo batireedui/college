@@ -6,7 +6,7 @@ _selectNoParam(
             $stmt,
             $count,
             "SELECT noti.id, title, body, ognoo FROM `noti` INNER JOIN teacher ON noti.userid = teacher.id
-                         ORDER BY ognoo ASC",
+                         ORDER BY ognoo DESC",
             $id,
             $title,
             $body,
@@ -20,17 +20,30 @@ _selectNoParam(
             <?php if ($count > 0) : ?>
                 <?php $too = 0;
                 while (_fetch($stmt)) : ?>
-                    <div style="background-color: aliceblue;
+                    <div role="button" onclick="showNoti(<?=$id?>)" data-mdb-toggle='modal' data-mdb-target='#detial' style="background-color: #fdfdfd;
                                 padding: 10px;
                                 border-radius: 10px;
-                                border: solid #72a0b1 1px;
+                                border: solid #b3b3b3 1px;
                                 margin-top: 10px;">
-                        <div style="font-size: 16px; <?php echo $see == null ? 'color: red' : ''?>"><?=$title?></div>
+                        <div style="font-size: 16px; font-weight: bold"><?=$title?></div>
                         <div style="font-size: 14px;"><?=$body?></div>
                         <div style="font-size: 12px;"><?=$ognoo?></div>
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
+    </div>
+</div>
+<div class="modal fade" id="detial" tabindex="-1" aria-labelledby="detialLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detialLabel">Мэдэгдэл</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+
+            </div>
+        </div>
     </div>
 </div>
 <?php
@@ -44,6 +57,28 @@ $success = _exec(
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showNoti(id) {
+        $.ajax({
+                                    url: "ajax",
+                                    type: "POST",
+                                    data: {
+                                        mode: 2,
+                                        id: id
+                                    },
+                                    error: function(xhr, textStatus, errorThrown) {
+                                        $("#modal-body").html("Алдаа гарлаа !");
+                                    },
+                                    beforeSend: function() {
+                                        $('#modal-body').html("Түр хүлээнэ үү ...");
+                                    },
+                                    success: function(data) {
+                                         $('#modal-body').html(data);
+                                    },
+                                    async: true
+                                });
+    }
+</script>
 <?php
 require ROOT . "/pages/end.php";
 ?>

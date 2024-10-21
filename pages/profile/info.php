@@ -27,54 +27,54 @@ _selectNoParam(
 </style>
 <div>
     <div class="p-3 bg-light d-flex justify-content-between align-items-center">
-        <h3>Миний мэдээлэл <?php ?></h3>
+        <h3>Миний мэдээлэл</h3>
     </div>
     <form id='ajax'>
-    <div class="row mb-3">
-        <div class="col-md-2">
-            <div class="form-outline mb-4">
-                <input type="text" name="fname" class="form-control"  value="<?= $fname?>" required="">
-                <label class="form-label" for="form2Example1" style="margin-left: 0px;">Овог</label>
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <div class="form-outline mb-4">
+                    <input type="text" name="fname" id="fname" class="form-control"  value="<?= $fname?>" required="">
+                    <label class="form-label" for="fname" style="margin-left: 0px;">Овог</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-outline mb-4">
+                    <input type="text" name="lname" id="lname" class="form-control"  value="<?= $lname?>" required="">
+                    <label class="form-label" for="lname" style="margin-left: 0px;">Нэр</label>
+                </div>
+             </div>
+            <div class="col-md-2">
+                <div class="form-outline mb-4">
+                    <input type="text" name="phone" id="phone" class="form-control"  value="<?= $phone ?>" required="">
+                    <label class="form-label" for="phone" style="margin-left: 0px;">Утас</label>
+                </div>
+             </div>
+            <div class="col-md-2">
+                <div class="form-outline mb-4">
+                    <input type="text" name="email" id="email" class="form-control"  value="<?= $email ?>" required>
+                    <label class="form-label" for="email" style="margin-left: 0px;">E-mail</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-outline mb-4">
+                    <input type="text" name="at" id="at" class="form-control"  value="<?= $at ?>" required="">
+                    <label class="form-label" for="at" style="margin-left: 0px;">Албан тушаал</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form mb-4">
+                    <select class="form-select" name="zereg">
+                        <?php while(_fetch($stmtz)) { ?>
+                            <option value="<?=$zid?>" <?php echo $zid == $zereg ? " selected" : "" ?> ><?=$zname?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type='submut' class="btn btn-warning w-100" onclick="check()" value='Хадгалах'/>
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="form-outline mb-4">
-                <input type="text" name="lname" class="form-control"  value="<?= $lname?>" required="">
-                <label class="form-label" for="form2Example1" style="margin-left: 0px;">Нэр</label>
-            </div>
-         </div>
-        <div class="col-md-2">
-            <div class="form-outline mb-4">
-                <input type="text" name="phone" class="form-control"  value="<?= $phone ?>" required="">
-                <label class="form-label" for="form2Example1" style="margin-left: 0px;">Утас</label>
-            </div>
-         </div>
-        <div class="col-md-2">
-            <div class="form-outline mb-4">
-                <input type="text" name="email" class="form-control"  value="<?= $email ?>" required>
-                <label class="form-label" for="form2Example1" style="margin-left: 0px;">E-mail</label>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-outline mb-4">
-                <input type="text" name="at" class="form-control"  value="<?= $at ?>" required="">
-                <label class="form-label" for="form2Example1" style="margin-left: 0px;">Албан тушаал</label>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-outline mb-4">
-                <select class="form-select" name="zereg">
-                    <?php while(_fetch($stmtz)) { ?>
-                        <option value="<?=$zid?>" <?php echo $zid == $zereg ? " selected" : "" ?> ><?=$zname?></option>
-                    <?php } ?>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <input type='submut' class="btn btn-warning w-100" onclick="check()" value='Хадгалах'/>
-        </div>
-    </div>
-    </div>
+    </form>
     <div id="table">
 
     </div>

@@ -18,14 +18,14 @@ if (isset($_SESSION['user_id'])) {
             $success = _exec(
                 "UPDATE teacher SET pass=? WHERE id = ?",
                 'si',
-                [password_hash($p2, PASSWORD_BCRYPT, ["cost" => 8]), $_SESSION['user_id']],
+                [password_hash($newp, PASSWORD_BCRYPT, ["cost" => 8]), $_SESSION['user_id']],
                 $count
             );
             echo "<div class='alert alert-success'>Амжилттай солигдлоо!</div>";
         } else {
             echo "<div class='alert alert-danger'>Хуучин нууц үг буруу байна</div>";
         }
-    } elseif (isset($_POST['fname'])) {
+    } else if (isset($_POST['fname'])) {
         if ($_POST['fname'] == "" || $_POST['lname'] == "" || $_POST['phone'] == "")
             echo "<div class='alert alert-danger'>Хоосон утга байж болохгүй!</div>";
         else {

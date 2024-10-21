@@ -7,7 +7,7 @@
 
     <title><?= $pageTitle ?> </title>
     <link rel="icon" type="image/x-icon" href="<?= $favi ?>" />
-    <meta name="description" content='Өвөрхангай ПК' />
+    <meta name="description" content='<?= $pageTitle ?>' />
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
@@ -30,16 +30,16 @@
     <section class="w-100 p-4 d-flex justify-content-center pb-4">
         <form style="width: 22rem;" method="POST" action="/sign-in">
             <div class="w-100 p-4 d-flex justify-content-center">
-                <img src="/images/logo.jpg" class="img-fluid rounded-circle" width="150px" />
+                <img src="/images/logo.jpg" class="img-fluid rounded" width="150px" />
             </div>
             <div class="btn-group w-100 mb-4 justify-content-center " role="group">
                 <input type="radio" class="btn-check" id="btn_student" autocomplete="off" name="user_role" value="1" checked="">
                 <label class="btn btn-outline-primary d-flex align-items-center justify-content-center" for="btn_student">
                     Багш
                 </label>
-                <input type="radio" class="btn-check" id="btn_teacher" autocomplete="off" name="user_role" value="3">
-                <label class="btn btn-outline-primary d-flex align-items-center justify-content-center" for="btn_teacher">
-                    Сургалтын<br>алба
+                <input type="radio" class="btn-check" id="btn_ajiltan" autocomplete="off" name="user_role" value="2">
+                <label class="btn btn-outline-primary d-flex align-items-center justify-content-center" for="btn_ajiltan">
+                    Ажилтан
                 </label>
             </div>
             <!-- Email input -->

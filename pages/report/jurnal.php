@@ -5,13 +5,13 @@ require ROOT . "/pages/header.php";
 $sdate = date('Y-m-01');
 $edate = date('Y-m-d');
 
-if ($_SESSION['user_role'] < 3) {
+if ($_SESSION['user_role'] < 2) {
     _select(
         $tstmt,
         $tcount,
-        "SELECT id, fname, lname FROM teacher WHERE id=? and tuluv=? ORDER BY lname",
-        "ii",
-        [$_SESSION['user_id'], 1],
+        "SELECT id, fname, lname FROM teacher WHERE id=? and tuluv=? and user_role=? ORDER BY lname",
+        "iii",
+        [$_SESSION['user_id'], 1, 1],
         $stid,
         $fname,
         $lname
@@ -20,9 +20,9 @@ if ($_SESSION['user_role'] < 3) {
     _select(
         $tstmt,
         $tcount,
-        "SELECT id, fname, lname FROM teacher WHERE tuluv=? ORDER BY lname",
-        "i",
-        [1],
+        "SELECT id, fname, lname FROM teacher WHERE tuluv=? and user_role=? ORDER BY lname",
+        "ii",
+        [1, 1],
         $stid,
         $fname,
         $lname

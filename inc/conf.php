@@ -1,6 +1,6 @@
 <?php
 // Үндсэн тохиргоо
-const DOMAIN = 'http://college.mn';
+const DOMAIN = 'http://college.mn/';
 
 // Өгөгдлийн сангийн мэдээлэл
 const DB_HOST = 'localhost';

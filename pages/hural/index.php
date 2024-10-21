@@ -16,6 +16,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
     <meta http-equiv="refresh" content="60" />
 </head>
+<?php
+_selectRowNoParam(
+    "SELECT count(id) FROM hural",
+    $too
+    )
+?>
 
 <body>
     <div class="container-md" style="margin-top: 30px;">
@@ -23,14 +29,17 @@
             <img src="https://surgalt.uvcollege.edu.mn/images/logo.jpg" height="100" loading="lazy"><br><br>
             ӨВӨРХАНГАЙ АЙМАГ ДАХЬ ПОЛИТЕХНИК КОЛЛЕЖ
         </h5>
-        <h5 style="text-align: center; color: #032c94">
-           “Чанартай боловсрол-Нээлттэй түншлэл VI” аймгийн зөвлөгөөн (2024.05.22)
+        <h5 style="text-align: center; color: #e00b0b">
+           Дэлхийн багш нарын 30, Монголын багш нарын 58 дахь өдрийн мэнд хүргэе!
+        </h5>
+        <h5 style="text-align: center; color: #e00b0b">
+           ИРЦИЙН ХУВЬ: <?=$too?> / 129 ( <?php echo round($too/129*100) ?>% )
         </h5>
         <?php
         _selectNoParam(
             $stmt,
             $count,
-            "SELECT huralusers.id, fname, lname FROM `huralusers` INNER JOIN hural ON huralusers.id = hural.teacherid",
+            "SELECT teacher.id, fname, lname FROM `teacher` INNER JOIN hural ON teacher.id = hural.teacherid",
             $id,
             $fname,
             $lname

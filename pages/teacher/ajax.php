@@ -26,14 +26,24 @@ if (isset($_SESSION['user_id'])) {
     } elseif ($mode == 2) {
         $office = @$_POST['aoffice'];
         $department = @$_POST['adepartment'];
-
-        $success = _exec(
-            "INSERT INTO teacher (fname, lname, phone, email, at, pass, user_role, tuluv, office_id, department_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            'ssssssiiii',
-            [$fname, $lname, $phone, $email, $at, password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $user_role, $tuluv, $office, $department],
-            $count
+        
+        _selectRowNoParam(
+            "SELECT count(id) FROM teacher WHERE phone=$phone",
+                $too
         );
-        echo "Амжилттай!";
+        
+        if($too > 0) {
+            echo "$phone утасны дугаар бүртгэлтэй байна!";
+        }
+        else {
+            $success = _exec(
+                "INSERT INTO teacher (fname, lname, phone, email, at, pass, user_role, tuluv, office_id, department_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                'ssssssiiii',
+                [$fname, $lname, $phone, $email, $at, password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $user_role, $tuluv, $office, $department],
+                $count
+            );
+        echo "Амжилттай";
+        }
     } elseif ($mode == 3) {
         $id = $_POST['id'];
         _selectRowNoParam(
@@ -69,6 +79,16 @@ if (isset($_SESSION['user_id'])) {
                 }
             }
         }
+    } elseif ($mode == 4){
+        $pass = rand(1111,9999);
+
+        $success = _exec(
+            "UPDATE teacher SET pass = ? WHERE id = ?",
+            'ss',
+            [password_hash($pass, PASSWORD_BCRYPT, ["cost" => 8]), $_POST['id']],
+            $count
+        );
+        echo $pass;
     }
 ?>
 <?php

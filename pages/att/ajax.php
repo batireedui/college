@@ -138,7 +138,7 @@ if (isset($_SESSION['user_id'])) {
                         $ircItem = new stdClass();
                         $ircItem->id = $id;
 
-                        if ($editIrc) {
+                        if ($editIrc && $oldirc != null) {
                             foreach ($oldirc as $key => $el) {
                                 if ($el->id == $id) {
                                     $ircItem->val = $el->val;
@@ -157,7 +157,7 @@ if (isset($_SESSION['user_id'])) {
                                 <br>
                                 <div class="btn-group text-center" role="group">
                                     <input type="radio" class="btn-check" id="v1-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 1)" value="1" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 1)
                                                                                                                                                                                 echo 'checked=""';
@@ -168,7 +168,7 @@ if (isset($_SESSION['user_id'])) {
                                         Ирсэн
                                     </label>
                                     <input type="radio" class="btn-check" id="v3-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 3)" value="3" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 3)
                                                                                                                                                                                 echo 'checked=""';
@@ -179,7 +179,7 @@ if (isset($_SESSION['user_id'])) {
                                         Чөл
                                     </label>
                                     <input type="radio" class="btn-check" id="v4-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 4)" value="4" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 4)
                                                                                                                                                                                 echo 'checked=""';
@@ -190,7 +190,7 @@ if (isset($_SESSION['user_id'])) {
                                         Тас
                                     </label>
                                     <input type="radio" class="btn-check" id="v2-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 2)
                                                                                                                                                                                 echo 'checked=""';
@@ -224,7 +224,7 @@ if (isset($_SESSION['user_id'])) {
                         $ircItem = new stdClass();
                         $ircItem->id = $id;
 
-                        if ($editIrc) {
+                        if ($editIrc && $oldirc != null) {
                             foreach ($oldirc as $key => $el) {
                                 if ($el->id == $id) {
                                     $ircItem->val = $el->val;
@@ -243,7 +243,7 @@ if (isset($_SESSION['user_id'])) {
                             <td style="text-align: left;">
                                 <div class="btn-group" role="group">
                                     <input type="radio" class="btn-check" id="v1-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 1)" value="1" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 1)
                                                                                                                                                                                 echo 'checked=""';
@@ -254,7 +254,7 @@ if (isset($_SESSION['user_id'])) {
                                         Ирсэн
                                     </label>
                                     <input type="radio" class="btn-check" id="v3-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 3)" value="3" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 3)
                                                                                                                                                                                 echo 'checked=""';
@@ -265,7 +265,7 @@ if (isset($_SESSION['user_id'])) {
                                         Чөл
                                     </label>
                                     <input type="radio" class="btn-check" id="v4-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 4)" value="4" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 4)
                                                                                                                                                                                 echo 'checked=""';
@@ -276,7 +276,7 @@ if (isset($_SESSION['user_id'])) {
                                         Тас
                                     </label>
                                     <input type="radio" class="btn-check" id="v2-<?= $id ?>" name="user-<?= $id ?>" onclick="changeVal(<?= $id ?>, 2)" value="2" <?php
-                                                                                                                                                                    if ($editIrc) {
+                                                                                                                                                                    if ($editIrc && $oldirc != null) {
                                                                                                                                                                         foreach ($oldirc as $key => $el) {
                                                                                                                                                                             if ($el->id == $id && $el->val == 2)
                                                                                                                                                                                 echo 'checked=""';
@@ -289,7 +289,7 @@ if (isset($_SESSION['user_id'])) {
 
                                 </div>
                                 
-                                <div class="btn-group" role="group">
+                                <div class="btn-group d-none" role="group">
                                     <input type="radio" class="btn-check" id="e1-<?= $id ?>" name="emoj-<?= $id ?>" value="2" />
                                     <label class="btn btn-outline-warning" for="e1-<?= $id ?>">
                                         <i class="fa-regular fa-face-smile fa-2xl"></i>

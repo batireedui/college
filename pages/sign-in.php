@@ -11,6 +11,13 @@ if (sizeof($errors) > 0) {
     $_SESSION['errors'] = $errors;
     redirect('/login');
 }
+$where = "";
+if($user_role == 1) {
+    $where = "and teacher.user_role=$user_role";
+}
+else if($user_role > 1){
+    $where = "and teacher.user_role > 1";
+}
 /*
 _selectRow(
     "select id, fname, lname, phone from teacher where tuluv=1 and phone=? and pass=? and user_role=?",
@@ -23,14 +30,16 @@ _selectRow(
 );*/
 
 _selectRow(
-    "select id, fname, lname, phone, pass from teacher where tuluv=1 and phone=? and user_role=?",
-    'si',
-    [$username, $user_role],
+    "select teacher.id, teacher.fname, teacher.lname, teacher.phone, teacher.pass, teacher.user_role, at FROM teacher WHERE teacher.tuluv=1 and teacher.phone=? $where",
+    's',
+    [$username],
     $user_id,
     $user_fname,
     $user_lname,
     $user_phone,
-    $user_pass
+    $user_pass,
+    $user_role,
+    $user_at
 );
 
 if (!empty($user_id)) {
@@ -48,6 +57,7 @@ if (!empty($user_id)) {
         $_SESSION['user_lname'] = $user_lname;
         $_SESSION['user_role'] = $user_role;
         $_SESSION['user_phone'] = $user_phone;
+        $_SESSION['user_at'] = $user_at;
         $_SESSION['errors'] = "";
         redirect('/');
         

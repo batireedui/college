@@ -49,7 +49,7 @@ _selectNoParam(
         </div>
     </div>
     <div class="col">
-        <table class="table table-bordered table-hover"  id="datalist">
+        <table class="table table-bordered table-hover">
             <thead class="table-light">
                 <tr>
                     <th>№</th>
@@ -151,6 +151,7 @@ require ROOT . "/pages/footer.php"; ?>
                                     },
                                     success: function(data) {
                                         console.log(data);
+                                        alert('Амжилттай илгээгдлээ!');
                                     },
                                     async: true
                                 });

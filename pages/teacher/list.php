@@ -22,8 +22,21 @@ _select(
     $did,
     $dname
 );
+
+_select(
+    $atstmt,
+    $atcount,
+    "SELECT id, name FROM at WHERE tuluv=?",
+    "i",
+    [1],
+    $atid,
+    $atname
+);
+
 $oarray = array();
 $darray = array();
+$atarray = array();
+
 while (_fetch($ostmt)) {
     $orow = new stdClass();
     $orow->oid = $oid;
@@ -37,12 +50,22 @@ while (_fetch($dstmt)) {
     $orow->dname = $dname;
     array_push($darray, $orow);
 }
+
+while (_fetch($atstmt)) {
+    $atrow = new stdClass();
+    $atrow->atid = $atid;
+    $atrow->atname = $atname;
+    array_push($atarray, $atrow);
+}
 ?>
 <link rel="stylesheet" type="text/css" href="/css/dataTable.css">
 <style>
     .dt-buttons {
         text-align: end;
         margin-bottom: 15px
+    }
+    #upload_file {
+        display: none;
     }
 </style>
 <div>
@@ -122,9 +145,9 @@ while (_fetch($dstmt)) {
                         <div class="col">
                             <label class="form-label" for="user_role">Төрөл*</label>
                             <select class="form form-control mb-3" id="user_role">
-                                <option value="1">Багш</option>
-                                <option value="3">Арга зүйч/Менежер</option>
-                                <option value="4">Захирал</option>
+                                <?php foreach ($atarray as $el) { ?>
+                                    <option value="<?= $el->atid ?>"><?= $el->atname ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="col">
@@ -147,6 +170,47 @@ while (_fetch($dstmt)) {
         </div>
     </div>
 
+    <div class="modal fade" id="imagechange" tabindex="-1" aria-labelledby="changeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeLabel">Багш зураг солих</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 text-center">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="form-outline mb-3">
+                                    <input type="text" value="" id="pfname" class="form form-control mb-3" autocomplete="FALSE" readonly/>
+                                    <label class="form-label" for="pfname">Эцэг/эхийн нэр*</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-outline mb-3">
+                                    <input type="text" value="" id="plname" class="form form-control mb-3" autocomplete="FALSE" readonly/>
+                                    <label class="form-label" for="plname">Багшийн нэр*</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <img id="pro" src="/images/image.jpg" style="width: 300px;height: 200px;object-fit: cover;border: solid;margin: auto" />
+                            <br>
+                            <progress id="progress_bar" value="0" max="100" style="width:300px;"></progress>
+                            <p id="progress_status"></p>
+                            <label for="upload_file" class="custom-file-upload btn btn-primary mb-1"> Зураг сонгох</label>
+                            <input class="form form-control margin" type="file" class="form form-control" formnovalidate id="upload_file" name="file" accept=".jpg, .png, .jpeg" onchange="imageSave(event)">
+                            <p>2:1.5 харьцаатай зураг оруулна уу!</p>
+                        </div>
+                    </div>
+                    <div id="changeinfo" class="alert alert-warning" style="display: none;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" id="add" tabindex="-1" aria-labelledby="addLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -213,12 +277,9 @@ while (_fetch($dstmt)) {
                         <div class="col">
                             <label class="form-label" for="auser_role">Төрөл*</label>
                             <select class="form form-control mb-3" id="auser_role">
-                                <option value="1">Багш</option>
-                                <option value="3">Арга зүйч/Менежер</option>
-                                <option value="5">ЗАА-н ажилтан</option>
-                                <option value="6">Хүний нөөц/Дотоод хяналт</option>
-                                <option value="7">ХАБ</option>
-                                <option value="4">Захирал</option>
+                                <?php foreach ($atarray as $el) { ?>
+                                    <option value="<?= $el->atid ?>"><?= $el->atname ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="col">
@@ -268,6 +329,28 @@ while (_fetch($dstmt)) {
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
+    function pass(id, name) {
+        if (confirm(name + " -н нууц үгийг шинэчлэх үү!") == true) {
+          $.ajax({
+                url: "ajax",
+                type: "POST",
+                data: {
+                    mode: 4,
+                    id: id
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert("Алдаа гарлаа. Дахин оролдоно уу!");
+                },
+                beforeSend: function() {
+    
+                },
+                success: function(data) {
+                    alert("Шинэчлэгдсэн нууц үг нь: " + data);
+                },
+                async: true
+            });
+        } 
+    }
     function get() {
         $.ajax({
             url: "ajax-list",
@@ -384,14 +467,28 @@ require ROOT . "/pages/footer.php"; ?>
                     $("#addinfo").html("Түр хүлээнэ үү ...");
                 },
                 success: function(data) {
-                    get();
-                    $('#add').modal('hide');
+                    if(data =="Амжилттай"){
+                        $('#add').modal('hide');
+                        window.location.reload();
+                    }
+                    else {
+                        $("#addinfo").html(data);
+                    }
                 },
                 async: true
             });
         }
     }
-
+    
+    function imageBtn(id){
+        $('#t_id').val(id);
+        $('#pfname').val($('#f1-' + id).text());
+        $('#plname').val($('#f2-' + id).text());
+        
+        let pre = document.getElementById("pro");
+        let imgc = '/images/users/' + id + '.jpg';
+        pre.src = imgc;
+    }
     function editBtn(id, t, oid, did) {
         $('#changeinfo').hide();
         $('#t_id').val(id);
@@ -410,6 +507,91 @@ require ROOT . "/pages/footer.php"; ?>
         $('#delete_t_id').val(id);
         $('#deletebody').html('"' + $('#f1-' + id).text() + ' ' + $('#f2-' + id).text() + '" багшийг утгахдаа итгэлтэй байна уу?');
         $('#deleteinfo').hide();
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script>
+    const now = new Date();
+
+    const MAX_WIDTH = 500;
+    const MAX_HEIGHT = 300;
+    const MIME_TYPE = "image/jpg";
+    const QUALITY = 1;
+
+    function calculateSize(img, maxWidth, maxHeight) {
+        let width = img.width;
+        let height = img.height;
+
+        // calculate the width and height, constraining the proportions
+        if (width > height) {
+            if (width > maxWidth) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+            }
+        } else {
+            if (height > maxHeight) {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+            }
+        }
+        return [width, height];
+    }
+
+    function imageSave(event) {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0]; // get the file
+            const blobURL = window.URL.createObjectURL(file);
+            const img = new Image();
+            img.src = blobURL;
+            img.onerror = function() {
+                window.URL.revokeObjectURL(this.src);
+                console.log("Cannot load image");
+            };
+            img.onload = function() {
+                window.URL.revokeObjectURL(this.src);
+                const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
+                const canvas = document.createElement("canvas");
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                canvas.toBlob(
+                    (blob) => {
+
+                    },
+                    MIME_TYPE,
+                    QUALITY
+                );
+                let pre = document.getElementById("pro");
+                let imgc = canvas.toDataURL('image/jpg')
+                pre.src = imgc;
+                uploadFile(imgc);
+                
+                pre = document.getElementById("imageList-"+$('#t_id').val());
+                imgc = canvas.toDataURL('image/jpg');
+                pre.src = imgc;
+                //console.log(imgc);
+            };
+        }
+    }
+
+    function uploadFile(file) {
+        var formData = new FormData();
+        formData.append('file_to_upload', file);
+        formData.append('file_name', $('#t_id').val());
+        var ajax = new XMLHttpRequest();
+        ajax.upload.addEventListener("progress", progressHandler, false);
+        ajax.onreadystatechange = function() {
+                console.log(this.responseText);
+        };
+        ajax.open('POST', '/imageSave', true);
+        ajax.send(formData);
+    }
+
+    function progressHandler(event) {
+        var percent = (event.loaded / event.total) * 100;
+        document.getElementById("progress_bar").value = Math.round(percent);
+        document.getElementById("progress_status").innerHTML = Math.round(percent) + "% ";
     }
 </script>
 <?php

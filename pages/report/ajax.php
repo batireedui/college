@@ -12,7 +12,7 @@ if (isset($_SESSION['user_id'])) {
         $start = date("Y-m-d", strtotime("$son-$ssar-1"));
 
         $sql = "";
-        if ($_SESSION['user_role'] < 3) {
+        if ($_SESSION['user_role'] < 2) {
             $sql = " att.classid = '$class' and ";
         }
 
@@ -121,17 +121,19 @@ if (isset($_SESSION['user_id'])) {
                             $v4 = 0;
                             while (_fetch($lstmt)) {
                                 $irc = json_decode($irc);
-                                foreach ($irc as $key => $el) {
-                                    if ($el->id == $sid) {
-                                        //echo $el->val . " $sid, ";
-                                        if ($el->val == 1)
-                                            $v1++;
-                                        if ($el->val == 2)
-                                            $v2++;
-                                        if ($el->val == 3)
-                                            $v3++;
-                                        if ($el->val == 4)
-                                            $v4++;
+                                if($irc != null) {
+                                    foreach ($irc as $key => $el) {
+                                        if ($el->id == $sid) {
+                                            //echo $el->val . " $sid, ";
+                                            if ($el->val == 1)
+                                                $v1++;
+                                            if ($el->val == 2)
+                                                $v2++;
+                                            if ($el->val == 3)
+                                                $v3++;
+                                            if ($el->val == 4)
+                                                $v4++;
+                                        }
                                     }
                                 }
                             }

@@ -1,4 +1,5 @@
 <?php
+if ($_SESSION['user_role'] == 1) {
 _selectNoParam(
     $stmt,
     $count,
@@ -271,3 +272,4 @@ array_push($lessonArr, $gra);
         chart.render();
     };
 </script>
+<?php } else echo "Хандах эрх хүрэлцэхгүй байна"; ?>

@@ -140,11 +140,11 @@ while (_fetch($tstmt)) {
                 </select>
             </div>
             <div class="col mb-4">
-                <label class="form-label" for="d_name" style="margin-left: 0px;">Тэнхэм/Хэлтсийн нэр</label>
+                <label class="form-label" for="d_name" style="margin-left: 0px;">Тэнхим/Хэлтсийн нэр</label>
                 <input type="text" name="d_name" class="form-control" required="">
             </div>
             <div class="col mb-4">
-                <label class="form-label" for="d_manager" style="margin-left: 0px;">Менежер</label>
+                <label class="form-label" for="d_manager" style="margin-left: 0px;">Эрхлэгч/Дарга</label>
                 <select class="form form-control mb-3" id="d_manager" name="d_manager">
                     <option value="0"></option>
                     <?php foreach ($teachers as $el) : ?>
@@ -164,7 +164,7 @@ while (_fetch($tstmt)) {
                         <th>№</th>
                         <th>Алба</th>
                         <th>Нэр</th>
-                        <th>Менежер</th>
+                        <th>Эрхлэгч/Дарга</th>
                         <th>Төлөв</th>
                     </tr>
                 </thead>

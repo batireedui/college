@@ -12,6 +12,61 @@ if (isset($_SESSION['user_id'])) {
             $count
         );
         redirect('/setting/alba');
+    } else if (isset($_POST['addAtushaal'])) {
+        $success = _exec(
+            "INSERT INTO at (name, tuluv ) VALUES (?, ?)",
+            'si',
+            [$_POST['atname'], 1],
+            $count
+        );
+        redirect('/setting/at');
+    } else if (isset($_POST['turul'])) {
+        if ($_POST['turul'] == 'cagEdit') {
+            $f = $_POST['f'];
+            $val = $_POST['val'];
+            $id = $_POST['id'];
+            $success = _exec(
+                "UPDATE att_time SET $f = ? WHERE id = ?",
+                'si',
+                [$val, $id],
+                $count
+            );
+            echo "Амжилттай";
+        }
+        if ($_POST['turul'] == 'esehCag') {
+            $id = $_POST['id'];
+            $success = _exec(
+                "UPDATE att_time SET eseh = 1 WHERE id = ?",
+                'i',
+                [$id],
+                $count
+            );
+            $success = _exec(
+                "UPDATE att_time SET eseh = 0 WHERE id <> ?",
+                'i',
+                [$id],
+                $count
+            );
+            echo "Амжилттай";
+        }
+    } else if (isset($_POST['addHuvaari'])) {
+        $success = _exec(
+            "INSERT INTO att_time (c1, c2, c3, c4, eseh ) VALUES (?, ?, ?, ?, ?)",
+            'sssss',
+            [$_POST['c1'], $_POST['c4'], $_POST['c3'], $_POST['c4'], 0],
+            $count
+        );
+        redirect('/setting/cag');
+    } else if (isset($_POST["editAtushaal"])) {
+        if ($_POST['at_id'] > 4) {
+            $success = _exec(
+                "UPDATE at SET name=? WHERE id = ?",
+                'si',
+                [$_POST['atname'], $_POST['at_id']],
+                $count
+            );
+        }
+        redirect('/setting/at');
     } else if (isset($_POST["addCag"])) {
         $success = _exec(
             "INSERT INTO cag (name, inter, tuluv ) VALUES (?, ?, ?)",
@@ -20,6 +75,22 @@ if (isset($_SESSION['user_id'])) {
             $count
         );
         redirect('/setting/lesson_att');
+    } else if (isset($_POST["addLocation"])) {
+        $success = _exec(
+            "INSERT INTO location (lon, lat, zai, tai ) VALUES (?, ?, ?, ?)",
+            'ssis',
+            [$_POST['lon'], $_POST['lat'], $_POST['zai'], $_POST['tai']],
+            $count
+        );
+        redirect('/setting/cag');
+    } else if (isset($_POST["locationEdit"])) {
+        $success = _exec(
+            "UPDATE location SET lon=?, lat=?, zai=?, tai=? WHERE id=?",
+            'ssisi',
+            [$_POST['elon'], $_POST['elat'], $_POST['ezai'], $_POST['etai'], $_POST['eid']],
+            $count
+        );
+        redirect('/setting/cag');
     } else if (isset($_POST["editCag"])) {
         $success = _exec(
             "UPDATE cag SET name=?, inter=? WHERE id = ?",
@@ -115,6 +186,40 @@ if (isset($_SESSION['user_id'])) {
                 $count
             );
             echo "Амжилттай";
+        } else if ($_POST["mode"] == "at_tuluv") {
+            $tuluv = $_POST['tuluv'];
+            $t = 1;
+            $tuluv == "true" ? $t = 1 : $t = 0;
+            $success = _exec(
+                "UPDATE at SET tuluv = ? WHERE id = ?",
+                'ii',
+                [$t, $_POST['id']],
+                $count
+            );
+            echo "Амжилттай";
+        } else if ($_POST["mode"] == "erhchange") {
+            $tuluv = $_POST['tuluv'];
+            if ($tuluv == "true") {
+                $success = _exec(
+                    "INSERT INTO at_tax (erh, at_id) VALUES(?, ?)",
+                    'ii',
+                    [$_POST['erhid'], $_POST['atid']],
+                    $count
+                );
+                echo "Амжилттай";
+            } else {
+                if ($_POST['atid'] == 4) {
+                    echo "Албан хаагчийн эрхийг цуцлах эрхгүй байна";
+                } else {
+                    $success = _exec(
+                        "DELETE FROM at_tax WHERE erh=? and at_id=?",
+                        'ii',
+                        [$_POST['erhid'], $_POST['atid']],
+                        $count
+                    );
+                    echo "Амжилттай";
+                }
+            }
         } else if ($_POST["mode"] == "delete_office") {
             _selectRowNoParam(
                 "SELECT count(id) FROM teacher WHERE office_id=" . $_POST['id'],
@@ -187,6 +292,24 @@ if (isset($_SESSION['user_id'])) {
                 );
                 echo "Амжилттай";
             }
+        } else if ($_POST["mode"] == "at_Delete") {
+            if ($_POST['at_id'] > 4) {
+                _selectRowNoParam(
+                    "SELECT COUNT(id) FROM `teacher` WHERE user_role = " . $_POST['id'],
+                    $too
+                );
+                if ($too > 0) {
+                    echo "Тухайн албан тушаалд бүртгэл хийгдсэн байна.";
+                } else {
+                    $success = _exec(
+                        "DELETE FROM at WHERE id = ?",
+                        'i',
+                        [$_POST['id']],
+                        $count
+                    );
+                    echo "Амжилттай";
+                }
+            } else echo "Хандах эрхгүй";
         } else if ($_POST["mode"] == "jilUpdate") {
             $success = _exec(
                 "UPDATE jil SET this_on=?",
@@ -194,7 +317,16 @@ if (isset($_SESSION['user_id'])) {
                 [$_POST['jil']],
                 $count
             );
-            echo "Амжилттай";
+            echo "Амжилттай"; 
+        } else if ($_POST["mode"] == "location_Delete") {
+            $success = _exec(
+                "DELETE FROM location WHERE id=?",
+                'i',
+                [$_POST['id']],
+                $count
+            );
+            echo "Амжилттай"; 
         }
     }
 }
+else "Холболт салсан байна. Дахин нэвтэрч орно уу!";

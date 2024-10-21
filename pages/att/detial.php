@@ -71,10 +71,12 @@ if (isset($_SESSION['user_id'])) {
                 <?php $too = 0;
                 while (_fetch($stmt)) :
                     $sval = 0;
-                    foreach ($irc as $key => $el) {
-                        if ($el->id == $sid) {
-                            $sval = $el->val;
-                            break;
+                    if($irc !== null) {
+                        foreach ($irc as $key => $el) {
+                            if ($el->id == $sid) {
+                                $sval = $el->val;
+                                break;
+                            }
                         }
                     }
                     $too++ ?>

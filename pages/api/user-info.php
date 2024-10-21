@@ -12,11 +12,11 @@ function msg($success, $status, $message, $extra = [])
     ], $extra);
 }
 
-if($userType == "1") $table = "teacher";
-else $table = "parent";
+if($userType == "1") $table = "select id, concat(`fname`, ' ', `lname`) as lname, `phone`, user_role from teacher where token=?";
+else $table = "select id, `lname`, `phone`, user_role from parent where token=?";
 
 _selectRow(
-    "select id, concat(`fname`, ' ', `lname`) as lname, `phone`, user_role from $table where token=?",
+    $table,
     's',
     [$token],
     $user_id,
