@@ -8,23 +8,23 @@ require ROOT . "/pages/start.php"; ?>
 <?php
 require ROOT . "/pages/header.php";
 
+$yearf = $_GET['year'] ?? $thison;
+$monthf = $_GET['month'] ?? $thismonth;
 _selectNoParam(
     $st,
     $co,
-    "SELECT btime_ajil.id, btime_ajil.ajil, btime_ajil.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name FROM `btime_ajil` INNER JOIN `at` ON btime_ajil.at_id = at.id",
+    "SELECT btime_user.id, btime_ajil.ajil, btime_user.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name, btime_user.credit, btime_user.year, btime_user.month FROM `btime_ajil`
+        INNER JOIN `at` ON btime_ajil.at_id = at.id
+            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id WHERE btime_user.year = '$yearf' and btime_user.month='$monthf'",
     $id,
     $ajil,
     $tailbar,
     $credit,
     $at_id,
-    $at_name
-);
-
-_selectRowNoParam(
-    "SELECT name, money, bnorm FROM `tzereg` INNER JOIN teacher ON tzereg.id = teacher.zereg WHERE teacher.id = '$user_id'",
-    $zereg,
-    $money,
-    $bnorm
+    $at_name,
+    $tcredit,
+    $year,
+    $month
 )
 ?>
 
@@ -42,61 +42,61 @@ _selectRowNoParam(
 
     <section class="section">
         <?php include "head.php"; ?>
-        <div class="row">
-            <div class="col-md-2">
-                <select class="form form-control mb-3" id="son">
-                    <?php
-                    $con = $thison;
-                    while ($con >= $starton) { ?>
-                        <option><?= $con ?></option>
-                    <?php $con--;
-                    } ?>
-                </select>
+        <form method="get">
+            <div class="row">
+                <div class="col-md-2">
+                    <select class="form form-control mb-3" name="year">
+                        <?php
+                        $con = $thison;
+                        while ($con >= $starton) { ?>
+                            <option <?php echo $con == $yearf ? "selected" : "" ?>><?= $con ?></option>
+                        <?php $con--;
+                        } ?>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <select class="form form-control mb-3" name="month">
+                        <?php
+                        $sar = 1;
+                        while ($sar <= 12) { ?>
+                            <option <?php echo $sar == $monthf ? "selected" : "" ?>><?= $sar ?></option>
+                        <?php $sar++;
+                        } ?>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-danger">ХАРАХ</button>
+                </div>
             </div>
-            <div class="col-md-1">
-                <select class="form form-control mb-3" id="ssar">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
-                </select>
-            </div>
-            <div class="col-md-1">
-                <button class="btn btn-danger">ХАРАХ</button>
-            </div>
-        </div>
+        </form>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"></h5>
-                        <div class="row mb-3">
-                            <table class="table table-bordered hover">
+                        <div class="row m-3">
+                            <table class="table table-bordered table-hover w-100">
                                 <tr>
                                     <th>№</th>
-                                    <th></th>
                                     <th>Ажил үйлчилгээ</th>
-                                    <th>Гүйцэтгэлийн шалгуур</th>
-                                    <th>Кредит</th>
-                                    <th>Тооцох</th>
+                                    <th>Хийгдсэн байдал</th>
+                                    <th>Тооцох КР</th>
+                                    <th>КР</th>
+                                    <th>Он</th>
+                                    <th>Сар</th>
+                                    <th>А/т</th>
                                 </tr>
                                 <?php
                                 $dd = 1;
                                 while (_fetch($st)) { ?>
                                     <tr>
                                         <td><?= $dd ?></td>
-                                        <td><a href="addbtime?id=<?= $id ?>"><span class="btn btn-outline-danger">Сонгох</span></a></td>
                                         <td><?= $ajil ?></td>
                                         <td><?= $tailbar ?></td>
                                         <td><?= $credit ?></td>
+                                        <td><?= $tcredit ?></td>
+                                        <td><?= $year ?></td>
+                                        <td><?= $month ?></td>
                                         <td><?= $at_name ?></td>
                                     </tr>
                                 <?php $dd++;

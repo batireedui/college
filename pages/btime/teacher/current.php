@@ -13,7 +13,7 @@ _selectNoParam(
     $co,
     "SELECT btime_user.id, btime_ajil.ajil, btime_user.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name, btime_user.credit, btime_user.year, btime_user.month FROM `btime_ajil`
         INNER JOIN `at` ON btime_ajil.at_id = at.id
-            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id",
+            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id WHERE btime_user.year = '$thison' and btime_user.month='$thismonth'",
     $id,
     $ajil,
     $tailbar,
