@@ -13,7 +13,7 @@ _selectNoParam(
     $co,
     "SELECT btime_user.id, btime_ajil.ajil, btime_user.tailbar, btime_ajil.credit, btime_ajil.at_id, at.name, btime_user.credit, btime_user.year, btime_user.month FROM `btime_ajil`
         INNER JOIN `at` ON btime_ajil.at_id = at.id
-            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id WHERE btime_user.year = '$thison' and btime_user.month='$thismonth'",
+            INNER JOIN btime_user ON btime_ajil.id = btime_user.ajil_id WHERE btime_user.year = '$thison' and btime_user.month='$thismonth' and btime_user.user_id = '$user_id'",
     $id,
     $ajil,
     $tailbar,
@@ -40,6 +40,7 @@ _selectNoParam(
                         <h5 class="card-title"></h5>
                         <div class="m-3" style="text-align: right;">
                             <a class="btn btn-primary" href="/btime/teacher/add">"Б" цаг тооцуулах ажил үйлчилгээ</a>
+                            <a class="btn btn-warning" href="/btime/teacher/current_print" target="_blank">Хэвлэх</a>
                         </div>
                         <div class="row m-3">
                             <table class="table table-bordered table-hover w-100">

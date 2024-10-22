@@ -24,7 +24,16 @@ if (isset($_SESSION['user_id'])) {
         );
         $sumdun = 0;
         $sumcredit = 0; ?>
-        <div id="sumcredit"></div>
+        <div>
+            <div id="sumcredit">
+
+            </div>
+            <div>
+                <div class="m-3" style="text-align: right;">
+                    <a class="btn btn-warning" href="/btime/work/teacher_print?id=<?=$user_id?>" target="_blank">Хэвлэх</a>
+                </div>
+            </div>
+        </div>
         <table class="table table-bordered table-hover w-100">
             <tr>
                 <th>№</th>
