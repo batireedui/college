@@ -58,15 +58,20 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_fname'])) {
       padding: 5px 10px 5px 10px;
       border-radius: 10px;
     }
+
     .hovercell td:hover {
-        background-color: azure !important;
+      background-color: azure !important;
     }
-    .nav-link{
-        color: #3b71ca;
+
+    .nav-link {
+      color: #3b71ca;
     }
-    .navbar-nav .nav-link.active, .navbar-nav .show>.nav-linkr {
-        --mdb-navbar-active-color: #0d6832;
+
+    .navbar-nav .nav-link.active,
+    .navbar-nav .show>.nav-linkr {
+      --mdb-navbar-active-color: #0d6832;
     }
+
     /* HTML: <div class="loader"></div> */
     .loader {
       width: 50px;
@@ -76,18 +81,36 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_fname'])) {
       border-right-color: orange;
       animation: l2 1s infinite linear;
     }
+
     .loadText {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
+
     .cover {
-        object-fit: cover;
+      object-fit: cover;
     }
-    @keyframes l2 {to{transform: rotate(1turn)}}
+
+    @keyframes l2 {
+      to {
+        transform: rotate(1turn)
+      }
+    }
+
     .navbar-nav {
-        font-size: 15px;
+      font-size: 15px;
+    }
+
+    .rotate {
+      padding: .5rem;
+      position: relative;
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+      white-space: nowrap;
+      -webkit-writing-mode: vertical-rl;
+      writing-mode: vertical-rl;
     }
   </style>

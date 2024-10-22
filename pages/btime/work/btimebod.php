@@ -5,6 +5,15 @@ if (isset($_SESSION['user_id'])) {
         $yearf = $_POST['year'] ?? $thison;
         $monthf = $_POST['month'] ?? $thismonth;
         $user_id = $_POST['id'] ?? 0;
+        _selectRowNoParam(
+            "SELECT fname, lname, name, money, bnorm FROM `tzereg` INNER JOIN teacher ON tzereg.id = teacher.zereg WHERE teacher.id = '$user_id'",
+            $fname,
+            $lname,
+            $zereg,
+            $money,
+            $bnorm
+        );
+
         _selectNoParam(
             $st,
             $co,
@@ -25,12 +34,12 @@ if (isset($_SESSION['user_id'])) {
         $sumdun = 0;
         $sumcredit = 0; ?>
         <div>
-            <div id="sumcredit">
-
-            </div>
-            <div>
-                <div class="m-3" style="text-align: right;">
-                    <a class="btn btn-warning" href="/btime/work/teacher_print?id=<?=$user_id?>" target="_blank">Хэвлэх</a>
+            <div class="row">
+                <div class="col m-3">
+                    <?= $fname ?> <?= $lname ?> (<?= $zereg ?>)
+                </div>
+                <div class="col m-3 text-end">
+                    <a class="btn btn-warning" href="/btime/work/teacher_print?id=<?= $user_id ?>" target="_blank">Хэвлэх</a>
                 </div>
             </div>
         </div>
@@ -55,7 +64,7 @@ if (isset($_SESSION['user_id'])) {
                     <td><?= $credit ?></td>
                     <td>
                         <?php if ($yearf == $thison && $monthf == $thismonth) { ?>
-                            <div class="editcell" onblur="bodBtime(this, <?= $id ?>, <?= $user_id ?>)" style="min-width: 40px;" contenteditable=""><?= $tcredit ?></div>
+                            <div class="editcell" onblur="bodBtime(this, <?= $id ?>, <?= $user_id ?>, <?= $money ?>)" style="min-width: 40px;" contenteditable=""><?= $tcredit ?></div>
                         <?php } else echo $tcredit; ?>
                     </td>
                     <td><?= $year ?></td>
@@ -67,6 +76,17 @@ if (isset($_SESSION['user_id'])) {
                 $sumcredit += $tcredit;
             }
             ?>
+            <tr>
+                <td colspan="4" class="text-end fw-bold">
+                    НИЙТ:
+                </td>
+                <td id="sumcredit" class="fw-bold">
+
+                </td>
+                <td colspan="3">
+
+                </td>
+            </tr>
         </table>
         <script>
             $('#sumcredit').html(<?= $sumcredit ?>);

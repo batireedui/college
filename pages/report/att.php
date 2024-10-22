@@ -69,7 +69,7 @@ $columnNumber = 7;
             <label>Сүүлийн он</label>
             <select class="form form-control mb-3" id="lon">
                 <?php
-                $cocurrentonn = $thison;
+                $currenton = $thison;
                 while ($currenton >= $starton) { ?>
                     <option><?= $currenton ?></option>
                 <?php $currenton--;
@@ -99,8 +99,8 @@ $columnNumber = 7;
         </div>
     </div>
     <div style="text-align: end" class="mb-3">
-        <a href="#" onclick="exportToExcel('table')" role="button" class="btn btn-success" style="">Excel</a>
-        <a href="#" onclick="print()" role="button" class="btn btn-primary" style="">Хэвлэх</a>
+        <a href="#" onclick="exportToExcel('table')" role="button" class="btn btn-success">Excel</a>
+        <a href="#" onclick="print()" role="button" class="btn btn-primary">Хэвлэх</a>
     </div>
     <div class="action">
 

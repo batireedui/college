@@ -89,9 +89,9 @@ if (isset($_SESSION['user_id'])) {
     } else if ($mode == "bodBtime") {
         if (is_numeric($_POST['credit'])) {
             $success = _exec(
-                "UPDATE btime_user SET credit=? WHERE id = ?",
-                'si',
-                [$_POST['credit'], $_POST['btimeid']],
+                "UPDATE btime_user SET credit=?, dun=? WHERE id = ?",
+                'sii',
+                [$_POST['credit'], (double)$_POST['credit'] * (int)$_POST['money'], $_POST['btimeid']],
                 $count
             );
         }

@@ -54,7 +54,7 @@ require ROOT . "/pages/header.php";
 <?php
 require ROOT . "/pages/footer.php"; ?>
 <script>
-    function bodBtime(element, id, user_id) {
+    function bodBtime(element, id, user_id, money) {
         var value = element.innerText;
         value = value.replaceAll(",", ".");
         value = value.replaceAll(" ", "");
@@ -66,7 +66,8 @@ require ROOT . "/pages/footer.php"; ?>
             data: {
                 mode: "bodBtime",
                 btimeid: id,
-                credit: value
+                credit: value,
+                money: money
             },
             success: function(data) {
                 get(user_id);
