@@ -36,7 +36,13 @@ require ROOT . "/pages/header.php";
                 </select>
             </div>
             <div class="col-md-1">
-                <button class="btn btn-danger" onclick="getreport()">ХАРАХ</button>
+                <button class="btn btn-danger w-100" onclick="getreport()">ХАРАХ</button>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary w-100" onclick="print()">ХЭВЛЭХ</button>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-success w-100" onclick="print()">EXCEL</button>
             </div>
         </div>
         <div class="row">

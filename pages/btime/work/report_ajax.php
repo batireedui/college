@@ -4,7 +4,7 @@ if (isset($_SESSION['user_id'])) {
     _selectNoParam(
         $st,
         $co,
-        "SELECT at.id, at.name FROM `at_tax` INNER JOIN `at` ON at_tax.at_id = at.id WHERE at_tax.erh = 11",
+        "SELECT at.id, at.name FROM `at_tax` INNER JOIN `at` ON at_tax.at_id = at.id WHERE at_tax.erh = 11", //11 гэсэн нь Б цаг тооцох эрх юм
         $at_id,
         $at_name
     );
@@ -47,6 +47,9 @@ if (isset($_SESSION['user_id'])) {
         $bmoney
     );
 ?>
+    <div>
+        <?=$school_name?>ийн <?=$thison?> 
+    </div>
     <table class="table table-bordered table-hover w-100">
         <thead>
             <tr>
@@ -71,7 +74,7 @@ if (isset($_SESSION['user_id'])) {
             while (_fetch($st)) { ?>
                 <tr>
                     <td><?= $dd ?></td>
-                    <td><?= $fname ?> <?= $lname ?></td>
+                    <td><?= $fname ?> <span class="text-uppercase"><?= $lname ?></span></td>
                     <td><?= $tzereg ?></td>
                     <?php
                     $sumkr = 0;
