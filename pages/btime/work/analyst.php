@@ -8,15 +8,6 @@ require ROOT . "/pages/start.php"; ?>
 <?php
 require ROOT . "/pages/header.php";
 
-_selectNoParam(
-    $st,
-    $co,
-    "SELECT btime_ajil.id, btime_ajil.ajil, at.name FROM `btime_ajil` 
-    INNER JOIN `at` ON btime_ajil.at_id = at.id ORDER BY btime_ajil.ajil",
-    $ajil_id,
-    $ajil,
-    $at
-);
 ?>
 
 <main id="main" class="main p-3">
@@ -29,11 +20,9 @@ _selectNoParam(
         <div class="row">
             <div class="col">
                 <select class="form form-control mb-3" id="ajil_id">
-                    <?php
-                    while (_fetch($st)) { ?>
-                        <option value="<?= $ajil_id ?>"><?= $ajil ?></option>
-                    <?php $currenton--;
-                    } ?>
+                    <option value="1">Ажил, үйлчилгээний дэлгэрэнгүй</option>
+                    <option value="2">Ажил, үйлчилгээ бодогдсон дүн (Кредитээр)</option>
+                    <option value="3">Олон давтагдсан ажил, үйлчилгээ (Багшаар)</option>
                 </select>
             </div>
             <div class="col-md-2">
@@ -98,7 +87,7 @@ require ROOT . "/pages/footer.php"; ?>
                 mode: 1,
                 year: $('#year').val(),
                 toyear: $('#toyear').val(),
-                ajil_id: $('#ajil_id').val()
+                mode: $('#ajil_id').val()
             },
             error: function(xhr, textStatus, errorThrown) {
                 $('#data').html("Алдаа гарлаа");
