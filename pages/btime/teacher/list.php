@@ -118,7 +118,7 @@ require ROOT . "/pages/footer.php"; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
     $('#sumKr').html('<?= $sumcredit ?>');
-    $('#sumTug').html('<?= $sumdun ?>');
+    $('#sumTug').html('<?= formatMoney($sumdun) ?> (Норм хасаагүй дүн)');
 
     function del(id, title, image) {
         var r = confirm(title + " мэдээг устгахдаа итгэлтэй байна уу!")
