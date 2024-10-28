@@ -3,7 +3,7 @@ if (isset($_SESSION['user_id'])) {
 
     $thison = $_POST['year'] ?? $thison;
     $thismonth = $_POST['month'] ?? $thismonth;
-    
+
     _selectNoParam(
         $st,
         $co,
@@ -127,7 +127,7 @@ if (isset($_SESSION['user_id'])) {
                     <td><?php echo round($sumkr - $bnorm, 2); ?></td>
                     <td><?= formatMoney($bmoney) ?></td>
                     <td><?php $dun = round(($sumkr - $bnorm) * $bmoney, 2);
-                        echo $dun > 0 ? formatMoney($dun) : "-" . formatMoney($dun); ?></td>
+                        echo $dun > 0 ? formatMoney($dun) : "<span style='color: red'>-" . formatMoney($dun) . "</span>" ?></td>
                 </tr>
             <?php $dd++;
             } ?>
