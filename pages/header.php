@@ -94,6 +94,9 @@ _selectRowNoParam(
                       <a class="dropdown-item" href="/btime/work/btime_report">Нэгтгэл хэвлэх</a>
                     </li>
                     <li>
+                      <a class="dropdown-item" href="/btime/work/analyst">Статистик</a>
+                    </li>
+                    <li>
                       <a class="dropdown-item" href="/setting/teacher_normal">Багшийн зэрэг, норм</a>
                     </li>
                   <?php } ?>

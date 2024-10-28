@@ -1,6 +1,9 @@
 <?php
 if (isset($_SESSION['user_id'])) {
 
+    $thison = $_POST['year'] ?? $thison;
+    $thismonth = $_POST['month'] ?? $thismonth;
+    
     _selectNoParam(
         $st,
         $co,
@@ -20,7 +23,9 @@ if (isset($_SESSION['user_id'])) {
     _selectNoParam(
         $st,
         $co,
-        "SELECT btime_user.user_id, SUM(btime_user.credit), btime_ajil.at_id FROM btime_user INNER JOIN btime_ajil ON btime_user.ajil_id = btime_ajil.id WHERE btime_user.year = '$thison' and btime_user.month = '$thismonth' GROUP BY btime_ajil.at_id",
+        "SELECT btime_user.user_id, SUM(btime_user.credit), btime_ajil.at_id FROM btime_user INNER JOIN 
+            btime_ajil ON btime_user.ajil_id = btime_ajil.id 
+            WHERE btime_user.year = '$thison' and btime_user.month = '$thismonth' GROUP BY btime_user.user_id, btime_ajil.at_id",
         $user_id,
         $credit,
         $a_id
@@ -38,7 +43,8 @@ if (isset($_SESSION['user_id'])) {
     _selectNoParam(
         $st,
         $co,
-        "SELECT teacher.id, teacher.fname, teacher.lname, tzereg.name, tzereg.bnorm, tzereg.money FROM `teacher` INNER JOIN tzereg ON teacher.zereg = tzereg.id WHERE teacher.user_role='1' and teacher.tuluv = '1' ORDER BY lname",
+        "SELECT teacher.id, teacher.fname, teacher.lname, tzereg.name, tzereg.bnorm, tzereg.money FROM `teacher` INNER JOIN 
+        tzereg ON teacher.zereg = tzereg.id WHERE teacher.user_role='1' and teacher.tuluv = '1' ORDER BY lname",
         $t_id,
         $fname,
         $lname,
@@ -118,9 +124,9 @@ if (isset($_SESSION['user_id'])) {
                     ?>
                     <td><?= $sumkr ?></td>
                     <td><?= $bnorm ?></td>
-                    <td><?php echo $sumkr - $bnorm; ?></td>
+                    <td><?php echo round($sumkr - $bnorm, 2); ?></td>
                     <td><?= formatMoney($bmoney) ?></td>
-                    <td><?php $dun = ($sumkr - $bnorm) * $bmoney;
+                    <td><?php $dun = round(($sumkr - $bnorm) * $bmoney, 2);
                         echo $dun > 0 ? formatMoney($dun) : "-" . formatMoney($dun); ?></td>
                 </tr>
             <?php $dd++;

@@ -7,31 +7,52 @@ require ROOT . "/pages/start.php"; ?>
 </style>
 <?php
 require ROOT . "/pages/header.php";
+
+_selectNoParam(
+    $st,
+    $co,
+    "SELECT btime_ajil.id, btime_ajil.ajil, at.name FROM `btime_ajil` 
+    INNER JOIN `at` ON btime_ajil.at_id = at.id ORDER BY btime_ajil.ajil",
+    $ajil_id,
+    $ajil,
+    $at
+);
 ?>
 
 <main id="main" class="main p-3">
     <section class="section">
         <div class="row">
             <div class="col">
-                <h3>ТАНХИМЫН БУС ЦАГИЙН ТАЙЛАН ХЭВЛЭХ</h3>
+                <h3>Анализ</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <select class="form form-control mb-3" id="ajil_id">
+                    <?php
+                    while (_fetch($st)) { ?>
+                        <option value="<?= $ajil_id ?>"><?= $ajil ?></option>
+                    <?php $currenton--;
+                    } ?>
+                </select>
             </div>
             <div class="col-md-2">
                 <select class="form form-control mb-3" id="year">
                     <?php
                     $currenton = $thison;
-                    while ($currenton >= $starton) { ?>
-                        <option <?php echo $currenton == $thison ? "selected" : "" ?>><?= $currenton ?></option>
+                    while ($currenton >= 2020) { ?>
+                        <option <?php echo $currenton == 2020 ? "selected" : "" ?>><?= $currenton ?></option>
                     <?php $currenton--;
                     } ?>
                 </select>
             </div>
-            <div class="col-md-1">
-                <select class="form form-control mb-3" id="month">
+            <div class="col-md-2">
+                <select class="form form-control mb-3" id="toyear">
                     <?php
-                    $sar = 1;
-                    while ($sar <= 12) { ?>
-                        <option <?php echo $sar == $thismonth ? "selected" : "" ?>><?= $sar ?></option>
-                    <?php $sar++;
+                    $currenton = $thison;
+                    while ($currenton >= 2020) { ?>
+                        <option <?php echo $currenton == $thison ? "selected" : "" ?>><?= $currenton ?></option>
+                    <?php $currenton--;
                     } ?>
                 </select>
             </div>
@@ -71,12 +92,13 @@ require ROOT . "/pages/footer.php"; ?>
 
     function getreport() {
         $.ajax({
-            url: "report_ajax",
+            url: "analyst_ajax",
             type: "POST",
             data: {
                 mode: 1,
                 year: $('#year').val(),
-                month: $('#month').val()
+                toyear: $('#toyear').val(),
+                ajil_id: $('#ajil_id').val()
             },
             error: function(xhr, textStatus, errorThrown) {
                 $('#data').html("Алдаа гарлаа");
