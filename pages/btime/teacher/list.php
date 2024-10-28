@@ -99,6 +99,11 @@ $sumcredit = 0;
                                     $sumcredit += $tcredit;
                                 }
                                 ?>
+                                <tr class="text-center fw-bold">
+                                    <td colspan="4">НИЙТ</td>
+                                    <td><?=$sumcredit?></td>
+                                    <td colspan="3"></td>
+                                </tr>
                             </table>
                         </div>
                     </div>
