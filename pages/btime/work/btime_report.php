@@ -39,7 +39,7 @@ require ROOT . "/pages/header.php";
                 <button class="btn btn-danger w-100" onclick="getreport()">ХАРАХ</button>
             </div>
             <div class="col-md-1">
-                <button class="btn btn-primary w-100" onclick="print()">ХЭВЛЭХ</button>
+                <button class="btn btn-primary w-100" onclick="printdiv('data')">ХЭВЛЭХ</button>
             </div>
             <div class="col-md-1">
                 <button class="btn btn-success w-100" onclick="print()">EXCEL</button>
@@ -57,6 +57,18 @@ require ROOT . "/pages/header.php";
 require ROOT . "/pages/footer.php"; ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
+    function printdiv(printdivname) {
+        var h = document.head;
+        var headstr = "<html><body>";
+        var footstr = "</body>";
+        var newstr = document.getElementById(printdivname).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+
     function getreport() {
         $.ajax({
             url: "report_ajax",

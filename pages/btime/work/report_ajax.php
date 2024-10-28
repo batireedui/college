@@ -47,8 +47,33 @@ if (isset($_SESSION['user_id'])) {
         $bmoney
     );
 ?>
-    <div>
-        <?=$school_name?>ийн <?=$thison?> 
+    <div class="d-flex align-items-center justify-content-end">
+        <table>
+            <tr>
+                <td></td>
+                <td class="text-center">БАТЛАВ</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-end">ЗАХИРАЛ</td>
+                <td style="width: 130px;"></td>
+                <td class="text-start text-uppercase">
+                    <?php
+                    _selectRowNoParam(
+                        "SELECT concat(SUBSTRING(fname, 1, 1), '.', lname) as zahiral FROM `teacher` WHERE user_role='4' LIMIT 1",
+                        $samanager
+                    );
+                    echo $samanager;
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-center"> .... оны .... сарын .... өдөр</td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-center fw-bold text-uppercase m-3">
+        <?= $school_name ?>ийн <?= $thison ?> оны <?= $thismonth ?>-р сарын танхимын бус цагийн тооцоо
     </div>
     <table class="table table-bordered table-hover w-100">
         <thead>
@@ -95,11 +120,46 @@ if (isset($_SESSION['user_id'])) {
                     <td><?= $bnorm ?></td>
                     <td><?php echo $sumkr - $bnorm; ?></td>
                     <td><?= formatMoney($bmoney) ?></td>
-                    <td><?php $dun = ($sumkr - $bnorm) * $bmoney; echo $dun > 0 ? formatMoney($dun) : "-" . formatMoney($dun); ?></td>
+                    <td><?php $dun = ($sumkr - $bnorm) * $bmoney;
+                        echo $dun > 0 ? formatMoney($dun) : "-" . formatMoney($dun); ?></td>
                 </tr>
             <?php $dd++;
             } ?>
         </tbody>
     </table>
+    <div class="d-flex align-items-center justify-content-center">
+        <table>
+            <tr>
+                <td class="text-end">Сургалтын албаны менежер:</td>
+                <td style="width: 130px;"></td>
+                <td class="text-start">
+                    <?php
+                    _selectRowNoParam(
+                        "SELECT concat(SUBSTRING(fname, 1, 1), '.', lname) as zahiral FROM `teacher` WHERE user_role='3' LIMIT 1",
+                        $samanager
+                    );
+                    echo $samanager;
+                    ?>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-end" style="vertical-align: top;">Арга зүйч-Багш:</td>
+                <td style="width: 130px;"></td>
+                <td class="text-start">
+                    <?php
+                    _selectNoParam(
+                        $st,
+                        $co,
+                        "SELECT concat(SUBSTRING(fname, 1, 1), '.', lname) as zahiral FROM `teacher` WHERE user_role='2'",
+                        $argaziuch
+                    );
+                    while (_fetch($st)) {
+                        echo "$argaziuch<br>";
+                    }
+                    ?>
+                </td>
+            </tr>
+        </table>
+    </div>
 <?php
 } else "Холболт салсан байна. Дахин нэвтэрч орно уу!";
