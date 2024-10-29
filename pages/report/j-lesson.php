@@ -119,9 +119,11 @@ if (isset($_SESSION['user_id'])) {
                             foreach ($data as $el) {
                                 $eseh = 1;
                                 $oldirc = json_decode($el->irc);
-                                foreach ($oldirc as $key => $eli) {
-                                    if ($eli->id == $sid)
-                                        $eseh = $eli->val;
+                                if ($oldirc != null) {
+                                    foreach ($oldirc as $key => $eli) {
+                                        if ($eli->id == $sid)
+                                            $eseh = $eli->val;
+                                    }
                                 }
                                 if ($eseh > 1)
                                     echo "<td style='text-align: center'><span class='alert alert-" . $tuluvColor[$eseh] . "'> " . $tuluvIrcShort[$eseh] . "</span></td>";
@@ -152,12 +154,12 @@ if (isset($_SESSION['user_id'])) {
                     foreach ($data as $el) {
                         echo "<tr>
                         <td>$dd</td>
-                        <td>". str_replace("-", ".", $el->ognoo) ."<span style='font-size: 10px'>($el->cag)</span></td>
+                        <td>" . str_replace("-", ".", $el->ognoo) . "<span style='font-size: 10px'>($el->cag)</span></td>
                         <td>2 цаг</td>
                         <td>$el->ltype</td>
                         <td><div class='editcell' onblur='updateSedev(this, $el->attid)' contenteditable=''>$el->sedev</div></td>
                         </tr>";
-                    $dd++;
+                        $dd++;
                     }
                     ?>
             </div>
